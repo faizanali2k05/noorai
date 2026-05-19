@@ -1,8 +1,13 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 import '../models/therapist.dart';
 import '../models/booking.dart';
 import '../models/trace_entry.dart';
+import '../models/user_profile.dart';
+import '../models/chat_message.dart';
+import 'auth_service.dart';
 
 class FindResult {
   final List<Therapist> therapists;
@@ -33,8 +38,32 @@ class BookingResult {
 class ApiService {
   // Android emulator: 10.0.2.2 → host machine
   // Real device: your PC's local IP (e.g. 192.168.1.x)
-  // Deployed: your Render/Heroku URL
+  // Deployed: your Cloud Run / Render URL (e.g. https://noorai-backend-xxx.run.app/api)
   static const String baseUrl = 'http://10.0.2.2:8000/api';
+
+  static String get _origin {
+    // Strip the trailing /api so we can build absolute URLs to /api/voice-notes/...
+    if (baseUrl.endsWith('/api')) {
+      return baseUrl.substring(0, baseUrl.length - 4);
+    }
+    return baseUrl;
+  }
+
+  /// Turn a server-relative URL like "/api/voice-notes/abc.m4a" into an
+  /// absolute URL the device can reach.
+  static String absoluteUrl(String relativeOrAbsolute) {
+    if (relativeOrAbsolute.startsWith('http')) return relativeOrAbsolute;
+    if (relativeOrAbsolute.startsWith('/')) return '$_origin$relativeOrAbsolute';
+    return '$_origin/$relativeOrAbsolute';
+  }
+
+  Map<String, String> _authHeaders({bool json = true}) {
+    final token = AuthService.instance.token;
+    return {
+      if (json) 'Content-Type': 'application/json',
+      if (token != null) 'Authorization': 'Bearer $token',
+    };
+  }
 
   // ── Find therapists pipeline ──────────────────────────────────────────────
 
@@ -175,6 +204,166 @@ class ApiService {
     } catch (e) {
       print('[ApiService] submitDispute: $e');
       return null;
+    }
+  }
+
+  // ── Auth ──────────────────────────────────────────────────────────────────
+
+  Future<({UserProfile user, String token})> register({
+    required String email,
+    required String password,
+    required String name,
+  }) async {
+    final r = await http
+        .post(
+          Uri.parse('$baseUrl/auth/register'),
+          headers: const {'Content-Type': 'application/json'},
+          body: jsonEncode({'email': email, 'password': password, 'name': name}),
+        )
+        .timeout(const Duration(seconds: 20));
+    if (r.statusCode == 200) {
+      final data = jsonDecode(r.body) as Map<String, dynamic>;
+      return (
+        user: UserProfile.fromJson(data['user'] as Map<String, dynamic>),
+        token: data['token'] as String,
+      );
+    }
+    throw _httpError(r);
+  }
+
+  Future<({UserProfile user, String token})> login({
+    required String email,
+    required String password,
+  }) async {
+    final r = await http
+        .post(
+          Uri.parse('$baseUrl/auth/login'),
+          headers: const {'Content-Type': 'application/json'},
+          body: jsonEncode({'email': email, 'password': password}),
+        )
+        .timeout(const Duration(seconds: 20));
+    if (r.statusCode == 200) {
+      final data = jsonDecode(r.body) as Map<String, dynamic>;
+      return (
+        user: UserProfile.fromJson(data['user'] as Map<String, dynamic>),
+        token: data['token'] as String,
+      );
+    }
+    throw _httpError(r);
+  }
+
+  Future<UserProfile> updateProfile(Map<String, dynamic> patch) async {
+    final r = await http
+        .patch(
+          Uri.parse('$baseUrl/auth/me'),
+          headers: _authHeaders(),
+          body: jsonEncode(patch),
+        )
+        .timeout(const Duration(seconds: 20));
+    if (r.statusCode == 200) {
+      return UserProfile.fromJson(jsonDecode(r.body) as Map<String, dynamic>);
+    }
+    throw _httpError(r);
+  }
+
+  // ── Bookings list ─────────────────────────────────────────────────────────
+
+  Future<List<Booking>> listMyBookings() async {
+    try {
+      final r = await http
+          .get(Uri.parse('$baseUrl/bookings'), headers: _authHeaders(json: false))
+          .timeout(const Duration(seconds: 15));
+      if (r.statusCode == 200) {
+        final data = jsonDecode(r.body) as Map<String, dynamic>;
+        return (data['bookings'] as List<dynamic>? ?? [])
+            .map((b) => Booking.fromJson(b as Map<String, dynamic>))
+            .toList();
+      }
+      return [];
+    } catch (_) {
+      return [];
+    }
+  }
+
+  // ── Chat ──────────────────────────────────────────────────────────────────
+
+  Future<List<ChatMessage>> listMessages(String therapistId) async {
+    try {
+      final r = await http
+          .get(
+            Uri.parse('$baseUrl/chats/$therapistId'),
+            headers: _authHeaders(json: false),
+          )
+          .timeout(const Duration(seconds: 15));
+      if (r.statusCode == 200) {
+        final data = jsonDecode(r.body) as Map<String, dynamic>;
+        return (data['messages'] as List<dynamic>? ?? [])
+            .map((m) => ChatMessage.fromJson(m as Map<String, dynamic>))
+            .toList();
+      }
+      return [];
+    } catch (_) {
+      return [];
+    }
+  }
+
+  Future<ChatMessage?> sendText(String therapistId, String text) async {
+    try {
+      final r = await http
+          .post(
+            Uri.parse('$baseUrl/chats/$therapistId'),
+            headers: _authHeaders(),
+            body: jsonEncode({'text': text}),
+          )
+          .timeout(const Duration(seconds: 15));
+      if (r.statusCode == 200) {
+        return ChatMessage.fromJson(jsonDecode(r.body) as Map<String, dynamic>);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<ChatMessage?> sendVoiceNote({
+    required String therapistId,
+    required String filePath,
+    required int durationMs,
+  }) async {
+    try {
+      final uri = Uri.parse('$baseUrl/chats/$therapistId/voice');
+      final req = http.MultipartRequest('POST', uri);
+      final token = AuthService.instance.token;
+      if (token != null) {
+        req.headers['Authorization'] = 'Bearer $token';
+      }
+      req.fields['duration_ms'] = durationMs.toString();
+      final file = File(filePath);
+      final filename = filePath.split(Platform.pathSeparator).last;
+      req.files.add(http.MultipartFile.fromBytes(
+        'voice',
+        await file.readAsBytes(),
+        filename: filename,
+        contentType: MediaType('audio', 'mp4'),
+      ));
+      final streamed = await req.send().timeout(const Duration(seconds: 30));
+      final r = await http.Response.fromStream(streamed);
+      if (r.statusCode == 200) {
+        return ChatMessage.fromJson(jsonDecode(r.body) as Map<String, dynamic>);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Exception _httpError(http.Response r) {
+    try {
+      final body = jsonDecode(r.body);
+      final detail = body is Map ? body['detail'] : null;
+      return Exception(detail?.toString() ?? 'Request failed (${r.statusCode})');
+    } catch (_) {
+      return Exception('Request failed (${r.statusCode})');
     }
   }
 

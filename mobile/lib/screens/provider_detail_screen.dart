@@ -3,6 +3,7 @@ import '../models/therapist.dart';
 import '../widgets/score_bar.dart';
 import '../widgets/price_breakdown.dart';
 import 'booking_confirmation_screen.dart';
+import 'therapist_chat_screen.dart';
 
 class ProviderDetailScreen extends StatefulWidget {
   final Therapist therapist;
@@ -62,6 +63,24 @@ class _ProviderDetailScreenState extends State<ProviderDetailScreen> {
         iconTheme: const IconThemeData(color: Color(0xFF134E4A)),
         title: const Text('Therapist Details',
             style: TextStyle(color: Color(0xFF134E4A))),
+        actions: [
+          IconButton(
+            tooltip: 'Message therapist',
+            icon: const Icon(Icons.chat_bubble_outline,
+                color: Color(0xFF0D9488)),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => TherapistChatScreen(
+                    therapistId: widget.therapist.id,
+                    therapistName: widget.therapist.name,
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: DefaultTabController(
         length: 4,

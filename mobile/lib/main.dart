@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'screens/home_screen.dart';
+import 'screens/splash_screen.dart';
+import 'theme.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const NoorAIApp());
 }
 
@@ -13,12 +15,8 @@ class NoorAIApp extends StatelessWidget {
     return MaterialApp(
       title: 'NoorAI',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF0D9488)),
-        useMaterial3: true,
-        fontFamily: 'Inter', // Note: Need to add font to pubspec to truly show this, defaulting to system for now
-      ),
-      home: const HomeScreen(),
+      theme: buildNoorTheme(),
+      home: const SplashScreen(),
     );
   }
 }
