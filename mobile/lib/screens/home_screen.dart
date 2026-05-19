@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'provider_list_screen.dart';
 import 'dispute_screen.dart';
 import 'baseline_compare_screen.dart';
@@ -104,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                 Center(
                   child: Column(
                     children: [
-                      const Icon(Icons.nightlight_round, size: 48, color: Color(0xFF0D9488)), // Crescent/Noor motif
+                      SvgPicture.asset('assets/noorai_logo.svg', width: 72, height: 72),
                       const SizedBox(height: 16),
                       const Text(
                         'NoorAI',

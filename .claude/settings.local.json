@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "PowerShell(New-Item *)"
+      "PowerShell(New-Item *)",
+      "Bash(dir \"c:\\\\Users\\\\Faizan\\\\Desktop\\\\noorai\" /b)",
+      "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\Faizan\\\\Desktop\\\\noorai\" -Recurse -Force)",
+      "Bash(Select-Object -ExpandProperty FullName)",
+      "Bash(Sort-Object)"
     ]
   }
 }

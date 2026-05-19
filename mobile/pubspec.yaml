@@ -13,11 +13,29 @@ dependencies:
     sdk: flutter
   provider: ^6.1.1
   http: ^1.2.0
+  flutter_svg: ^2.0.10+1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^3.0.0
+  # After placing a 1024x1024 PNG at assets/app_icon.png, run:
+  #   flutter pub run flutter_launcher_icons
+  flutter_launcher_icons: ^0.14.1
+
+# App icon config (requires assets/app_icon.png — see SUBMISSION_GUIDE.md)
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/app_icon.png"
+  min_sdk_android: 21
+  adaptive_icon_background: "#0D9488"
+  adaptive_icon_foreground: "assets/app_icon_fg.png"
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/noorai_logo.svg
+    # Uncomment after adding the PNG icon:
+    # - assets/app_icon.png

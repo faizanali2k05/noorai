@@ -4,16 +4,23 @@ class Therapist {
   final String gender;
   final List<String> specializations;
   final List<String> qualifications;
+  final String? qualificationLevel;
   final bool verified;
   final String city;
   final String area;
   final double rating;
   final int reviewCount;
+  final int? lastReviewDaysAgo;
+  final double? onTimeRate;
+  final double? cancellationRate;
   final double basePrice;
+  final List<String>? ageRanges;
+  final int? experienceYears;
+  final List<String>? availableSlots;
   final String bio;
   final List<String> languages;
-  
-  // For ranking matches
+
+  // Populated from ranked API response
   final double? overallScore;
   final Map<String, dynamic>? factorScores;
   final String? reasoning;
@@ -27,12 +34,19 @@ class Therapist {
     required this.gender,
     required this.specializations,
     required this.qualifications,
+    this.qualificationLevel,
     required this.verified,
     required this.city,
     required this.area,
     required this.rating,
     required this.reviewCount,
+    this.lastReviewDaysAgo,
+    this.onTimeRate,
+    this.cancellationRate,
     required this.basePrice,
+    this.ageRanges,
+    this.experienceYears,
+    this.availableSlots,
     required this.bio,
     required this.languages,
     this.overallScore,
@@ -43,27 +57,45 @@ class Therapist {
     this.nextAvailableSlot,
   });
 
+  // The ranked API response nests therapist details under a 'therapist' key:
+  // { therapist_id, overall_score, factor_scores, reasoning, distance_km, price, therapist: {...} }
   factory Therapist.fromJson(Map<String, dynamic> json) {
+    final t = (json['therapist'] as Map<String, dynamic>?) ?? json;
+
+    final slots = (t['available_slots'] as List<dynamic>?)
+        ?.map((e) => e.toString())
+        .toList();
+
     return Therapist(
-      id: json['id'] ?? json['therapist_id'] ?? '',
-      name: json['name'] ?? 'Unknown Therapist',
-      gender: json['gender'] ?? '',
-      specializations: List<String>.from(json['specializations'] ?? []),
-      qualifications: List<String>.from(json['qualifications'] ?? []),
-      verified: json['verified'] ?? false,
-      city: json['city'] ?? '',
-      area: json['area'] ?? '',
-      rating: (json['rating'] ?? 0.0).toDouble(),
-      reviewCount: json['review_count'] ?? 0,
-      basePrice: (json['base_price'] ?? 0).toDouble(),
-      bio: json['bio'] ?? '',
-      languages: List<String>.from(json['languages'] ?? []),
-      overallScore: json['overall_score']?.toDouble(),
-      factorScores: json['factor_scores'],
+      id: t['id'] ?? json['therapist_id'] ?? '',
+      name: t['name'] ?? 'Unknown Therapist',
+      gender: t['gender'] ?? 'not_specified',
+      specializations: List<String>.from(t['specializations'] ?? []),
+      qualifications: List<String>.from(t['qualifications'] ?? []),
+      qualificationLevel: t['qualification_level'],
+      verified: t['verified'] ?? false,
+      city: t['city'] ?? '',
+      area: t['area'] ?? '',
+      rating: (t['rating'] ?? 0.0).toDouble(),
+      reviewCount: t['review_count'] ?? 0,
+      lastReviewDaysAgo: t['last_review_days_ago'],
+      onTimeRate: t['on_time_rate']?.toDouble(),
+      cancellationRate: t['cancellation_rate']?.toDouble(),
+      basePrice: (t['base_price'] ?? 0).toDouble(),
+      ageRanges: (t['age_ranges'] as List<dynamic>?)
+          ?.map((e) => e.toString())
+          .toList(),
+      experienceYears: t['experience_years'],
+      availableSlots: slots,
+      bio: t['bio'] ?? '',
+      languages: List<String>.from(t['languages'] ?? []),
+      overallScore: (json['overall_score'] as num?)?.toDouble(),
+      factorScores: json['factor_scores'] as Map<String, dynamic>?,
       reasoning: json['reasoning'],
-      distanceKm: json['distance_km']?.toDouble(),
-      finalPrice: json['final_price']?.toDouble(),
-      nextAvailableSlot: json['next_available_slot'],
+      distanceKm: (json['distance_km'] as num?)?.toDouble(),
+      // Backend returns 'price' in ranked response; 'final_price' in direct pricing
+      finalPrice: (json['price'] ?? json['final_price'] as num?)?.toDouble(),
+      nextAvailableSlot: slots?.isNotEmpty == true ? slots!.first : null,
     );
   }
 }
