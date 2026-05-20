@@ -1,22 +1,24 @@
-# Antigravity Walkthrough
+# Google Antigravity Walkthrough
 
-This document outlines how Google Antigravity orchestrates the NoorAI agentic workflow.
+This document outlines how NoorAI uses Google Antigravity to orchestrate a 7-agent pipeline. 
+This is not a bolted-on API call, but a core architectural choice that drives the entire application.
 
-## The Workplan
+## Antigravity Workplan
+When a user submits a natural language request, the Antigravity Orchestrator generates a Workplan that includes:
+1. **Understanding the Intent**: Passing raw text to the Intent Agent.
+2. **Matching & Scoring**: Activating the Discovery Agent and Ranking Agent.
+3. **Execution**: Passing finalized choices to the Booking and Notification Agents.
 
-*(Include screenshot of the Antigravity Workplan here)*
-
-The Antigravity Workplan orchestrates the 7 core agents in the following sequence:
-1. Intent Parsing
-2. Discovery & Filtering
-3. Ranking & Evaluation
-4. Pricing Engine
-5. Booking Execution
-6. Notification Pipeline
-7. Post-Booking / Dispute Handlers
+![Antigravity Workplan](/docs/antigravity/workplan.png) 
+*(Note: Placeholder for actual screenshot exported from Antigravity Console)*
 
 ## Tasks Plan
+For each step in the Workplan, Antigravity generates a specific Tasks Plan with explicit expected schemas and parameters. 
+- The Intent Agent returns `{ service_type, condition, child_age, city }`
+- The Ranking Agent returns `{ ranked_therapists, reasoning }`
 
-*(Include screenshot of the Antigravity Tasks Plan here)*
+![Antigravity Tasks Plan](/docs/antigravity/tasks_plan.png)
+*(Note: Placeholder for actual screenshot exported from Antigravity Console)*
 
-Each agent has specific inputs, outputs, and validation steps managed seamlessly by Antigravity.
+## Trace Artifacts
+The entire execution pipeline is recorded in `backend/data/traces.json`. The Flutter application parses this JSON to generate the "How NoorAI Decided" screen (Screen 6), exposing the inter-agent handoffs with detailed reasoning.

@@ -117,10 +117,36 @@ class TraceCard extends StatelessWidget {
   }
 }
 
-class HandoffArrow extends StatelessWidget {
+class HandoffArrow extends StatefulWidget {
   final String dataSummary;
 
   const HandoffArrow({super.key, required this.dataSummary});
+
+  @override
+  State<HandoffArrow> createState() => _HandoffArrowState();
+}
+
+class _HandoffArrowState extends State<HandoffArrow> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1500),
+    )..repeat();
+    _animation = Tween<double>(begin: -0.2, end: 1.2).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -128,11 +154,19 @@ class HandoffArrow extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 6.0),
       child: Column(
         children: [
-          const Icon(Icons.arrow_downward_rounded,
-              color: Color(0xFF0D9488), size: 20),
+          FadeTransition(
+            opacity: Tween<double>(begin: 0.2, end: 1.0).animate(
+              CurvedAnimation(
+                parent: _controller,
+                curve: const Interval(0.0, 0.5, curve: Curves.easeInOut),
+              ),
+            ),
+            child: const Icon(Icons.arrow_downward_rounded,
+                color: Color(0xFF0D9488), size: 20),
+          ),
           const SizedBox(height: 2),
           Text(
-            dataSummary,
+            widget.dataSummary,
             textAlign: TextAlign.center,
             style: const TextStyle(
               fontSize: 11,
@@ -141,8 +175,16 @@ class HandoffArrow extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 2),
-          const Icon(Icons.arrow_downward_rounded,
-              color: Color(0xFF0D9488), size: 20),
+          FadeTransition(
+            opacity: Tween<double>(begin: 0.2, end: 1.0).animate(
+              CurvedAnimation(
+                parent: _controller,
+                curve: const Interval(0.5, 1.0, curve: Curves.easeInOut),
+              ),
+            ),
+            child: const Icon(Icons.arrow_downward_rounded,
+                color: Color(0xFF0D9488), size: 20),
+          ),
         ],
       ),
     );

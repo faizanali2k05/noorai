@@ -13,6 +13,11 @@ ServiceType = Literal[
     "special_education",
     "behavioral_therapy",
     "physiotherapy_special_needs",
+    "accessible_transport",
+    "sign_language_interpreter",
+    "home_nursing",
+    "wheelchair_repair",
+    "disability_support_worker",
 ]
 
 Condition = Literal[
@@ -22,6 +27,10 @@ Condition = Literal[
     "learning_disability",
     "cerebral_palsy",
     "down_syndrome",
+    "physical_disability",
+    "hearing_impairment",
+    "visual_impairment",
+    "multiple_disabilities",
     "other",
 ]
 

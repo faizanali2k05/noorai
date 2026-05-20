@@ -3,21 +3,29 @@
     "id": "t001",
     "name": "Dr. Mehwish Iqbal",
     "gender": "female",
-    "specializations": ["speech_therapy", "language_delay"],
-    "qualifications": ["M.Sc Speech-Language Pathology, KIBGE"],
+    "specializations": [
+      "speech_therapy",
+      "language_delay"
+    ],
+    "qualifications": [
+      "M.Sc Speech-Language Pathology, KIBGE"
+    ],
     "qualification_level": "masters",
     "verified": true,
     "city": "Lahore",
     "area": "Gulberg",
-    "lat": 31.5170,
-    "lng": 74.3550,
+    "lat": 31.517,
+    "lng": 74.355,
     "rating": 4.5,
     "review_count": 38,
     "last_review_days_ago": 11,
     "on_time_rate": 0.89,
     "cancellation_rate": 0.06,
     "base_price": 2500,
-    "age_ranges": ["preschool", "school_age"],
+    "age_ranges": [
+      "preschool",
+      "school_age"
+    ],
     "experience_years": 5,
     "available_slots": [
       "2026-05-20T10:00:00",
@@ -27,14 +35,22 @@
       "2026-06-01T10:00:00"
     ],
     "bio": "Specialist in speech-language delays and articulation disorders for school-age children.",
-    "languages": ["urdu", "english"]
+    "languages": [
+      "urdu",
+      "english"
+    ]
   },
   {
     "id": "t002",
     "name": "Dr. Bilal Hassan",
     "gender": "male",
-    "specializations": ["occupational_therapy", "sensory_integration"],
-    "qualifications": ["M.Phil Occupational Therapy, PIRS"],
+    "specializations": [
+      "occupational_therapy",
+      "sensory_integration"
+    ],
+    "qualifications": [
+      "M.Phil Occupational Therapy, PIRS"
+    ],
     "qualification_level": "mphil",
     "verified": true,
     "city": "Lahore",
@@ -47,7 +63,11 @@
     "on_time_rate": 0.93,
     "cancellation_rate": 0.04,
     "base_price": 3200,
-    "age_ranges": ["preschool", "school_age", "teen"],
+    "age_ranges": [
+      "preschool",
+      "school_age",
+      "teen"
+    ],
     "experience_years": 7,
     "available_slots": [
       "2026-05-20T11:00:00",
@@ -57,27 +77,39 @@
       "2026-06-03T16:00:00"
     ],
     "bio": "Sensory integration specialist working with children with autism and SPD.",
-    "languages": ["urdu", "english", "punjabi"]
+    "languages": [
+      "urdu",
+      "english",
+      "punjabi"
+    ]
   },
   {
     "id": "t003",
     "name": "Ms. Nida Rauf",
     "gender": "female",
-    "specializations": ["aba_therapy", "autism_specialist"],
-    "qualifications": ["B.Sc Applied Psychology, FCC"],
+    "specializations": [
+      "aba_therapy",
+      "autism_specialist"
+    ],
+    "qualifications": [
+      "B.Sc Applied Psychology, FCC"
+    ],
     "qualification_level": "bachelors",
     "verified": false,
     "city": "Lahore",
     "area": "Gulberg",
-    "lat": 31.5240,
-    "lng": 74.3610,
+    "lat": 31.524,
+    "lng": 74.361,
     "rating": 4.0,
     "review_count": 17,
     "last_review_days_ago": 19,
     "on_time_rate": 0.78,
     "cancellation_rate": 0.14,
     "base_price": 2200,
-    "age_ranges": ["toddler", "preschool"],
+    "age_ranges": [
+      "toddler",
+      "preschool"
+    ],
     "experience_years": 2,
     "available_slots": [
       "2026-05-21T14:00:00",
@@ -87,14 +119,22 @@
       "2026-06-04T14:00:00"
     ],
     "bio": "Junior ABA practitioner under BCBA supervision; gentle approach for young children.",
-    "languages": ["urdu", "english"]
+    "languages": [
+      "urdu",
+      "english"
+    ]
   },
   {
     "id": "t004",
     "name": "Dr. Faiza Tariq",
     "gender": "female",
-    "specializations": ["special_education", "learning_disability"],
-    "qualifications": ["M.Phil Special Education, PU"],
+    "specializations": [
+      "special_education",
+      "learning_disability"
+    ],
+    "qualifications": [
+      "M.Phil Special Education, PU"
+    ],
     "qualification_level": "mphil",
     "verified": true,
     "city": "Lahore",
@@ -107,7 +147,10 @@
     "on_time_rate": 0.91,
     "cancellation_rate": 0.05,
     "base_price": 2800,
-    "age_ranges": ["school_age", "teen"],
+    "age_ranges": [
+      "school_age",
+      "teen"
+    ],
     "experience_years": 8,
     "available_slots": [
       "2026-05-20T09:00:00",
@@ -117,14 +160,22 @@
       "2026-06-03T09:00:00"
     ],
     "bio": "Resource teacher specializing in dyslexia and learning disabilities in primary-school children.",
-    "languages": ["urdu", "english"]
+    "languages": [
+      "urdu",
+      "english"
+    ]
   },
   {
     "id": "t005",
     "name": "Mr. Asad Mahmood",
     "gender": "male",
-    "specializations": ["behavioral_therapy", "adhd_specialist"],
-    "qualifications": ["MS Clinical Psychology, GCU"],
+    "specializations": [
+      "behavioral_therapy",
+      "adhd_specialist"
+    ],
+    "qualifications": [
+      "MS Clinical Psychology, GCU"
+    ],
     "qualification_level": "masters",
     "verified": false,
     "city": "Lahore",
@@ -135,9 +186,12 @@
     "review_count": 23,
     "last_review_days_ago": 14,
     "on_time_rate": 0.84,
-    "cancellation_rate": 0.10,
+    "cancellation_rate": 0.1,
     "base_price": 2600,
-    "age_ranges": ["school_age", "teen"],
+    "age_ranges": [
+      "school_age",
+      "teen"
+    ],
     "experience_years": 4,
     "available_slots": [
       "2026-05-21T16:00:00",
@@ -147,27 +201,39 @@
       "2026-06-04T16:00:00"
     ],
     "bio": "CBT-based behavioral interventions for ADHD and oppositional behavior.",
-    "languages": ["urdu", "english"]
+    "languages": [
+      "urdu",
+      "english"
+    ]
   },
   {
     "id": "t006",
     "name": "Ms. Hina Aslam",
     "gender": "female",
-    "specializations": ["physiotherapy_special_needs", "cerebral_palsy"],
-    "qualifications": ["DPT, RCRS"],
+    "specializations": [
+      "physiotherapy_special_needs",
+      "cerebral_palsy"
+    ],
+    "qualifications": [
+      "DPT, RCRS"
+    ],
     "qualification_level": "bachelors",
     "verified": true,
     "city": "Lahore",
     "area": "DHA",
-    "lat": 31.4720,
-    "lng": 74.4080,
+    "lat": 31.472,
+    "lng": 74.408,
     "rating": 4.4,
     "review_count": 31,
     "last_review_days_ago": 6,
     "on_time_rate": 0.88,
     "cancellation_rate": 0.07,
     "base_price": 3000,
-    "age_ranges": ["toddler", "preschool", "school_age"],
+    "age_ranges": [
+      "toddler",
+      "preschool",
+      "school_age"
+    ],
     "experience_years": 6,
     "available_slots": [
       "2026-05-20T13:00:00",
@@ -177,14 +243,24 @@
       "2026-06-02T13:00:00"
     ],
     "bio": "Pediatric physio for cerebral palsy, hypotonia, and motor delays.",
-    "languages": ["urdu", "english", "punjabi"]
+    "languages": [
+      "urdu",
+      "english",
+      "punjabi"
+    ]
   },
   {
     "id": "t007",
     "name": "Dr. Ayesha Khan",
     "gender": "female",
-    "specializations": ["speech_therapy", "language_delay", "autism_speech"],
-    "qualifications": ["M.Phil Speech-Language Pathology, KIBGE"],
+    "specializations": [
+      "speech_therapy",
+      "language_delay",
+      "autism_speech"
+    ],
+    "qualifications": [
+      "M.Phil Speech-Language Pathology, KIBGE"
+    ],
     "qualification_level": "mphil",
     "verified": true,
     "city": "Lahore",
@@ -197,7 +273,10 @@
     "on_time_rate": 0.94,
     "cancellation_rate": 0.03,
     "base_price": 2800,
-    "age_ranges": ["preschool", "school_age"],
+    "age_ranges": [
+      "preschool",
+      "school_age"
+    ],
     "experience_years": 4,
     "available_slots": [
       "2026-05-19T16:00:00",
@@ -207,27 +286,39 @@
       "2026-06-02T16:00:00"
     ],
     "bio": "Specialized in pediatric speech-language therapy for children with autism and speech delays.",
-    "languages": ["urdu", "english", "punjabi"]
+    "languages": [
+      "urdu",
+      "english",
+      "punjabi"
+    ]
   },
   {
     "id": "t008",
     "name": "Dr. Sara Ahmed",
     "gender": "female",
-    "specializations": ["speech_therapy", "articulation"],
-    "qualifications": ["M.Sc Speech-Language Pathology, KIBGE"],
+    "specializations": [
+      "speech_therapy",
+      "articulation"
+    ],
+    "qualifications": [
+      "M.Sc Speech-Language Pathology, KIBGE"
+    ],
     "qualification_level": "masters",
     "verified": true,
     "city": "Lahore",
     "area": "Gulberg",
-    "lat": 31.5180,
-    "lng": 74.3620,
+    "lat": 31.518,
+    "lng": 74.362,
     "rating": 4.7,
     "review_count": 48,
     "last_review_days_ago": 8,
     "on_time_rate": 0.92,
     "cancellation_rate": 0.04,
     "base_price": 2700,
-    "age_ranges": ["preschool", "school_age"],
+    "age_ranges": [
+      "preschool",
+      "school_age"
+    ],
     "experience_years": 5,
     "available_slots": [
       "2026-05-19T16:00:00",
@@ -237,27 +328,38 @@
       "2026-06-01T16:00:00"
     ],
     "bio": "Speech-language pathologist focused on articulation and fluency in young children.",
-    "languages": ["urdu", "english"]
+    "languages": [
+      "urdu",
+      "english"
+    ]
   },
   {
     "id": "t009",
     "name": "Mr. Usman Sheikh",
     "gender": "male",
-    "specializations": ["occupational_therapy", "handwriting"],
-    "qualifications": ["MS Occupational Therapy, RCRS"],
+    "specializations": [
+      "occupational_therapy",
+      "handwriting"
+    ],
+    "qualifications": [
+      "MS Occupational Therapy, RCRS"
+    ],
     "qualification_level": "masters",
     "verified": true,
     "city": "Lahore",
     "area": "Johar Town",
-    "lat": 31.4680,
-    "lng": 74.2750,
+    "lat": 31.468,
+    "lng": 74.275,
     "rating": 4.3,
     "review_count": 29,
     "last_review_days_ago": 12,
     "on_time_rate": 0.86,
     "cancellation_rate": 0.08,
     "base_price": 2400,
-    "age_ranges": ["school_age", "teen"],
+    "age_ranges": [
+      "school_age",
+      "teen"
+    ],
     "experience_years": 3,
     "available_slots": [
       "2026-05-21T11:00:00",
@@ -267,27 +369,39 @@
       "2026-06-03T11:00:00"
     ],
     "bio": "OT for fine motor skills, handwriting, and visual-motor integration.",
-    "languages": ["urdu", "english"]
+    "languages": [
+      "urdu",
+      "english"
+    ]
   },
   {
     "id": "t010",
     "name": "Ms. Sadia Naqvi",
     "gender": "female",
-    "specializations": ["aba_therapy", "autism_specialist"],
-    "qualifications": ["M.Phil Behavior Analysis, UMT"],
+    "specializations": [
+      "aba_therapy",
+      "autism_specialist"
+    ],
+    "qualifications": [
+      "M.Phil Behavior Analysis, UMT"
+    ],
     "qualification_level": "mphil",
     "verified": true,
     "city": "Lahore",
     "area": "DHA",
     "lat": 31.4715,
-    "lng": 74.4010,
+    "lng": 74.401,
     "rating": 4.6,
     "review_count": 51,
     "last_review_days_ago": 9,
     "on_time_rate": 0.92,
     "cancellation_rate": 0.05,
     "base_price": 3500,
-    "age_ranges": ["toddler", "preschool", "school_age"],
+    "age_ranges": [
+      "toddler",
+      "preschool",
+      "school_age"
+    ],
     "experience_years": 6,
     "available_slots": [
       "2026-05-20T14:00:00",
@@ -297,27 +411,38 @@
       "2026-06-02T14:00:00"
     ],
     "bio": "BCBA-supervised ABA programs for autism; structured DTT and NET sessions.",
-    "languages": ["urdu", "english"]
+    "languages": [
+      "urdu",
+      "english"
+    ]
   },
   {
     "id": "t011",
     "name": "Dr. Komal Riaz",
     "gender": "female",
-    "specializations": ["special_education", "autism"],
-    "qualifications": ["MS Special Education, AIOU"],
+    "specializations": [
+      "special_education",
+      "autism"
+    ],
+    "qualifications": [
+      "MS Special Education, AIOU"
+    ],
     "qualification_level": "masters",
     "verified": true,
     "city": "Lahore",
     "area": "Model Town",
-    "lat": 31.4810,
-    "lng": 74.3200,
+    "lat": 31.481,
+    "lng": 74.32,
     "rating": 4.5,
     "review_count": 36,
     "last_review_days_ago": 10,
-    "on_time_rate": 0.90,
+    "on_time_rate": 0.9,
     "cancellation_rate": 0.06,
     "base_price": 2600,
-    "age_ranges": ["preschool", "school_age"],
+    "age_ranges": [
+      "preschool",
+      "school_age"
+    ],
     "experience_years": 5,
     "available_slots": [
       "2026-05-21T10:00:00",
@@ -327,27 +452,37 @@
       "2026-06-03T10:00:00"
     ],
     "bio": "Inclusive education planning and IEP development for children with autism.",
-    "languages": ["urdu", "english"]
+    "languages": [
+      "urdu",
+      "english"
+    ]
   },
   {
     "id": "t012",
     "name": "Mr. Hamza Raza",
     "gender": "male",
-    "specializations": ["behavioral_therapy", "adhd"],
-    "qualifications": ["BS Psychology, FCC"],
+    "specializations": [
+      "behavioral_therapy",
+      "adhd"
+    ],
+    "qualifications": [
+      "BS Psychology, FCC"
+    ],
     "qualification_level": "bachelors",
     "verified": false,
     "city": "Lahore",
     "area": "Gulberg",
-    "lat": 31.5160,
-    "lng": 74.3640,
+    "lat": 31.516,
+    "lng": 74.364,
     "rating": 3.9,
     "review_count": 14,
     "last_review_days_ago": 22,
     "on_time_rate": 0.76,
     "cancellation_rate": 0.17,
     "base_price": 2000,
-    "age_ranges": ["school_age"],
+    "age_ranges": [
+      "school_age"
+    ],
     "experience_years": 2,
     "available_slots": [
       "2026-05-22T17:00:00",
@@ -357,14 +492,22 @@
       "2026-06-04T17:00:00"
     ],
     "bio": "Junior behavioral practitioner; in-home sessions for school-age children.",
-    "languages": ["urdu", "english"]
+    "languages": [
+      "urdu",
+      "english"
+    ]
   },
   {
     "id": "t013",
     "name": "Dr. Saima Qureshi",
     "gender": "female",
-    "specializations": ["speech_therapy", "language_delay"],
-    "qualifications": ["M.Phil SLP, JSMU"],
+    "specializations": [
+      "speech_therapy",
+      "language_delay"
+    ],
+    "qualifications": [
+      "M.Phil SLP, JSMU"
+    ],
     "qualification_level": "mphil",
     "verified": true,
     "city": "Karachi",
@@ -377,7 +520,11 @@
     "on_time_rate": 0.95,
     "cancellation_rate": 0.02,
     "base_price": 4000,
-    "age_ranges": ["preschool", "school_age", "teen"],
+    "age_ranges": [
+      "preschool",
+      "school_age",
+      "teen"
+    ],
     "experience_years": 9,
     "available_slots": [
       "2026-05-20T15:00:00",
@@ -387,14 +534,23 @@
       "2026-06-02T15:00:00"
     ],
     "bio": "Senior speech-language pathologist; bilingual therapy in Urdu and English.",
-    "languages": ["urdu", "english", "sindhi"]
+    "languages": [
+      "urdu",
+      "english",
+      "sindhi"
+    ]
   },
   {
     "id": "t014",
     "name": "Mr. Tariq Mahmood",
     "gender": "male",
-    "specializations": ["occupational_therapy", "sensory_integration"],
-    "qualifications": ["MS OT, DUHS"],
+    "specializations": [
+      "occupational_therapy",
+      "sensory_integration"
+    ],
+    "qualifications": [
+      "MS OT, DUHS"
+    ],
     "qualification_level": "masters",
     "verified": true,
     "city": "Karachi",
@@ -404,10 +560,13 @@
     "rating": 4.5,
     "review_count": 44,
     "last_review_days_ago": 8,
-    "on_time_rate": 0.90,
+    "on_time_rate": 0.9,
     "cancellation_rate": 0.06,
     "base_price": 3300,
-    "age_ranges": ["preschool", "school_age"],
+    "age_ranges": [
+      "preschool",
+      "school_age"
+    ],
     "experience_years": 6,
     "available_slots": [
       "2026-05-20T16:00:00",
@@ -417,19 +576,27 @@
       "2026-06-02T16:00:00"
     ],
     "bio": "OT for sensory processing and motor planning challenges.",
-    "languages": ["urdu", "english"]
+    "languages": [
+      "urdu",
+      "english"
+    ]
   },
   {
     "id": "t015",
     "name": "Ms. Yasmin Lodhi",
     "gender": "female",
-    "specializations": ["aba_therapy", "autism"],
-    "qualifications": ["MS Applied Behavior Analysis, IBA"],
+    "specializations": [
+      "aba_therapy",
+      "autism"
+    ],
+    "qualifications": [
+      "MS Applied Behavior Analysis, IBA"
+    ],
     "qualification_level": "masters",
     "verified": false,
     "city": "Karachi",
     "area": "Gulshan",
-    "lat": 24.9180,
+    "lat": 24.918,
     "lng": 67.0971,
     "rating": 4.3,
     "review_count": 27,
@@ -437,7 +604,10 @@
     "on_time_rate": 0.85,
     "cancellation_rate": 0.09,
     "base_price": 3000,
-    "age_ranges": ["toddler", "preschool"],
+    "age_ranges": [
+      "toddler",
+      "preschool"
+    ],
     "experience_years": 4,
     "available_slots": [
       "2026-05-21T13:00:00",
@@ -447,14 +617,22 @@
       "2026-06-03T13:00:00"
     ],
     "bio": "ABA programming for young children with autism; parent training included.",
-    "languages": ["urdu", "english"]
+    "languages": [
+      "urdu",
+      "english"
+    ]
   },
   {
     "id": "t016",
     "name": "Dr. Naila Imran",
     "gender": "female",
-    "specializations": ["special_education", "down_syndrome"],
-    "qualifications": ["M.Phil Special Education, KU"],
+    "specializations": [
+      "special_education",
+      "down_syndrome"
+    ],
+    "qualifications": [
+      "M.Phil Special Education, KU"
+    ],
     "qualification_level": "mphil",
     "verified": true,
     "city": "Karachi",
@@ -467,7 +645,10 @@
     "on_time_rate": 0.91,
     "cancellation_rate": 0.05,
     "base_price": 2800,
-    "age_ranges": ["preschool", "school_age"],
+    "age_ranges": [
+      "preschool",
+      "school_age"
+    ],
     "experience_years": 7,
     "available_slots": [
       "2026-05-20T12:00:00",
@@ -477,27 +658,38 @@
       "2026-06-02T12:00:00"
     ],
     "bio": "Special educator working with Down syndrome and global delay.",
-    "languages": ["urdu", "english"]
+    "languages": [
+      "urdu",
+      "english"
+    ]
   },
   {
     "id": "t017",
     "name": "Ms. Rabia Shah",
     "gender": "female",
-    "specializations": ["speech_therapy", "stuttering"],
-    "qualifications": ["MS SLP, JSMU"],
+    "specializations": [
+      "speech_therapy",
+      "stuttering"
+    ],
+    "qualifications": [
+      "MS SLP, JSMU"
+    ],
     "qualification_level": "masters",
     "verified": true,
     "city": "Karachi",
     "area": "DHA",
-    "lat": 24.8020,
-    "lng": 67.0680,
+    "lat": 24.802,
+    "lng": 67.068,
     "rating": 4.4,
     "review_count": 33,
     "last_review_days_ago": 11,
     "on_time_rate": 0.88,
     "cancellation_rate": 0.07,
     "base_price": 3200,
-    "age_ranges": ["school_age", "teen"],
+    "age_ranges": [
+      "school_age",
+      "teen"
+    ],
     "experience_years": 5,
     "available_slots": [
       "2026-05-21T15:00:00",
@@ -507,27 +699,39 @@
       "2026-06-03T15:00:00"
     ],
     "bio": "Specialist in stuttering and fluency disorders in older children.",
-    "languages": ["urdu", "english"]
+    "languages": [
+      "urdu",
+      "english"
+    ]
   },
   {
     "id": "t018",
     "name": "Mr. Shahid Ali",
     "gender": "male",
-    "specializations": ["physiotherapy_special_needs", "cerebral_palsy"],
-    "qualifications": ["DPT, DUHS"],
+    "specializations": [
+      "physiotherapy_special_needs",
+      "cerebral_palsy"
+    ],
+    "qualifications": [
+      "DPT, DUHS"
+    ],
     "qualification_level": "bachelors",
     "verified": false,
     "city": "Karachi",
     "area": "Clifton",
-    "lat": 24.8160,
-    "lng": 67.0320,
+    "lat": 24.816,
+    "lng": 67.032,
     "rating": 4.0,
     "review_count": 19,
     "last_review_days_ago": 17,
-    "on_time_rate": 0.80,
+    "on_time_rate": 0.8,
     "cancellation_rate": 0.12,
     "base_price": 2500,
-    "age_ranges": ["toddler", "preschool", "school_age"],
+    "age_ranges": [
+      "toddler",
+      "preschool",
+      "school_age"
+    ],
     "experience_years": 3,
     "available_slots": [
       "2026-05-22T11:00:00",
@@ -537,27 +741,39 @@
       "2026-06-04T11:00:00"
     ],
     "bio": "Home-visit pediatric physio for CP and motor disabilities.",
-    "languages": ["urdu", "english"]
+    "languages": [
+      "urdu",
+      "english"
+    ]
   },
   {
     "id": "t019",
     "name": "Dr. Anum Pirzada",
     "gender": "female",
-    "specializations": ["occupational_therapy", "adhd_specialist", "sensory_integration"],
-    "qualifications": ["M.Phil OT, DUHS"],
+    "specializations": [
+      "occupational_therapy",
+      "adhd_specialist",
+      "sensory_integration"
+    ],
+    "qualifications": [
+      "M.Phil OT, DUHS"
+    ],
     "qualification_level": "mphil",
     "verified": true,
     "city": "Karachi",
     "area": "DHA",
-    "lat": 24.7990,
-    "lng": 67.0620,
+    "lat": 24.799,
+    "lng": 67.062,
     "rating": 4.9,
     "review_count": 82,
     "last_review_days_ago": 2,
     "on_time_rate": 0.96,
     "cancellation_rate": 0.02,
     "base_price": 4500,
-    "age_ranges": ["school_age", "teen"],
+    "age_ranges": [
+      "school_age",
+      "teen"
+    ],
     "experience_years": 10,
     "available_slots": [
       "2026-05-20T17:00:00",
@@ -567,27 +783,38 @@
       "2026-06-01T17:00:00"
     ],
     "bio": "Senior OT specializing in ADHD and executive function support for school-age children.",
-    "languages": ["urdu", "english"]
+    "languages": [
+      "urdu",
+      "english"
+    ]
   },
   {
     "id": "t020",
     "name": "Ms. Farah Mirza",
     "gender": "female",
-    "specializations": ["behavioral_therapy", "anxiety"],
-    "qualifications": ["MS Clinical Psychology, IBA"],
+    "specializations": [
+      "behavioral_therapy",
+      "anxiety"
+    ],
+    "qualifications": [
+      "MS Clinical Psychology, IBA"
+    ],
     "qualification_level": "masters",
     "verified": true,
     "city": "Karachi",
     "area": "Gulshan",
-    "lat": 24.9200,
-    "lng": 67.0990,
+    "lat": 24.92,
+    "lng": 67.099,
     "rating": 4.2,
     "review_count": 25,
     "last_review_days_ago": 15,
     "on_time_rate": 0.83,
-    "cancellation_rate": 0.10,
+    "cancellation_rate": 0.1,
     "base_price": 2700,
-    "age_ranges": ["school_age", "teen"],
+    "age_ranges": [
+      "school_age",
+      "teen"
+    ],
     "experience_years": 4,
     "available_slots": [
       "2026-05-21T17:00:00",
@@ -597,27 +824,38 @@
       "2026-06-03T17:00:00"
     ],
     "bio": "CBT for anxiety, school refusal, and emotional regulation in older children.",
-    "languages": ["urdu", "english"]
+    "languages": [
+      "urdu",
+      "english"
+    ]
   },
   {
     "id": "t021",
     "name": "Dr. Zainab Hussain",
     "gender": "female",
-    "specializations": ["aba_therapy", "early_intervention"],
-    "qualifications": ["M.Phil ABA, IBA"],
+    "specializations": [
+      "aba_therapy",
+      "early_intervention"
+    ],
+    "qualifications": [
+      "M.Phil ABA, IBA"
+    ],
     "qualification_level": "mphil",
     "verified": true,
     "city": "Karachi",
     "area": "Clifton",
-    "lat": 24.8120,
-    "lng": 67.0280,
+    "lat": 24.812,
+    "lng": 67.028,
     "rating": 4.7,
     "review_count": 58,
     "last_review_days_ago": 4,
     "on_time_rate": 0.93,
     "cancellation_rate": 0.03,
     "base_price": 4200,
-    "age_ranges": ["toddler", "preschool"],
+    "age_ranges": [
+      "toddler",
+      "preschool"
+    ],
     "experience_years": 8,
     "available_slots": [
       "2026-05-20T10:00:00",
@@ -627,27 +865,38 @@
       "2026-06-02T10:00:00"
     ],
     "bio": "Early-intervention ABA for children under 6 with autism.",
-    "languages": ["urdu", "english"]
+    "languages": [
+      "urdu",
+      "english"
+    ]
   },
   {
     "id": "t022",
     "name": "Mr. Imran Baloch",
     "gender": "male",
-    "specializations": ["occupational_therapy", "fine_motor"],
-    "qualifications": ["DOT, DUHS"],
+    "specializations": [
+      "occupational_therapy",
+      "fine_motor"
+    ],
+    "qualifications": [
+      "DOT, DUHS"
+    ],
     "qualification_level": "bachelors",
     "verified": false,
     "city": "Karachi",
     "area": "North Nazimabad",
-    "lat": 24.9300,
-    "lng": 67.0400,
+    "lat": 24.93,
+    "lng": 67.04,
     "rating": 3.8,
     "review_count": 12,
     "last_review_days_ago": 28,
     "on_time_rate": 0.74,
     "cancellation_rate": 0.18,
     "base_price": 2000,
-    "age_ranges": ["preschool", "school_age"],
+    "age_ranges": [
+      "preschool",
+      "school_age"
+    ],
     "experience_years": 2,
     "available_slots": [
       "2026-05-22T13:00:00",
@@ -657,14 +906,23 @@
       "2026-06-04T13:00:00"
     ],
     "bio": "Entry-level OT focusing on handwriting and fine motor practice.",
-    "languages": ["urdu", "english"]
+    "languages": [
+      "urdu",
+      "english"
+    ]
   },
   {
     "id": "t023",
     "name": "Dr. Maryam Akhtar",
     "gender": "female",
-    "specializations": ["aba_therapy", "autism", "early_intervention"],
-    "qualifications": ["M.Phil ABA, QAU"],
+    "specializations": [
+      "aba_therapy",
+      "autism",
+      "early_intervention"
+    ],
+    "qualifications": [
+      "M.Phil ABA, QAU"
+    ],
     "qualification_level": "mphil",
     "verified": true,
     "city": "Islamabad",
@@ -677,7 +935,10 @@
     "on_time_rate": 0.95,
     "cancellation_rate": 0.03,
     "base_price": 4000,
-    "age_ranges": ["preschool", "school_age"],
+    "age_ranges": [
+      "preschool",
+      "school_age"
+    ],
     "experience_years": 8,
     "available_slots": [
       "2026-05-20T11:00:00",
@@ -687,19 +948,27 @@
       "2026-06-02T11:00:00"
     ],
     "bio": "Comprehensive ABA programming for children with autism aged 4-10.",
-    "languages": ["urdu", "english"]
+    "languages": [
+      "urdu",
+      "english"
+    ]
   },
   {
     "id": "t024",
     "name": "Mr. Junaid Khattak",
     "gender": "male",
-    "specializations": ["speech_therapy", "articulation"],
-    "qualifications": ["MS SLP, RMU"],
+    "specializations": [
+      "speech_therapy",
+      "articulation"
+    ],
+    "qualifications": [
+      "MS SLP, RMU"
+    ],
     "qualification_level": "masters",
     "verified": true,
     "city": "Islamabad",
     "area": "F-10",
-    "lat": 33.7000,
+    "lat": 33.7,
     "lng": 73.0277,
     "rating": 4.4,
     "review_count": 35,
@@ -707,7 +976,10 @@
     "on_time_rate": 0.88,
     "cancellation_rate": 0.07,
     "base_price": 3000,
-    "age_ranges": ["school_age", "teen"],
+    "age_ranges": [
+      "school_age",
+      "teen"
+    ],
     "experience_years": 5,
     "available_slots": [
       "2026-05-21T16:00:00",
@@ -717,14 +989,23 @@
       "2026-06-03T16:00:00"
     ],
     "bio": "Speech therapist with Pashto/Urdu bilingual sessions.",
-    "languages": ["urdu", "english", "pashto"]
+    "languages": [
+      "urdu",
+      "english",
+      "pashto"
+    ]
   },
   {
     "id": "t025",
     "name": "Ms. Sumbul Cheema",
     "gender": "female",
-    "specializations": ["speech_therapy", "voice"],
-    "qualifications": ["BS SLP, RMU"],
+    "specializations": [
+      "speech_therapy",
+      "voice"
+    ],
+    "qualifications": [
+      "BS SLP, RMU"
+    ],
     "qualification_level": "bachelors",
     "verified": true,
     "city": "Islamabad",
@@ -737,7 +1018,10 @@
     "on_time_rate": 0.86,
     "cancellation_rate": 0.08,
     "base_price": 2400,
-    "age_ranges": ["preschool", "school_age"],
+    "age_ranges": [
+      "preschool",
+      "school_age"
+    ],
     "experience_years": 3,
     "available_slots": [
       "2026-05-21T10:00:00",
@@ -747,14 +1031,23 @@
       "2026-06-03T10:00:00"
     ],
     "bio": "Speech therapist for articulation and voice disorders.",
-    "languages": ["urdu", "english"]
+    "languages": [
+      "urdu",
+      "english"
+    ]
   },
   {
     "id": "t026",
     "name": "Dr. Aiman Siddiqui",
     "gender": "female",
-    "specializations": ["speech_therapy", "language_delay", "autism_speech"],
-    "qualifications": ["M.Phil SLP, QAU"],
+    "specializations": [
+      "speech_therapy",
+      "language_delay",
+      "autism_speech"
+    ],
+    "qualifications": [
+      "M.Phil SLP, QAU"
+    ],
     "qualification_level": "mphil",
     "verified": true,
     "city": "Islamabad",
@@ -767,7 +1060,11 @@
     "on_time_rate": 0.93,
     "cancellation_rate": 0.04,
     "base_price": 3200,
-    "age_ranges": ["toddler", "preschool", "school_age"],
+    "age_ranges": [
+      "toddler",
+      "preschool",
+      "school_age"
+    ],
     "experience_years": 6,
     "available_slots": [
       "2026-05-20T14:00:00",
@@ -777,14 +1074,22 @@
       "2026-06-02T14:00:00"
     ],
     "bio": "Speech-language pathologist; specialist in late talkers and autism communication.",
-    "languages": ["urdu", "english"]
+    "languages": [
+      "urdu",
+      "english"
+    ]
   },
   {
     "id": "t027",
     "name": "Mr. Wasif Janjua",
     "gender": "male",
-    "specializations": ["behavioral_therapy", "oppositional_behavior"],
-    "qualifications": ["MS Clinical Psychology, QAU"],
+    "specializations": [
+      "behavioral_therapy",
+      "oppositional_behavior"
+    ],
+    "qualifications": [
+      "MS Clinical Psychology, QAU"
+    ],
     "qualification_level": "masters",
     "verified": false,
     "city": "Islamabad",
@@ -797,7 +1102,10 @@
     "on_time_rate": 0.82,
     "cancellation_rate": 0.11,
     "base_price": 2500,
-    "age_ranges": ["school_age", "teen"],
+    "age_ranges": [
+      "school_age",
+      "teen"
+    ],
     "experience_years": 3,
     "available_slots": [
       "2026-05-22T15:00:00",
@@ -807,27 +1115,39 @@
       "2026-06-04T15:00:00"
     ],
     "bio": "Behavioral therapy for ODD and conduct issues in older children.",
-    "languages": ["urdu", "english", "pashto"]
+    "languages": [
+      "urdu",
+      "english",
+      "pashto"
+    ]
   },
   {
     "id": "t028",
     "name": "Ms. Tahira Yousaf",
     "gender": "female",
-    "specializations": ["special_education", "autism"],
-    "qualifications": ["MS Special Education, AIOU"],
+    "specializations": [
+      "special_education",
+      "autism"
+    ],
+    "qualifications": [
+      "MS Special Education, AIOU"
+    ],
     "qualification_level": "masters",
     "verified": true,
     "city": "Islamabad",
     "area": "F-8",
-    "lat": 33.7060,
-    "lng": 73.0580,
+    "lat": 33.706,
+    "lng": 73.058,
     "rating": 4.6,
     "review_count": 41,
     "last_review_days_ago": 6,
     "on_time_rate": 0.91,
     "cancellation_rate": 0.05,
     "base_price": 3000,
-    "age_ranges": ["preschool", "school_age"],
+    "age_ranges": [
+      "preschool",
+      "school_age"
+    ],
     "experience_years": 7,
     "available_slots": [
       "2026-05-20T15:00:00",
@@ -837,27 +1157,38 @@
       "2026-06-02T15:00:00"
     ],
     "bio": "Special educator with curriculum adaptation for autistic learners.",
-    "languages": ["urdu", "english"]
+    "languages": [
+      "urdu",
+      "english"
+    ]
   },
   {
     "id": "t029",
     "name": "Dr. Mahnoor Awan",
     "gender": "female",
-    "specializations": ["special_education", "learning_disability"],
-    "qualifications": ["M.Phil Special Education, QAU"],
+    "specializations": [
+      "special_education",
+      "learning_disability"
+    ],
+    "qualifications": [
+      "M.Phil Special Education, QAU"
+    ],
     "qualification_level": "mphil",
     "verified": true,
     "city": "Islamabad",
     "area": "F-10",
-    "lat": 33.6980,
-    "lng": 73.0300,
+    "lat": 33.698,
+    "lng": 73.03,
     "rating": 4.5,
     "review_count": 37,
     "last_review_days_ago": 8,
     "on_time_rate": 0.89,
     "cancellation_rate": 0.06,
     "base_price": 2900,
-    "age_ranges": ["school_age", "teen"],
+    "age_ranges": [
+      "school_age",
+      "teen"
+    ],
     "experience_years": 6,
     "available_slots": [
       "2026-05-21T12:00:00",
@@ -867,27 +1198,38 @@
       "2026-06-03T12:00:00"
     ],
     "bio": "Resource teacher for dyslexia, dyscalculia, and processing disorders.",
-    "languages": ["urdu", "english"]
+    "languages": [
+      "urdu",
+      "english"
+    ]
   },
   {
     "id": "t030",
     "name": "Mr. Hashir Malik",
     "gender": "male",
-    "specializations": ["occupational_therapy", "handwriting"],
-    "qualifications": ["MS OT, RMU"],
+    "specializations": [
+      "occupational_therapy",
+      "handwriting"
+    ],
+    "qualifications": [
+      "MS OT, RMU"
+    ],
     "qualification_level": "masters",
     "verified": false,
     "city": "Islamabad",
     "area": "G-13",
-    "lat": 33.6500,
-    "lng": 72.9500,
+    "lat": 33.65,
+    "lng": 72.95,
     "rating": 4.0,
     "review_count": 18,
     "last_review_days_ago": 20,
     "on_time_rate": 0.79,
     "cancellation_rate": 0.13,
     "base_price": 2200,
-    "age_ranges": ["preschool", "school_age"],
+    "age_ranges": [
+      "preschool",
+      "school_age"
+    ],
     "experience_years": 3,
     "available_slots": [
       "2026-05-22T14:00:00",
@@ -897,6 +1239,163 @@
       "2026-06-04T14:00:00"
     ],
     "bio": "OT for fine motor delays and handwriting practice; home visits.",
-    "languages": ["urdu", "english"]
+    "languages": [
+      "urdu",
+      "english"
+    ]
+  },
+  {
+    "id": "t031",
+    "name": "Ali Transport Service",
+    "gender": "male",
+    "specializations": [
+      "accessible_transport"
+    ],
+    "qualifications": [
+      "Certified Wheelchair Van Operator"
+    ],
+    "qualification_level": "bachelors",
+    "verified": true,
+    "city": "Lahore",
+    "area": "Gulberg",
+    "lat": 31.52,
+    "lng": 74.35,
+    "rating": 4.6,
+    "review_count": 120,
+    "last_review_days_ago": 2,
+    "on_time_rate": 0.95,
+    "cancellation_rate": 0.02,
+    "base_price": 1500,
+    "age_ranges": [
+      "preschool",
+      "school_age",
+      "teen"
+    ],
+    "experience_years": 5,
+    "available_slots": [
+      "2026-05-20T08:00:00",
+      "2026-05-21T08:00:00"
+    ],
+    "bio": "Wheelchair accessible transport for disabled individuals. Safe and reliable.",
+    "languages": [
+      "urdu",
+      "punjabi"
+    ]
+  },
+  {
+    "id": "t032",
+    "name": "Sana Interpreter",
+    "gender": "female",
+    "specializations": [
+      "sign_language_interpreter"
+    ],
+    "qualifications": [
+      "Diploma in Sign Language"
+    ],
+    "qualification_level": "bachelors",
+    "verified": true,
+    "city": "Islamabad",
+    "area": "F-8",
+    "lat": 33.7,
+    "lng": 73.05,
+    "rating": 4.9,
+    "review_count": 45,
+    "last_review_days_ago": 5,
+    "on_time_rate": 0.98,
+    "cancellation_rate": 0.01,
+    "base_price": 2000,
+    "age_ranges": [
+      "school_age",
+      "teen"
+    ],
+    "experience_years": 6,
+    "available_slots": [
+      "2026-05-20T10:00:00",
+      "2026-05-22T14:00:00"
+    ],
+    "bio": "Certified sign language interpreter for doctor visits, schools, and events.",
+    "languages": [
+      "urdu",
+      "english",
+      "sign_language"
+    ]
+  },
+  {
+    "id": "t033",
+    "name": "CareHome Nursing",
+    "gender": "female",
+    "specializations": [
+      "home_nursing",
+      "disability_support_worker"
+    ],
+    "qualifications": [
+      "BSc Nursing"
+    ],
+    "qualification_level": "bachelors",
+    "verified": true,
+    "city": "Karachi",
+    "area": "DHA",
+    "lat": 24.8,
+    "lng": 67.05,
+    "rating": 4.7,
+    "review_count": 89,
+    "last_review_days_ago": 1,
+    "on_time_rate": 0.92,
+    "cancellation_rate": 0.05,
+    "base_price": 3000,
+    "age_ranges": [
+      "preschool",
+      "school_age",
+      "teen"
+    ],
+    "experience_years": 8,
+    "available_slots": [
+      "2026-05-20T09:00:00",
+      "2026-05-21T09:00:00"
+    ],
+    "bio": "Professional home nursing and caregiving for disabled children and adults.",
+    "languages": [
+      "urdu",
+      "english",
+      "sindhi"
+    ]
+  },
+  {
+    "id": "t034",
+    "name": "Ahsan Wheelchair Repair",
+    "gender": "male",
+    "specializations": [
+      "wheelchair_repair"
+    ],
+    "qualifications": [
+      "Mechanical Diploma"
+    ],
+    "qualification_level": "bachelors",
+    "verified": true,
+    "city": "Lahore",
+    "area": "Johar Town",
+    "lat": 31.46,
+    "lng": 74.27,
+    "rating": 4.5,
+    "review_count": 34,
+    "last_review_days_ago": 10,
+    "on_time_rate": 0.9,
+    "cancellation_rate": 0.08,
+    "base_price": 1000,
+    "age_ranges": [
+      "preschool",
+      "school_age",
+      "teen"
+    ],
+    "experience_years": 10,
+    "available_slots": [
+      "2026-05-20T12:00:00",
+      "2026-05-23T15:00:00"
+    ],
+    "bio": "Expert wheelchair and mobility scooter repair at your doorstep.",
+    "languages": [
+      "urdu",
+      "punjabi"
+    ]
   }
 ]

@@ -18,8 +18,8 @@ SYSTEM_PROMPT = """You are the Intent Agent for NoorAI, a Pakistani special need
 Parents type requests in English, Urdu, Roman Urdu, or any mix - including misspellings.
 
 Extract these fields:
-- service_type (one of: speech_therapy, occupational_therapy, aba_therapy, special_education, behavioral_therapy, physiotherapy_special_needs)
-- condition (one of: autism, speech_delay, adhd, learning_disability, cerebral_palsy, down_syndrome, other)
+- service_type (one of: speech_therapy, occupational_therapy, aba_therapy, special_education, behavioral_therapy, physiotherapy_special_needs, accessible_transport, sign_language_interpreter, home_nursing, wheelchair_repair, disability_support_worker)
+- condition (one of: autism, speech_delay, adhd, learning_disability, cerebral_palsy, down_syndrome, physical_disability, hearing_impairment, visual_impairment, multiple_disabilities, other)
 - child_age (integer years)
 - child_gender (male/female/not_specified)
 - city (Lahore/Karachi/Islamabad)
@@ -55,6 +55,11 @@ SERVICE_PATTERNS = [
     (re.compile(r"special education|special ed|resource teacher|learning", re.I), "special_education"),
     (re.compile(r"behavioral|behaviour|cbt|anxiety|conduct", re.I), "behavioral_therapy"),
     (re.compile(r"physio|physical therap|cerebral palsy|cp\b", re.I), "physiotherapy_special_needs"),
+    (re.compile(r"transport|van|wheelchair accessible|ride|pickup|pick and drop|pick drop", re.I), "accessible_transport"),
+    (re.compile(r"sign language|interpreter|isharon ki zaban|deaf communication", re.I), "sign_language_interpreter"),
+    (re.compile(r"nurse|home nursing|caregiver|medical care|attendant", re.I), "home_nursing"),
+    (re.compile(r"wheelchair repair|wheel chair mechanic|repair|fix wheelchair", re.I), "wheelchair_repair"),
+    (re.compile(r"support worker|care worker|helper|disability support|sahara", re.I), "disability_support_worker"),
 ]
 
 CONDITION_PATTERNS = [
@@ -64,6 +69,10 @@ CONDITION_PATTERNS = [
     (re.compile(r"learning disabilit|dyslex|dyscalc", re.I), "learning_disability"),
     (re.compile(r"cerebral palsy|\bcp\b", re.I), "cerebral_palsy"),
     (re.compile(r"down syndrome|down's", re.I), "down_syndrome"),
+    (re.compile(r"physical disabilit|mazoor|wheelchair bound|paralyzed|polio", re.I), "physical_disability"),
+    (re.compile(r"hearing impair|deaf|sun nahi sakta|behra", re.I), "hearing_impairment"),
+    (re.compile(r"visual impair|blind|dekh nahi sakta|andha", re.I), "visual_impairment"),
+    (re.compile(r"multiple disabilit|severe disability", re.I), "multiple_disabilities"),
 ]
 
 CITY_PATTERNS = [

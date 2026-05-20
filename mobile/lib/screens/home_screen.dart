@@ -173,7 +173,9 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                   children: [
                     _buildSampleChip("5 saal ke bete ko speech therapist chahiye Gulberg Lahore"),
                     _buildSampleChip("Autism wali beti 7 saal F-8 Islamabad ABA therapist"),
-                    _buildSampleChip("ADHD 8 year old occupational therapist DHA Karachi"),
+                    _buildSampleChip("Physical disability ke liye accessible transport DHA Karachi"),
+                    _buildSampleChip("Behray bhai ke liye sign language interpreter Islamabad"),
+                    _buildSampleChip("Disabled ammi ke liye home nurse urgently needed Gulberg"),
                   ],
                 ),
                 const Spacer(),
