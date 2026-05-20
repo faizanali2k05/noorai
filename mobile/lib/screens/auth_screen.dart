@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../services/api_service.dart';
 import '../services/auth_service.dart';
 import '../theme.dart';
+import '../widgets/gradient_button.dart';
 import 'onboarding_screen.dart';
 import 'main_shell.dart';
 
@@ -142,7 +143,8 @@ class _AuthScreenState extends State<AuthScreen>
                       ),
                       child: SvgPicture.asset(
                           'assets/master/noorai-mark-white.svg',
-                          width: 56, height: 56),
+                          width: 56,
+                          height: 56),
                     ),
                     const SizedBox(height: 16),
                     const Text(
@@ -255,20 +257,10 @@ class _AuthScreenState extends State<AuthScreen>
           ),
         ),
         const SizedBox(height: 20),
-        SizedBox(
-          width: double.infinity,
-          height: 52,
-          child: ElevatedButton(
-            onPressed: _busy ? null : _doLogin,
-            child: _busy
-                ? const SizedBox(
-                    width: 22,
-                    height: 22,
-                    child: CircularProgressIndicator(
-                        color: Colors.white, strokeWidth: 2),
-                  )
-                : const Text('Sign in'),
-          ),
+        GradientButton(
+          label: 'Sign in',
+          busy: _busy,
+          onPressed: _busy ? null : _doLogin,
         ),
       ],
     );
@@ -305,26 +297,15 @@ class _AuthScreenState extends State<AuthScreen>
               icon: Icon(_obscureSignup
                   ? Icons.visibility_off_outlined
                   : Icons.visibility_outlined),
-              onPressed: () =>
-                  setState(() => _obscureSignup = !_obscureSignup),
+              onPressed: () => setState(() => _obscureSignup = !_obscureSignup),
             ),
           ),
         ),
         const SizedBox(height: 20),
-        SizedBox(
-          width: double.infinity,
-          height: 52,
-          child: ElevatedButton(
-            onPressed: _busy ? null : _doSignup,
-            child: _busy
-                ? const SizedBox(
-                    width: 22,
-                    height: 22,
-                    child: CircularProgressIndicator(
-                        color: Colors.white, strokeWidth: 2),
-                  )
-                : const Text('Create account'),
-          ),
+        GradientButton(
+          label: 'Create account',
+          busy: _busy,
+          onPressed: _busy ? null : _doSignup,
         ),
       ],
     );

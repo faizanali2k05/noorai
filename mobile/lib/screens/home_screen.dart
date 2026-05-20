@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../theme.dart';
+import '../widgets/gradient_button.dart';
 import 'provider_list_screen.dart';
 import 'dispute_screen.dart';
 import 'baseline_compare_screen.dart';
@@ -208,46 +209,11 @@ class _HomeScreenState extends State<HomeScreen>
                           ],
                         ),
                         const Spacer(),
-                        DecoratedBox(
-                          decoration: BoxDecoration(
-                            gradient: NoorColors.brandGradient,
-                            borderRadius: BorderRadius.circular(16),
-                            boxShadow: [
-                              BoxShadow(
-                                color:
-                                    NoorColors.primary.withValues(alpha: 0.3),
-                                blurRadius: 18,
-                                offset: const Offset(0, 8),
-                              ),
-                            ],
-                          ),
-                          child: SizedBox(
-                            width: double.infinity,
-                            height: 56,
-                            child: ElevatedButton(
-                              onPressed: _search,
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.transparent,
-                                shadowColor: Colors.transparent,
-                                foregroundColor: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
-                                elevation: 0,
-                              ),
-                              child: const Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text('Find Therapist',
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w600)),
-                                  SizedBox(width: 8),
-                                  Icon(Icons.arrow_forward_rounded, size: 20),
-                                ],
-                              ),
-                            ),
-                          ),
+                        GradientButton(
+                          label: 'Find Therapist',
+                          icon: Icons.arrow_forward_rounded,
+                          height: 56,
+                          onPressed: _search,
                         ),
                         const SizedBox(height: 24),
                         Center(
