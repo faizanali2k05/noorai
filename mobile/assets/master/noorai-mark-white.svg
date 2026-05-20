@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    
+  </defs>
+  <path fill="#FFFFFF" fill-rule="evenodd" d="M140,566 a258,258 0 1,0 516,0 a258,258 0 1,0 -516,0 z M268,520 a224,224 0 1,0 448,0 a224,224 0 1,0 -448,0 z"/>
+  <line x1="706" y1="366" x2="852" y2="286" stroke="#FFFFFF" stroke-width="4.5" stroke-opacity="0.6" stroke-linecap="round"/>
+    <line x1="706" y1="366" x2="888" y2="466" stroke="#FFFFFF" stroke-width="4.5" stroke-opacity="0.6" stroke-linecap="round"/>
+    <line x1="706" y1="366" x2="792" y2="588" stroke="#FFFFFF" stroke-width="4.5" stroke-opacity="0.6" stroke-linecap="round"/>
+    <line x1="706" y1="366" x2="628" y2="240" stroke="#FFFFFF" stroke-width="4.5" stroke-opacity="0.6" stroke-linecap="round"/>
+    <line x1="852" y1="286" x2="888" y2="466" stroke="#FFFFFF" stroke-width="4.5" stroke-opacity="0.6" stroke-linecap="round"/>
+    <line x1="888" y1="466" x2="792" y2="588" stroke="#FFFFFF" stroke-width="4.5" stroke-opacity="0.6" stroke-linecap="round"/>
+    <polygon points="706.00,284.00 725.40,339.30 783.99,340.66 737.38,376.20 754.20,432.34 706.00,399.00 657.80,432.34 674.62,376.20 628.01,340.66 686.60,339.30" fill="#FFFFFF"/>
+    <circle cx="852" cy="286" r="14" fill="#FFFFFF" fill-opacity="1.0"/>
+    <circle cx="888" cy="466" r="11" fill="#FFFFFF" fill-opacity="0.85"/>
+    <circle cx="792" cy="588" r="13" fill="#FFFFFF" fill-opacity="0.92"/>
+    <circle cx="628" cy="240" r="10" fill="#FFFFFF" fill-opacity="0.75"/>
+</svg>

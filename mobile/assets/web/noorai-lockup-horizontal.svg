@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1141 360" width="1141" height="360">
+  <defs><linearGradient id="cmL" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1FA971"/><stop offset="1" stop-color="#01411C"/></linearGradient></defs>
+  <g transform="translate(40,40)">
+    <g transform="translate(0,0) scale(0.44444) translate(-122,-212)">
+      <path fill="url(#cmL)" fill-rule="evenodd" d="M140,566 a258,258 0 1,0 516,0 a258,258 0 1,0 -516,0 z M268,520 a224,224 0 1,0 448,0 a224,224 0 1,0 -448,0 z"/>
+  <line x1="706" y1="366" x2="852" y2="286" stroke="#01411C" stroke-width="4.5" stroke-opacity="0.5" stroke-linecap="round"/>
+    <line x1="706" y1="366" x2="888" y2="466" stroke="#01411C" stroke-width="4.5" stroke-opacity="0.5" stroke-linecap="round"/>
+    <line x1="706" y1="366" x2="792" y2="588" stroke="#01411C" stroke-width="4.5" stroke-opacity="0.5" stroke-linecap="round"/>
+    <line x1="706" y1="366" x2="628" y2="240" stroke="#01411C" stroke-width="4.5" stroke-opacity="0.5" stroke-linecap="round"/>
+    <line x1="852" y1="286" x2="888" y2="466" stroke="#01411C" stroke-width="4.5" stroke-opacity="0.5" stroke-linecap="round"/>
+    <line x1="888" y1="466" x2="792" y2="588" stroke="#01411C" stroke-width="4.5" stroke-opacity="0.5" stroke-linecap="round"/>
+    <polygon points="706.00,284.00 725.40,339.30 783.99,340.66 737.38,376.20 754.20,432.34 706.00,399.00 657.80,432.34 674.62,376.20 628.01,340.66 686.60,339.30" fill="#01411C"/>
+    <circle cx="852" cy="286" r="14" fill="#01411C" fill-opacity="1.0"/>
+    <circle cx="888" cy="466" r="11" fill="#01411C" fill-opacity="0.85"/>
+    <circle cx="792" cy="588" r="13" fill="#01411C" fill-opacity="0.92"/>
+    <circle cx="628" cy="240" r="10" fill="#01411C" fill-opacity="0.75"/>
+    </g>
+    <g fill="#01411C">
+  <path d="M690 0H519L233 433V0H62V702H233L519 267V702H690Z" transform="translate(448.53,202.50) scale(0.17360,-0.17360)"/>
+  <path d="M28 279Q28 365 66.0 430.5Q104 496 170.0 531.0Q236 566 318 566Q400 566 466.0 531.0Q532 496 570.0 430.5Q608 365 608 279Q608 193 569.5 127.5Q531 62 464.5 27.0Q398 -8 316 -8Q234 -8 168.5 27.0Q103 62 65.5 127.0Q28 192 28 279ZM434 279Q434 346 400.5 382.0Q367 418 318 418Q268 418 235.0 382.5Q202 347 202 279Q202 212 234.5 176.0Q267 140 316 140Q365 140 399.5 176.0Q434 212 434 279Z" transform="translate(578.58,202.50) scale(0.17360,-0.17360)"/>
+  <path d="M28 279Q28 365 66.0 430.5Q104 496 170.0 531.0Q236 566 318 566Q400 566 466.0 531.0Q532 496 570.0 430.5Q608 365 608 279Q608 193 569.5 127.5Q531 62 464.5 27.0Q398 -8 316 -8Q234 -8 168.5 27.0Q103 62 65.5 127.0Q28 192 28 279ZM434 279Q434 346 400.5 382.0Q367 418 318 418Q268 418 235.0 382.5Q202 347 202 279Q202 212 234.5 176.0Q267 140 316 140Q365 140 399.5 176.0Q434 212 434 279Z" transform="translate(688.66,202.50) scale(0.17360,-0.17360)"/>
+  <path d="M408 564V383H361Q297 383 265.0 355.5Q233 328 233 259V0H62V558H233V465Q263 511 308.0 537.5Q353 564 408 564Z" transform="translate(798.75,202.50) scale(0.17360,-0.17360)"/>
+</g>
+<g fill="#1FA971">
+  <path d="M499 124H237L195 0H16L270 702H468L722 0H541ZM455 256 368 513 282 256Z" transform="translate(882.96,202.50) scale(0.17360,-0.17360)"/>
+  <path d="M233 702V0H62V702Z" transform="translate(1010.41,202.50) scale(0.17360,-0.17360)"/>
+</g>
+  </g>
+</svg>

@@ -32,26 +32,28 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^3.0.0
-  # After placing a 1024x1024 PNG at assets/app_icon.png, run:
-  #   flutter pub run flutter_launcher_icons
+  # Launcher icons are generated from the brand asset pack below. To regenerate:
+  #   dart run flutter_launcher_icons
   flutter_launcher_icons: ^0.14.1
 
-# App icon config (requires assets/app_icon.png — see SUBMISSION_GUIDE.md)
+# App icon config — sourced from the NoorAI brand pack (assets/web + assets/android).
 flutter_launcher_icons:
   android: true
   ios: false # no iOS Runner project in this repo (Android-first build)
-  image_path: "assets/app_icon.png"
+  image_path: "assets/web/icon-512.png"
   min_sdk_android: 21
-  adaptive_icon_background: "#01411C"
-  adaptive_icon_foreground: "assets/app_icon_fg.png"
+  adaptive_icon_background: "#01411C" # official Pakistan-flag deep green
+  adaptive_icon_foreground: "assets/android/adaptive/ic_launcher_foreground.png"
   remove_alpha_ios: true
 
 flutter:
   uses-material-design: true
 
+  # Only the runtime logo marks are bundled — the rest of assets/ is the brand
+  # source pack (favicons, launcher PNGs, vector sources) used at build time.
   assets:
-    - assets/noorai_logo.svg
-    - assets/app_icon.png
+    - assets/master/noorai-mark-white.svg
+    - assets/master/noorai-mark-color.svg
 
   fonts:
     - family: Poppins

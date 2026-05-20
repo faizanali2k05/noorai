@@ -101,7 +101,7 @@ class _SplashScreenState extends State<SplashScreen>
                       ],
                     ),
                     child: SvgPicture.asset(
-                      'assets/noorai_logo.svg',
+                      'assets/master/noorai-mark-white.svg',
                       width: 96,
                       height: 96,
                     ),

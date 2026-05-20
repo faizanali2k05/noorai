@@ -140,7 +140,8 @@ class _AuthScreenState extends State<AuthScreen>
                           ),
                         ],
                       ),
-                      child: SvgPicture.asset('assets/noorai_logo.svg',
+                      child: SvgPicture.asset(
+                          'assets/master/noorai-mark-white.svg',
                           width: 56, height: 56),
                     ),
                     const SizedBox(height: 16),
