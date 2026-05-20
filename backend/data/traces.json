@@ -1,1 +1,733 @@
-[]
+[
+  {
+    "trace_id": "tr-c8d99392f8",
+    "created_at": "2026-05-20T17:46:48+05:00",
+    "user_message": "My 5 year old son in Lahore Gulberg has speech delay, budget 3000",
+    "entries": [
+      {
+        "agent": "Intent Agent",
+        "started_at": "2026-05-20T17:46:48+05:00",
+        "duration_ms": 2,
+        "input_summary": "{\"user_message\": \"My 5 year old son in Lahore Gulberg has speech delay, budget 3000\"}",
+        "reasoning": "Parsed via regex. Extracted service=speech_therapy, condition=speech_delay, city=Lahore, area=Gulberg, age=5, budget=3000. Confidence=0.95. (2ms)",
+        "output_summary": "{\"service_type\": \"speech_therapy\", \"condition\": \"speech_delay\", \"child_age\": 5, \"child_gender\": \"male\", \"city\": \"Lahore\", \"area\": \"Gulberg\"\u2026",
+        "output_payload": {
+          "service_type": "speech_therapy",
+          "condition": "speech_delay",
+          "child_age": 5,
+          "child_gender": "male",
+          "city": "Lahore",
+          "area": "Gulberg",
+          "frequency": "one_time",
+          "preferred_time": "flexible",
+          "budget_per_session": 3000,
+          "urgency": "scheduled",
+          "gender_preference": "no_preference",
+          "confidence": 0.95,
+          "needs_clarification": false,
+          "missing_fields": [],
+          "clarification_question": null
+        }
+      },
+      {
+        "agent": "Discovery Agent",
+        "started_at": "2026-05-20T17:46:48+05:00",
+        "duration_ms": 0,
+        "input_summary": "{\"city\": \"Lahore\", \"service\": \"speech_therapy\", \"age\": 5}",
+        "reasoning": "Filtered 34 therapists by city=Lahore, service=speech_therapy, age=5. Found 3 candidates within 5km.",
+        "output_summary": "{\"candidate_count\": 3, \"candidate_ids\": [\"t001\", \"t007\", \"t008\"]}",
+        "output_payload": {
+          "candidate_count": 3,
+          "candidate_ids": [
+            "t001",
+            "t007",
+            "t008"
+          ]
+        }
+      },
+      {
+        "agent": "Ranking Agent",
+        "started_at": "2026-05-20T17:46:48+05:00",
+        "duration_ms": 0,
+        "input_summary": "{\"candidate_count\": 3, \"weights\": \"8-factor\"}",
+        "reasoning": "Scored 3 candidates across 8 factors (weights: {'specialization': 0.2, 'age_range': 0.15, 'qualifications': 0.15, 'distance': 0.1, 'rating': 0.1, 'reliability': 0.1, 'price': 0.1, 'cancellation': 0.1}). Top match: Dr. Mehwish Iqbal with overall 1.00.",
+        "output_summary": "{\"top_ids\": [\"t001\", \"t007\", \"t008\"], \"top_scores\": [1.0, 1.0, 1.0]}",
+        "output_payload": {
+          "top_ids": [
+            "t001",
+            "t007",
+            "t008"
+          ],
+          "top_scores": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      {
+        "agent": "Pricing Agent",
+        "started_at": "2026-05-20T17:46:48+05:00",
+        "duration_ms": 0,
+        "input_summary": "{\"therapist_ids\": [\"t001\", \"t007\", \"t008\"], \"urgency\": \"scheduled\"}",
+        "reasoning": "Calculated prices for top 3 therapists.",
+        "output_summary": "{\"t001\": 2500, \"t007\": 2800, \"t008\": 2700}",
+        "output_payload": {
+          "t001": 2500,
+          "t007": 2800,
+          "t008": 2700
+        }
+      },
+      {
+        "agent": "Pricing Agent",
+        "started_at": "2026-05-20T17:46:48+05:00",
+        "duration_ms": 0,
+        "input_summary": "{\"therapist_id\": \"t001\", \"urgency\": \"scheduled\"}",
+        "reasoning": "Priced Dr. Mehwish Iqbal: base 2500, urgency 1.0\u00d7, standard complexity (1.0\u00d7), new user. Final Rs 2500.",
+        "output_summary": "{\"base_rate\": 2500, \"distance_surcharge\": 0, \"urgency_multiplier\": 1.0, \"complexity_multiplier\": 1.0, \"subtotal\": 2500, \"loyalty_discount\":\u2026",
+        "output_payload": {
+          "base_rate": 2500,
+          "distance_surcharge": 0,
+          "urgency_multiplier": 1.0,
+          "complexity_multiplier": 1.0,
+          "subtotal": 2500,
+          "loyalty_discount": 0,
+          "final_price": 2500,
+          "breakdown_explanation": "Base Rs 2500 + Rs 0 distance \u00d7 1.0 urgency \u00d7 1.0 complexity \u2212 Rs 0 loyalty = Rs 2500"
+        }
+      },
+      {
+        "agent": "Booking Agent",
+        "started_at": "2026-05-20T17:46:48+05:00",
+        "duration_ms": 6,
+        "input_summary": "{\"therapist_id\": \"t001\", \"slot\": \"2026-05-20T10:00:00\", \"sessions_count\": 2}",
+        "reasoning": "Booked Dr. Mehwish Iqbal for 2 session(s) starting 2026-05-20T10:00:00. Total Rs 5000. Code NA-MI-0250.",
+        "output_summary": "{\"booking_id\": \"BK-20260520-001\", \"therapist_id\": \"t001\", \"user_id\": \"u001\", \"sessions\": [{\"date\": \"2026-05-20\", \"time\": \"10:00\", \"duration\u2026",
+        "output_payload": {
+          "booking_id": "BK-20260520-001",
+          "therapist_id": "t001",
+          "user_id": "u001",
+          "sessions": [
+            {
+              "date": "2026-05-20",
+              "time": "10:00",
+              "duration_min": 45,
+              "status": "confirmed"
+            },
+            {
+              "date": "2026-05-27",
+              "time": "10:00",
+              "duration_min": 45,
+              "status": "confirmed"
+            }
+          ],
+          "total_price": 5000,
+          "confirmation_code": "NA-MI-0250",
+          "status": "confirmed",
+          "created_at": "2026-05-20T17:46:48+05:00",
+          "intent_snapshot": {
+            "service_type": "speech_therapy",
+            "condition": "speech_delay",
+            "child_age": 5,
+            "child_gender": "male",
+            "city": "Lahore",
+            "area": "Gulberg",
+            "frequency": "one_time",
+            "preferred_time": "flexible",
+            "budget_per_session": 3000,
+            "urgency": "scheduled",
+            "gender_preference": "no_preference",
+            "confidence": 0.95,
+            "needs_clarification": false,
+            "missing_fields": [],
+            "clarification_question": null
+          }
+        }
+      },
+      {
+        "agent": "Notification Agent",
+        "started_at": "2026-05-20T17:46:48+05:00",
+        "duration_ms": 0,
+        "input_summary": "{\"booking_id\": \"BK-20260520-001\"}",
+        "reasoning": "Generated 2 WhatsApp messages: Roman Urdu for parent, English for therapist. Confirmation code NA-MI-0250.",
+        "output_summary": "{\"to_parent\": {\"channel\": \"whatsapp\", \"language\": \"roman_urdu\", \"message\": \"Salam! Aap ka booking confirm ho gaya hai. Dr. Mehwish Iqbal (S\u2026",
+        "output_payload": {
+          "to_parent": {
+            "channel": "whatsapp",
+            "language": "roman_urdu",
+            "message": "Salam! Aap ka booking confirm ho gaya hai. Dr. Mehwish Iqbal (Speech Therapy) 20 May, 10:00 ko aap ke ghar aayegi. Confirmation code: NA-MI-0250. Total: Rs 5000 (2 sessions). Cancel/reschedule: app khol kar 'My Bookings' mein jaayen."
+          },
+          "to_therapist": {
+            "channel": "whatsapp",
+            "language": "english",
+            "message": "Hi Dr. Mehwish Iqbal, you have a new confirmed booking. Patient: child (age 5, speech delay). Address: Gulberg, Lahore. First session: 20 May, 10:00. Total sessions: 2. Family contact will be shared 1 hour before."
+          }
+        }
+      },
+      {
+        "agent": "Follow-Up Agent",
+        "started_at": "2026-05-20T17:46:48+05:00",
+        "duration_ms": 0,
+        "input_summary": "{\"booking_id\": \"BK-20260520-001\", \"sessions\": 2}",
+        "reasoning": "Scheduled 6 follow-up events: 2 reminders, 2 feedback prompts, 1 progress digest, 1 renewal nudge.",
+        "output_summary": "{\"booking_id\": \"BK-20260520-001\", \"scheduled_events\": [{\"type\": \"session_reminder\", \"trigger\": \"1_hour_before\", \"target_session\": 1, \"messa\u2026",
+        "output_payload": {
+          "booking_id": "BK-20260520-001",
+          "scheduled_events": [
+            {
+              "type": "session_reminder",
+              "trigger": "1_hour_before",
+              "target_session": 1,
+              "message_preview": "Dr. Mehwish Iqbal 1 ghante mein aane wali hain. Tayyar rahen.",
+              "status": "scheduled"
+            },
+            {
+              "type": "post_session_feedback",
+              "trigger": "30_min_after",
+              "target_session": 1,
+              "prompt": "Session kaisi rahi? 1-5 rate karen.",
+              "status": "scheduled"
+            },
+            {
+              "type": "session_reminder",
+              "trigger": "1_hour_before",
+              "target_session": 2,
+              "message_preview": "Dr. Mehwish Iqbal 1 ghante mein aane wali hain. Tayyar rahen.",
+              "status": "scheduled"
+            },
+            {
+              "type": "post_session_feedback",
+              "trigger": "30_min_after",
+              "target_session": 2,
+              "prompt": "Session kaisi rahi? 1-5 rate karen.",
+              "status": "scheduled"
+            },
+            {
+              "type": "progress_digest",
+              "trigger": "after_4_sessions",
+              "summary": "Monthly progress check",
+              "message_preview": "Aap ke bachay ki therapy progress report tayyar hai.",
+              "status": "scheduled"
+            },
+            {
+              "type": "renewal_nudge",
+              "trigger": "after_session_8",
+              "message_preview": "Aap ki therapy package complete ho rahi hai. Continue karein?",
+              "status": "scheduled"
+            }
+          ]
+        }
+      }
+    ],
+    "updated_at": "2026-05-20T17:46:49+05:00"
+  },
+  {
+    "trace_id": "tr-cfbdf3a176",
+    "created_at": "2026-05-20T17:46:49+05:00",
+    "user_message": "speech therapy Lahore",
+    "entries": [
+      {
+        "agent": "Intent Agent",
+        "started_at": "2026-05-20T17:46:49+05:00",
+        "duration_ms": 0,
+        "input_summary": "{\"user_message\": \"speech therapy Lahore\"}",
+        "reasoning": "Parsed via regex. Extracted service=speech_therapy, condition=None, city=Lahore, area=None, age=None, budget=None. Confidence=0.64. (0ms)",
+        "output_summary": "{\"service_type\": \"speech_therapy\", \"condition\": null, \"child_age\": null, \"child_gender\": \"not_specified\", \"city\": \"Lahore\", \"area\": null, \"\u2026",
+        "output_payload": {
+          "service_type": "speech_therapy",
+          "condition": null,
+          "child_age": null,
+          "child_gender": "not_specified",
+          "city": "Lahore",
+          "area": null,
+          "frequency": "one_time",
+          "preferred_time": "flexible",
+          "budget_per_session": null,
+          "urgency": "scheduled",
+          "gender_preference": "no_preference",
+          "confidence": 0.64,
+          "needs_clarification": false,
+          "missing_fields": [
+            "condition",
+            "child_age"
+          ],
+          "clarification_question": null
+        }
+      },
+      {
+        "agent": "Discovery Agent",
+        "started_at": "2026-05-20T17:46:49+05:00",
+        "duration_ms": 0,
+        "input_summary": "{\"city\": \"Lahore\", \"service\": \"speech_therapy\", \"age\": null}",
+        "reasoning": "Filtered 34 therapists by city=Lahore, service=speech_therapy, age=None. Found 3 candidates within 5km.",
+        "output_summary": "{\"candidate_count\": 3, \"candidate_ids\": [\"t001\", \"t007\", \"t008\"]}",
+        "output_payload": {
+          "candidate_count": 3,
+          "candidate_ids": [
+            "t001",
+            "t007",
+            "t008"
+          ]
+        }
+      },
+      {
+        "agent": "Ranking Agent",
+        "started_at": "2026-05-20T17:46:49+05:00",
+        "duration_ms": 0,
+        "input_summary": "{\"candidate_count\": 3, \"weights\": \"8-factor\"}",
+        "reasoning": "Scored 3 candidates across 8 factors (weights: {'specialization': 0.2, 'age_range': 0.15, 'qualifications': 0.15, 'distance': 0.1, 'rating': 0.1, 'reliability': 0.1, 'price': 0.1, 'cancellation': 0.1}). Top match: Dr. Ayesha Khan with overall 1.00.",
+        "output_summary": "{\"top_ids\": [\"t007\", \"t008\", \"t001\"], \"top_scores\": [1.0, 0.984, 0.956]}",
+        "output_payload": {
+          "top_ids": [
+            "t007",
+            "t008",
+            "t001"
+          ],
+          "top_scores": [
+            1.0,
+            0.984,
+            0.956
+          ]
+        }
+      },
+      {
+        "agent": "Pricing Agent",
+        "started_at": "2026-05-20T17:46:49+05:00",
+        "duration_ms": 0,
+        "input_summary": "{\"therapist_ids\": [\"t007\", \"t008\", \"t001\"], \"urgency\": \"scheduled\"}",
+        "reasoning": "Calculated prices for top 3 therapists.",
+        "output_summary": "{\"t007\": 2800, \"t008\": 2700, \"t001\": 2500}",
+        "output_payload": {
+          "t007": 2800,
+          "t008": 2700,
+          "t001": 2500
+        }
+      }
+    ]
+  },
+  {
+    "trace_id": "tr-affac5164a",
+    "created_at": "2026-05-20T17:48:05+05:00",
+    "user_message": "5yo speech delay Lahore Gulberg budget 3000",
+    "entries": [
+      {
+        "agent": "Intent Agent",
+        "started_at": "2026-05-20T17:48:05+05:00",
+        "duration_ms": 0,
+        "input_summary": "{\"user_message\": \"5yo speech delay Lahore Gulberg budget 3000\"}",
+        "reasoning": "Parsed via regex. Extracted service=speech_therapy, condition=speech_delay, city=Lahore, area=Gulberg, age=None, budget=3000. Confidence=0.88. (1ms)",
+        "output_summary": "{\"service_type\": \"speech_therapy\", \"condition\": \"speech_delay\", \"child_age\": null, \"child_gender\": \"not_specified\", \"city\": \"Lahore\", \"area\u2026",
+        "output_payload": {
+          "service_type": "speech_therapy",
+          "condition": "speech_delay",
+          "child_age": null,
+          "child_gender": "not_specified",
+          "city": "Lahore",
+          "area": "Gulberg",
+          "frequency": "one_time",
+          "preferred_time": "flexible",
+          "budget_per_session": 3000,
+          "urgency": "scheduled",
+          "gender_preference": "no_preference",
+          "confidence": 0.88,
+          "needs_clarification": false,
+          "missing_fields": [
+            "child_age"
+          ],
+          "clarification_question": null
+        }
+      },
+      {
+        "agent": "Discovery Agent",
+        "started_at": "2026-05-20T17:48:05+05:00",
+        "duration_ms": 0,
+        "input_summary": "{\"city\": \"Lahore\", \"service\": \"speech_therapy\", \"age\": null}",
+        "reasoning": "Filtered 34 therapists by city=Lahore, service=speech_therapy, age=None. Found 3 candidates within 5km.",
+        "output_summary": "{\"candidate_count\": 3, \"candidate_ids\": [\"t001\", \"t007\", \"t008\"]}",
+        "output_payload": {
+          "candidate_count": 3,
+          "candidate_ids": [
+            "t001",
+            "t007",
+            "t008"
+          ]
+        }
+      },
+      {
+        "agent": "Ranking Agent",
+        "started_at": "2026-05-20T17:48:05+05:00",
+        "duration_ms": 0,
+        "input_summary": "{\"candidate_count\": 3, \"weights\": \"8-factor\"}",
+        "reasoning": "Scored 3 candidates across 8 factors (weights: {'specialization': 0.2, 'age_range': 0.15, 'qualifications': 0.15, 'distance': 0.1, 'rating': 0.1, 'reliability': 0.1, 'price': 0.1, 'cancellation': 0.1}). Top match: Dr. Ayesha Khan with overall 1.00.",
+        "output_summary": "{\"top_ids\": [\"t007\", \"t008\", \"t001\"], \"top_scores\": [1.0, 1.0, 0.99]}",
+        "output_payload": {
+          "top_ids": [
+            "t007",
+            "t008",
+            "t001"
+          ],
+          "top_scores": [
+            1.0,
+            1.0,
+            0.99
+          ]
+        }
+      },
+      {
+        "agent": "Pricing Agent",
+        "started_at": "2026-05-20T17:48:05+05:00",
+        "duration_ms": 0,
+        "input_summary": "{\"therapist_ids\": [\"t007\", \"t008\", \"t001\"], \"urgency\": \"scheduled\"}",
+        "reasoning": "Calculated prices for top 3 therapists.",
+        "output_summary": "{\"t007\": 2800, \"t008\": 2700, \"t001\": 2500}",
+        "output_payload": {
+          "t007": 2800,
+          "t008": 2700,
+          "t001": 2500
+        }
+      },
+      {
+        "agent": "Pricing Agent",
+        "started_at": "2026-05-20T17:48:05+05:00",
+        "duration_ms": 0,
+        "input_summary": "{\"therapist_id\": \"t007\", \"urgency\": \"scheduled\"}",
+        "reasoning": "Priced Dr. Ayesha Khan: base 2800, urgency 1.0\u00d7, standard complexity (1.0\u00d7), new user. Final Rs 2800.",
+        "output_summary": "{\"base_rate\": 2800, \"distance_surcharge\": 0, \"urgency_multiplier\": 1.0, \"complexity_multiplier\": 1.0, \"subtotal\": 2800, \"loyalty_discount\":\u2026",
+        "output_payload": {
+          "base_rate": 2800,
+          "distance_surcharge": 0,
+          "urgency_multiplier": 1.0,
+          "complexity_multiplier": 1.0,
+          "subtotal": 2800,
+          "loyalty_discount": 0,
+          "final_price": 2800,
+          "breakdown_explanation": "Base Rs 2800 + Rs 0 distance \u00d7 1.0 urgency \u00d7 1.0 complexity \u2212 Rs 0 loyalty = Rs 2800"
+        }
+      },
+      {
+        "agent": "Booking Agent",
+        "started_at": "2026-05-20T17:48:05+05:00",
+        "duration_ms": 23,
+        "input_summary": "{\"therapist_id\": \"t007\", \"slot\": \"2026-05-19T16:00:00\", \"sessions_count\": 2}",
+        "reasoning": "Booked Dr. Ayesha Khan for 2 session(s) starting 2026-05-19T16:00:00. Total Rs 5600. Code NA-AK-8689.",
+        "output_summary": "{\"booking_id\": \"BK-20260520-002\", \"therapist_id\": \"t007\", \"user_id\": \"u001\", \"sessions\": [{\"date\": \"2026-05-19\", \"time\": \"16:00\", \"duration\u2026",
+        "output_payload": {
+          "booking_id": "BK-20260520-002",
+          "therapist_id": "t007",
+          "user_id": "u001",
+          "sessions": [
+            {
+              "date": "2026-05-19",
+              "time": "16:00",
+              "duration_min": 45,
+              "status": "confirmed"
+            },
+            {
+              "date": "2026-05-26",
+              "time": "16:00",
+              "duration_min": 45,
+              "status": "confirmed"
+            }
+          ],
+          "total_price": 5600,
+          "confirmation_code": "NA-AK-8689",
+          "status": "confirmed",
+          "created_at": "2026-05-20T17:48:05+05:00",
+          "intent_snapshot": {
+            "service_type": "speech_therapy",
+            "condition": "speech_delay",
+            "child_age": null,
+            "child_gender": "not_specified",
+            "city": "Lahore",
+            "area": "Gulberg",
+            "frequency": "one_time",
+            "preferred_time": "flexible",
+            "budget_per_session": 3000,
+            "urgency": "scheduled",
+            "gender_preference": "no_preference",
+            "confidence": 0.88,
+            "needs_clarification": false,
+            "missing_fields": [
+              "child_age"
+            ],
+            "clarification_question": null
+          }
+        }
+      },
+      {
+        "agent": "Notification Agent",
+        "started_at": "2026-05-20T17:48:05+05:00",
+        "duration_ms": 0,
+        "input_summary": "{\"booking_id\": \"BK-20260520-002\"}",
+        "reasoning": "Generated 2 WhatsApp messages: Roman Urdu for parent, English for therapist. Confirmation code NA-AK-8689.",
+        "output_summary": "{\"to_parent\": {\"channel\": \"whatsapp\", \"language\": \"roman_urdu\", \"message\": \"Salam! Aap ka booking confirm ho gaya hai. Dr. Ayesha Khan (Spe\u2026",
+        "output_payload": {
+          "to_parent": {
+            "channel": "whatsapp",
+            "language": "roman_urdu",
+            "message": "Salam! Aap ka booking confirm ho gaya hai. Dr. Ayesha Khan (Speech Therapy) 19 May, 16:00 ko aap ke ghar aayegi. Confirmation code: NA-AK-8689. Total: Rs 5600 (2 sessions). Cancel/reschedule: app khol kar 'My Bookings' mein jaayen."
+          },
+          "to_therapist": {
+            "channel": "whatsapp",
+            "language": "english",
+            "message": "Hi Dr. Ayesha Khan, you have a new confirmed booking. Patient: child (age ?, speech delay). Address: Gulberg, Lahore. First session: 19 May, 16:00. Total sessions: 2. Family contact will be shared 1 hour before."
+          }
+        }
+      },
+      {
+        "agent": "Follow-Up Agent",
+        "started_at": "2026-05-20T17:48:05+05:00",
+        "duration_ms": 0,
+        "input_summary": "{\"booking_id\": \"BK-20260520-002\", \"sessions\": 2}",
+        "reasoning": "Scheduled 6 follow-up events: 2 reminders, 2 feedback prompts, 1 progress digest, 1 renewal nudge.",
+        "output_summary": "{\"booking_id\": \"BK-20260520-002\", \"scheduled_events\": [{\"type\": \"session_reminder\", \"trigger\": \"1_hour_before\", \"target_session\": 1, \"messa\u2026",
+        "output_payload": {
+          "booking_id": "BK-20260520-002",
+          "scheduled_events": [
+            {
+              "type": "session_reminder",
+              "trigger": "1_hour_before",
+              "target_session": 1,
+              "message_preview": "Dr. Ayesha Khan 1 ghante mein aane wali hain. Tayyar rahen.",
+              "status": "scheduled"
+            },
+            {
+              "type": "post_session_feedback",
+              "trigger": "30_min_after",
+              "target_session": 1,
+              "prompt": "Session kaisi rahi? 1-5 rate karen.",
+              "status": "scheduled"
+            },
+            {
+              "type": "session_reminder",
+              "trigger": "1_hour_before",
+              "target_session": 2,
+              "message_preview": "Dr. Ayesha Khan 1 ghante mein aane wali hain. Tayyar rahen.",
+              "status": "scheduled"
+            },
+            {
+              "type": "post_session_feedback",
+              "trigger": "30_min_after",
+              "target_session": 2,
+              "prompt": "Session kaisi rahi? 1-5 rate karen.",
+              "status": "scheduled"
+            },
+            {
+              "type": "progress_digest",
+              "trigger": "after_4_sessions",
+              "summary": "Monthly progress check",
+              "message_preview": "Aap ke bachay ki therapy progress report tayyar hai.",
+              "status": "scheduled"
+            },
+            {
+              "type": "renewal_nudge",
+              "trigger": "after_session_8",
+              "message_preview": "Aap ki therapy package complete ho rahi hai. Continue karein?",
+              "status": "scheduled"
+            }
+          ]
+        }
+      }
+    ],
+    "updated_at": "2026-05-20T17:48:05+05:00"
+  },
+  {
+    "trace_id": "tr-24195e57de",
+    "created_at": "2026-05-20T17:48:08+05:00",
+    "user_message": "speech therapy Lahore",
+    "entries": [
+      {
+        "agent": "Intent Agent",
+        "started_at": "2026-05-20T17:48:08+05:00",
+        "duration_ms": 0,
+        "input_summary": "{\"user_message\": \"speech therapy Lahore\"}",
+        "reasoning": "Parsed via regex. Extracted service=speech_therapy, condition=None, city=Lahore, area=None, age=None, budget=None. Confidence=0.64. (0ms)",
+        "output_summary": "{\"service_type\": \"speech_therapy\", \"condition\": null, \"child_age\": null, \"child_gender\": \"not_specified\", \"city\": \"Lahore\", \"area\": null, \"\u2026",
+        "output_payload": {
+          "service_type": "speech_therapy",
+          "condition": null,
+          "child_age": null,
+          "child_gender": "not_specified",
+          "city": "Lahore",
+          "area": null,
+          "frequency": "one_time",
+          "preferred_time": "flexible",
+          "budget_per_session": null,
+          "urgency": "scheduled",
+          "gender_preference": "no_preference",
+          "confidence": 0.64,
+          "needs_clarification": false,
+          "missing_fields": [
+            "condition",
+            "child_age"
+          ],
+          "clarification_question": null
+        }
+      },
+      {
+        "agent": "Discovery Agent",
+        "started_at": "2026-05-20T17:48:08+05:00",
+        "duration_ms": 0,
+        "input_summary": "{\"city\": \"Lahore\", \"service\": \"speech_therapy\", \"age\": null}",
+        "reasoning": "Filtered 34 therapists by city=Lahore, service=speech_therapy, age=None. Found 3 candidates within 5km.",
+        "output_summary": "{\"candidate_count\": 3, \"candidate_ids\": [\"t001\", \"t007\", \"t008\"]}",
+        "output_payload": {
+          "candidate_count": 3,
+          "candidate_ids": [
+            "t001",
+            "t007",
+            "t008"
+          ]
+        }
+      },
+      {
+        "agent": "Ranking Agent",
+        "started_at": "2026-05-20T17:48:08+05:00",
+        "duration_ms": 0,
+        "input_summary": "{\"candidate_count\": 3, \"weights\": \"8-factor\"}",
+        "reasoning": "Scored 3 candidates across 8 factors (weights: {'specialization': 0.2, 'age_range': 0.15, 'qualifications': 0.15, 'distance': 0.1, 'rating': 0.1, 'reliability': 0.1, 'price': 0.1, 'cancellation': 0.1}). Top match: Dr. Ayesha Khan with overall 1.00.",
+        "output_summary": "{\"top_ids\": [\"t007\", \"t008\", \"t001\"], \"top_scores\": [1.0, 0.984, 0.956]}",
+        "output_payload": {
+          "top_ids": [
+            "t007",
+            "t008",
+            "t001"
+          ],
+          "top_scores": [
+            1.0,
+            0.984,
+            0.956
+          ]
+        }
+      },
+      {
+        "agent": "Pricing Agent",
+        "started_at": "2026-05-20T17:48:08+05:00",
+        "duration_ms": 0,
+        "input_summary": "{\"therapist_ids\": [\"t007\", \"t008\", \"t001\"], \"urgency\": \"scheduled\"}",
+        "reasoning": "Calculated prices for top 3 therapists.",
+        "output_summary": "{\"t007\": 2800, \"t008\": 2700, \"t001\": 2500}",
+        "output_payload": {
+          "t007": 2800,
+          "t008": 2700,
+          "t001": 2500
+        }
+      }
+    ]
+  },
+  {
+    "trace_id": "tr-b1eb927c18",
+    "created_at": "2026-05-20T17:48:24+05:00",
+    "user_message": "5yo speech delay Lahore",
+    "entries": [
+      {
+        "agent": "Intent Agent",
+        "started_at": "2026-05-20T17:48:24+05:00",
+        "duration_ms": 0,
+        "input_summary": "{\"user_message\": \"5yo speech delay Lahore\"}",
+        "reasoning": "Parsed via regex. Extracted service=speech_therapy, condition=speech_delay, city=Lahore, area=None, age=None, budget=None. Confidence=0.76. (0ms)",
+        "output_summary": "{\"service_type\": \"speech_therapy\", \"condition\": \"speech_delay\", \"child_age\": null, \"child_gender\": \"not_specified\", \"city\": \"Lahore\", \"area\u2026",
+        "output_payload": {
+          "service_type": "speech_therapy",
+          "condition": "speech_delay",
+          "child_age": null,
+          "child_gender": "not_specified",
+          "city": "Lahore",
+          "area": null,
+          "frequency": "one_time",
+          "preferred_time": "flexible",
+          "budget_per_session": null,
+          "urgency": "scheduled",
+          "gender_preference": "no_preference",
+          "confidence": 0.76,
+          "needs_clarification": false,
+          "missing_fields": [
+            "child_age"
+          ],
+          "clarification_question": null
+        }
+      },
+      {
+        "agent": "Discovery Agent",
+        "started_at": "2026-05-20T17:48:24+05:00",
+        "duration_ms": 0,
+        "input_summary": "{\"city\": \"Lahore\", \"service\": \"speech_therapy\", \"age\": null}",
+        "reasoning": "Filtered 34 therapists by city=Lahore, service=speech_therapy, age=None. Found 3 candidates within 5km.",
+        "output_summary": "{\"candidate_count\": 3, \"candidate_ids\": [\"t001\", \"t007\", \"t008\"]}",
+        "output_payload": {
+          "candidate_count": 3,
+          "candidate_ids": [
+            "t001",
+            "t007",
+            "t008"
+          ]
+        }
+      },
+      {
+        "agent": "Ranking Agent",
+        "started_at": "2026-05-20T17:48:24+05:00",
+        "duration_ms": 0,
+        "input_summary": "{\"candidate_count\": 3, \"weights\": \"8-factor\"}",
+        "reasoning": "Scored 3 candidates across 8 factors (weights: {'specialization': 0.2, 'age_range': 0.15, 'qualifications': 0.15, 'distance': 0.1, 'rating': 0.1, 'reliability': 0.1, 'price': 0.1, 'cancellation': 0.1}). Top match: Dr. Ayesha Khan with overall 1.00.",
+        "output_summary": "{\"top_ids\": [\"t007\", \"t008\", \"t001\"], \"top_scores\": [1.0, 0.984, 0.956]}",
+        "output_payload": {
+          "top_ids": [
+            "t007",
+            "t008",
+            "t001"
+          ],
+          "top_scores": [
+            1.0,
+            0.984,
+            0.956
+          ]
+        }
+      },
+      {
+        "agent": "Pricing Agent",
+        "started_at": "2026-05-20T17:48:24+05:00",
+        "duration_ms": 0,
+        "input_summary": "{\"therapist_ids\": [\"t007\", \"t008\", \"t001\"], \"urgency\": \"scheduled\"}",
+        "reasoning": "Calculated prices for top 3 therapists.",
+        "output_summary": "{\"t007\": 2800, \"t008\": 2700, \"t001\": 2500}",
+        "output_payload": {
+          "t007": 2800,
+          "t008": 2700,
+          "t001": 2500
+        }
+      },
+      {
+        "agent": "Pricing Agent",
+        "started_at": "2026-05-20T17:48:24+05:00",
+        "duration_ms": 0,
+        "input_summary": "{\"therapist_id\": \"t007\", \"urgency\": \"scheduled\"}",
+        "reasoning": "Priced Dr. Ayesha Khan: base 2800, urgency 1.0\u00d7, standard complexity (1.0\u00d7), new user. Final Rs 2800.",
+        "output_summary": "{\"base_rate\": 2800, \"distance_surcharge\": 0, \"urgency_multiplier\": 1.0, \"complexity_multiplier\": 1.0, \"subtotal\": 2800, \"loyalty_discount\":\u2026",
+        "output_payload": {
+          "base_rate": 2800,
+          "distance_surcharge": 0,
+          "urgency_multiplier": 1.0,
+          "complexity_multiplier": 1.0,
+          "subtotal": 2800,
+          "loyalty_discount": 0,
+          "final_price": 2800,
+          "breakdown_explanation": "Base Rs 2800 + Rs 0 distance \u00d7 1.0 urgency \u00d7 1.0 complexity \u2212 Rs 0 loyalty = Rs 2800"
+        }
+      },
+      {
+        "agent": "Booking Agent",
+        "started_at": "2026-05-20T17:48:24+05:00",
+        "duration_ms": 0,
+        "input_summary": "{\"therapist_id\": \"t007\", \"slot\": \"2026-05-19T16:00:00\", \"sessions_count\": 2}",
+        "reasoning": "Slot 2026-05-19T16:00:00 already taken for Dr. Ayesha Khan. Suggested next: 2026-05-22T16:00:00.",
+        "output_summary": "{\"status\": \"conflict\", \"suggested_slot\": \"2026-05-22T16:00:00\", \"therapist_id\": \"t007\"}",
+        "output_payload": {
+          "status": "conflict",
+          "suggested_slot": "2026-05-22T16:00:00",
+          "therapist_id": "t007"
+        }
+      }
+    ],
+    "updated_at": "2026-05-20T17:48:24+05:00"
+  }
+]

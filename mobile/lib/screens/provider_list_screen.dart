@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../theme.dart';
 import '../models/therapist.dart';
 import '../services/api_service.dart';
 import '../widgets/score_bar.dart';
@@ -63,15 +64,15 @@ class _ProviderListScreenState extends State<ProviderListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF8FAF9),
+      backgroundColor: const Color(0xFFF4FBF6),
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        iconTheme: const IconThemeData(color: Color(0xFF134E4A)),
+        iconTheme: const IconThemeData(color: Color(0xFF01411C)),
         title: const Text(
           'Top Matches',
           style: TextStyle(
-              color: Color(0xFF134E4A),
+              color: Color(0xFF01411C),
               fontWeight: FontWeight.bold,
               fontSize: 18),
         ),
@@ -98,10 +99,10 @@ class _ProviderListScreenState extends State<ProviderListScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        CircularProgressIndicator(color: Color(0xFF0D9488)),
+                        CircularProgressIndicator(color: Color(0xFF0E7C42)),
                         SizedBox(height: 16),
                         Text('7 agents working...',
-                            style: TextStyle(color: Color(0xFF0D9488))),
+                            style: TextStyle(color: Color(0xFF0E7C42))),
                       ],
                     ),
                   )
@@ -112,7 +113,7 @@ class _ProviderListScreenState extends State<ProviderListScreen> {
                         padding: const EdgeInsets.all(16),
                         itemCount: _therapists.length,
                         itemBuilder: (ctx, i) =>
-                            _buildCard(_therapists[i], ctx),
+                            _buildCard(_therapists[i], ctx, i),
                       ),
           ),
           // See Agent Reasoning button
@@ -132,12 +133,12 @@ class _ProviderListScreenState extends State<ProviderListScreen> {
                     );
                   },
                   icon: const Icon(Icons.analytics_outlined,
-                      color: Color(0xFF0D9488)),
+                      color: Color(0xFF0E7C42)),
                   label: const Text('See Agent Reasoning →',
-                      style: TextStyle(color: Color(0xFF0D9488))),
+                      style: TextStyle(color: Color(0xFF0E7C42))),
                   style: OutlinedButton.styleFrom(
                     minimumSize: const Size(double.infinity, 50),
-                    side: const BorderSide(color: Color(0xFF0D9488)),
+                    side: const BorderSide(color: Color(0xFF0E7C42)),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12)),
                   ),
@@ -153,7 +154,7 @@ class _ProviderListScreenState extends State<ProviderListScreen> {
     return Chip(
       label: Text(text,
           style: const TextStyle(fontSize: 12, color: Colors.white)),
-      backgroundColor: const Color(0xFF115E59),
+      backgroundColor: const Color(0xFF064E2B),
       shape:
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       side: BorderSide.none,
@@ -161,34 +162,65 @@ class _ProviderListScreenState extends State<ProviderListScreen> {
     );
   }
 
-  Widget _buildCard(Therapist t, BuildContext context) {
+  Widget _buildCard(Therapist t, BuildContext context, int rank) {
+    final isTop = rank == 0;
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
+        border: isTop
+            ? Border.all(color: NoorColors.gradientStart, width: 1.6)
+            : null,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
-            blurRadius: 12,
+            color: isTop
+                ? NoorColors.primary.withValues(alpha: 0.14)
+                : Colors.black.withValues(alpha: 0.04),
+            blurRadius: isTop ? 18 : 12,
             offset: const Offset(0, 4),
           ),
         ],
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Header row
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          if (isTop)
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 7),
+              decoration: const BoxDecoration(
+                gradient: NoorColors.brandGradient,
+                borderRadius:
+                    BorderRadius.vertical(top: Radius.circular(15)),
+              ),
+              child: const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.auto_awesome, color: Colors.white, size: 15),
+                  SizedBox(width: 6),
+                  Text('BEST MATCH · AI RANKED #1',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 11.5,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 0.6)),
+                ],
+              ),
+            ),
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Header row
             Row(
               children: [
                 CircleAvatar(
                   radius: 28,
-                  backgroundColor: const Color(0xFFE0F2FE),
+                  backgroundColor: const Color(0xFFE4F5EC),
                   child: Icon(
                     t.gender == 'female' ? Icons.woman : Icons.man,
-                    color: const Color(0xFF0284C7),
+                    color: const Color(0xFF0E7C42),
                     size: 32,
                   ),
                 ),
@@ -213,7 +245,7 @@ class _ProviderListScreenState extends State<ProviderListScreen> {
                             const Padding(
                               padding: EdgeInsets.only(left: 4),
                               child: Icon(Icons.verified,
-                                  color: Colors.blue, size: 17),
+                                  color: NoorColors.primary, size: 17),
                             ),
                         ],
                       ),
@@ -278,7 +310,7 @@ class _ProviderListScreenState extends State<ProviderListScreen> {
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF0D9488),
+                  backgroundColor: const Color(0xFF0E7C42),
                   foregroundColor: Colors.white,
                   elevation: 0,
                   shape: RoundedRectangleBorder(
@@ -287,8 +319,10 @@ class _ProviderListScreenState extends State<ProviderListScreen> {
                 child: const Text('View Details & Book'),
               ),
             ),
-          ],
-        ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -297,7 +331,7 @@ class _ProviderListScreenState extends State<ProviderListScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
       decoration: BoxDecoration(
-        color: const Color(0xFFF8FAF9),
+        color: const Color(0xFFF4FBF6),
         borderRadius: BorderRadius.circular(6),
         border: Border.all(color: Colors.grey.shade200),
       ),

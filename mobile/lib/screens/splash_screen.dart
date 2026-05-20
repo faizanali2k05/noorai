@@ -65,56 +65,77 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: NoorColors.primaryDeepest,
-      body: Center(
-        child: FadeTransition(
-          opacity: _fade,
-          child: ScaleTransition(
-            scale: _scale,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(24),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.08),
-                    shape: BoxShape.circle,
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              NoorColors.gradientStart,
+              Color(0xFF15A35A),
+              NoorColors.primaryDeepest,
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        child: Center(
+          child: FadeTransition(
+            opacity: _fade,
+            child: ScaleTransition(
+              scale: _scale,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(24),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.12),
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                          color: Colors.white.withValues(alpha: 0.18)),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.2),
+                          blurRadius: 30,
+                          offset: const Offset(0, 12),
+                        ),
+                      ],
+                    ),
+                    child: SvgPicture.asset(
+                      'assets/noorai_logo.svg',
+                      width: 96,
+                      height: 96,
+                    ),
                   ),
-                  child: SvgPicture.asset(
-                    'assets/noorai_logo.svg',
-                    width: 96,
-                    height: 96,
+                  const SizedBox(height: 28),
+                  const Text(
+                    'NoorAI',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 38,
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: -0.5,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 28),
-                const Text(
-                  'NoorAI',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 36,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: -0.5,
+                  const SizedBox(height: 8),
+                  Text(
+                    "Care, made findable.",
+                    style: TextStyle(
+                      color: Colors.white.withValues(alpha: 0.8),
+                      fontSize: 14,
+                      letterSpacing: 0.3,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  "Care, made findable.",
-                  style: TextStyle(
-                    color: Colors.white.withOpacity(0.7),
-                    fontSize: 14,
-                    letterSpacing: 0.3,
+                  const SizedBox(height: 48),
+                  const SizedBox(
+                    width: 24,
+                    height: 24,
+                    child: CircularProgressIndicator(
+                      color: Colors.white,
+                      strokeWidth: 2,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 48),
-                const SizedBox(
-                  width: 24,
-                  height: 24,
-                  child: CircularProgressIndicator(
-                    color: Colors.white,
-                    strokeWidth: 2,
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

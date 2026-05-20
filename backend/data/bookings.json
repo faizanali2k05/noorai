@@ -1,1 +1,84 @@
-[]
+[
+  {
+    "booking_id": "BK-20260520-001",
+    "therapist_id": "t001",
+    "user_id": "u001",
+    "sessions": [
+      {
+        "date": "2026-05-20",
+        "time": "10:00",
+        "duration_min": 45,
+        "status": "confirmed"
+      },
+      {
+        "date": "2026-05-27",
+        "time": "10:00",
+        "duration_min": 45,
+        "status": "confirmed"
+      }
+    ],
+    "total_price": 5000,
+    "confirmation_code": "NA-MI-0250",
+    "status": "confirmed",
+    "created_at": "2026-05-20T17:46:48+05:00",
+    "intent_snapshot": {
+      "service_type": "speech_therapy",
+      "condition": "speech_delay",
+      "child_age": 5,
+      "child_gender": "male",
+      "city": "Lahore",
+      "area": "Gulberg",
+      "frequency": "one_time",
+      "preferred_time": "flexible",
+      "budget_per_session": 3000,
+      "urgency": "scheduled",
+      "gender_preference": "no_preference",
+      "confidence": 0.95,
+      "needs_clarification": false,
+      "missing_fields": [],
+      "clarification_question": null
+    }
+  },
+  {
+    "booking_id": "BK-20260520-002",
+    "therapist_id": "t007",
+    "user_id": "u001",
+    "sessions": [
+      {
+        "date": "2026-05-19",
+        "time": "16:00",
+        "duration_min": 45,
+        "status": "confirmed"
+      },
+      {
+        "date": "2026-05-26",
+        "time": "16:00",
+        "duration_min": 45,
+        "status": "confirmed"
+      }
+    ],
+    "total_price": 5600,
+    "confirmation_code": "NA-AK-8689",
+    "status": "confirmed",
+    "created_at": "2026-05-20T17:48:05+05:00",
+    "intent_snapshot": {
+      "service_type": "speech_therapy",
+      "condition": "speech_delay",
+      "child_age": null,
+      "child_gender": "not_specified",
+      "city": "Lahore",
+      "area": "Gulberg",
+      "frequency": "one_time",
+      "preferred_time": "flexible",
+      "budget_per_session": 3000,
+      "urgency": "scheduled",
+      "gender_preference": "no_preference",
+      "confidence": 0.88,
+      "needs_clarification": false,
+      "missing_fields": [
+        "child_age"
+      ],
+      "clarification_question": null
+    }
+  }
+]

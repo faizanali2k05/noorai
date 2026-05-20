@@ -134,20 +134,20 @@ class _AgentTraceScreenState extends State<AgentTraceScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF8FAF9),
+      backgroundColor: const Color(0xFFF4FBF6),
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        iconTheme: const IconThemeData(color: Color(0xFF134E4A)),
+        iconTheme: const IconThemeData(color: Color(0xFF01411C)),
         title: const Text('How NoorAI Decided',
-            style: TextStyle(color: Color(0xFF134E4A))),
+            style: TextStyle(color: Color(0xFF01411C))),
         actions: [
           TextButton.icon(
             onPressed: _load,
             icon: const Icon(Icons.refresh,
-                color: Color(0xFF0D9488), size: 18),
+                color: Color(0xFF0E7C42), size: 18),
             label: const Text('Replay',
-                style: TextStyle(color: Color(0xFF0D9488))),
+                style: TextStyle(color: Color(0xFF0E7C42))),
           ),
         ],
       ),
@@ -156,10 +156,10 @@ class _AgentTraceScreenState extends State<AgentTraceScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CircularProgressIndicator(color: Color(0xFF0D9488)),
+                  CircularProgressIndicator(color: Color(0xFF0E7C42)),
                   SizedBox(height: 16),
                   Text('Loading agent trace...',
-                      style: TextStyle(color: Color(0xFF0D9488))),
+                      style: TextStyle(color: Color(0xFF0E7C42))),
                 ],
               ),
             )
@@ -180,7 +180,7 @@ class _AgentTraceScreenState extends State<AgentTraceScreen> {
         Container(
           padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
-            color: const Color(0xFF134E4A),
+            color: const Color(0xFF01411C),
             borderRadius: BorderRadius.circular(12),
           ),
           child: Column(
@@ -198,7 +198,7 @@ class _AgentTraceScreenState extends State<AgentTraceScreen> {
                 Text(
                   '"${_trace!.userMessage}"',
                   style: TextStyle(
-                      color: Colors.white.withOpacity(0.8),
+                      color: Colors.white.withValues(alpha: 0.8),
                       fontSize: 11,
                       fontStyle: FontStyle.italic),
                   textAlign: TextAlign.center,
@@ -234,7 +234,7 @@ class _AgentTraceScreenState extends State<AgentTraceScreen> {
           label: const Text('Export JSON Trace',
               style: TextStyle(color: Colors.white)),
           style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFF134E4A),
+            backgroundColor: const Color(0xFF01411C),
             minimumSize: const Size(double.infinity, 50),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12)),

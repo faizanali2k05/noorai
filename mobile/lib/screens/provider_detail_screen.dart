@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../theme.dart';
 import '../models/therapist.dart';
 import '../widgets/score_bar.dart';
 import '../widgets/price_breakdown.dart';
@@ -45,7 +46,7 @@ class _ProviderDetailScreenState extends State<ProviderDetailScreen> {
       final hour = dt.hour;
       final amPm = hour >= 12 ? 'PM' : 'AM';
       final displayHour = hour > 12 ? hour - 12 : (hour == 0 ? 12 : hour);
-      return '$dayName ${dt.day} ${months[dt.month]}, ${displayHour}:${dt.minute.toString().padLeft(2, '0')} $amPm';
+      return '$dayName ${dt.day} ${months[dt.month]}, $displayHour:${dt.minute.toString().padLeft(2, '0')} $amPm';
     } catch (_) {
       return iso;
     }
@@ -60,14 +61,14 @@ class _ProviderDetailScreenState extends State<ProviderDetailScreen> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        iconTheme: const IconThemeData(color: Color(0xFF134E4A)),
+        iconTheme: const IconThemeData(color: Color(0xFF01411C)),
         title: const Text('Therapist Details',
-            style: TextStyle(color: Color(0xFF134E4A))),
+            style: TextStyle(color: Color(0xFF01411C))),
         actions: [
           IconButton(
             tooltip: 'Message therapist',
             icon: const Icon(Icons.chat_bubble_outline,
-                color: Color(0xFF0D9488)),
+                color: Color(0xFF0E7C42)),
             onPressed: () {
               Navigator.push(
                 context,
@@ -93,10 +94,10 @@ class _ProviderDetailScreenState extends State<ProviderDetailScreen> {
                 children: [
                   CircleAvatar(
                     radius: 44,
-                    backgroundColor: const Color(0xFFE0F2FE),
+                    backgroundColor: const Color(0xFFE4F5EC),
                     child: Icon(
                       t.gender == 'female' ? Icons.woman : Icons.man,
-                      color: const Color(0xFF0284C7),
+                      color: const Color(0xFF0E7C42),
                       size: 48,
                     ),
                   ),
@@ -114,7 +115,7 @@ class _ProviderDetailScreenState extends State<ProviderDetailScreen> {
                       if (t.verified) ...[
                         const SizedBox(width: 6),
                         const Icon(Icons.verified,
-                            color: Colors.blue, size: 22),
+                            color: NoorColors.primary, size: 22),
                       ],
                     ],
                   ),
@@ -127,7 +128,7 @@ class _ProviderDetailScreenState extends State<ProviderDetailScreen> {
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                         fontSize: 12,
-                        color: Color(0xFF0D9488),
+                        color: Color(0xFF0E7C42),
                         fontWeight: FontWeight.w600,
                         letterSpacing: 0.5),
                   ),
@@ -142,9 +143,9 @@ class _ProviderDetailScreenState extends State<ProviderDetailScreen> {
             ),
             const SizedBox(height: 8),
             const TabBar(
-              labelColor: Color(0xFF0D9488),
+              labelColor: Color(0xFF0E7C42),
               unselectedLabelColor: Colors.grey,
-              indicatorColor: Color(0xFF0D9488),
+              indicatorColor: Color(0xFF0E7C42),
               isScrollable: true,
               tabs: [
                 Tab(text: 'Overview'),
@@ -186,7 +187,7 @@ class _ProviderDetailScreenState extends State<ProviderDetailScreen> {
                     );
                   },
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF0D9488),
+              backgroundColor: const Color(0xFF0E7C42),
               minimumSize: const Size(double.infinity, 56),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16)),
@@ -221,7 +222,7 @@ class _ProviderDetailScreenState extends State<ProviderDetailScreen> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Icon(Icons.school, size: 16, color: Color(0xFF0D9488)),
+                  const Icon(Icons.school, size: 16, color: Color(0xFF0E7C42)),
                   const SizedBox(width: 8),
                   Expanded(
                       child: Text(q,
@@ -353,7 +354,7 @@ class _ProviderDetailScreenState extends State<ProviderDetailScreen> {
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(
                   color: isSelected
-                      ? const Color(0xFF0D9488)
+                      ? const Color(0xFF0E7C42)
                       : Colors.grey.shade200,
                   width: isSelected ? 2 : 1,
                 ),
@@ -365,7 +366,7 @@ class _ProviderDetailScreenState extends State<ProviderDetailScreen> {
                         ? Icons.check_circle
                         : Icons.calendar_today_outlined,
                     color: isSelected
-                        ? const Color(0xFF0D9488)
+                        ? const Color(0xFF0E7C42)
                         : Colors.grey.shade500,
                     size: 20,
                   ),
@@ -388,7 +389,7 @@ class _ProviderDetailScreenState extends State<ProviderDetailScreen> {
                     const Text('Selected',
                         style: TextStyle(
                             fontSize: 12,
-                            color: Color(0xFF0D9488),
+                            color: Color(0xFF0E7C42),
                             fontWeight: FontWeight.w600)),
                 ],
               ),

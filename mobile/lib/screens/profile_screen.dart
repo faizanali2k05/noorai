@@ -151,7 +151,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         children: [
           CircleAvatar(
             radius: 32,
-            backgroundColor: Colors.white.withOpacity(0.25),
+            backgroundColor: Colors.white.withValues(alpha: 0.25),
             child: Text(
               p.initials,
               style: const TextStyle(
@@ -178,7 +178,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Text(
                   p.email,
                   style: TextStyle(
-                    color: Colors.white.withOpacity(0.85),
+                    color: Colors.white.withValues(alpha: 0.85),
                     fontSize: 13,
                   ),
                 ),

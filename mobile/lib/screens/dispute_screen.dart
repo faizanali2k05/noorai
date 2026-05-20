@@ -6,12 +6,12 @@ class DisputeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF8FAF9),
+      backgroundColor: const Color(0xFFF4FBF6),
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        iconTheme: const IconThemeData(color: Color(0xFF134E4A)),
-        title: const Text('Dispute & Help', style: TextStyle(color: Color(0xFF134E4A))),
+        iconTheme: const IconThemeData(color: Color(0xFF01411C)),
+        title: const Text('Dispute & Help', style: TextStyle(color: Color(0xFF01411C))),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
@@ -77,10 +77,10 @@ class DisputeScreen extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: isStressTest ? const Color(0xFF0D9488) : Colors.grey.shade200, width: isStressTest ? 2 : 1),
+          border: Border.all(color: isStressTest ? const Color(0xFF0E7C42) : Colors.grey.shade200, width: isStressTest ? 2 : 1),
           boxShadow: [
             if (isStressTest)
-              BoxShadow(color: const Color(0xFF0D9488).withOpacity(0.1), blurRadius: 10, offset: const Offset(0, 4)),
+              BoxShadow(color: const Color(0xFF0E7C42).withValues(alpha: 0.1), blurRadius: 10, offset: const Offset(0, 4)),
           ],
         ),
         child: Row(
@@ -88,17 +88,17 @@ class DisputeScreen extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: isStressTest ? const Color(0xFF0D9488).withOpacity(0.1) : Colors.grey.shade100,
+                color: isStressTest ? const Color(0xFF0E7C42).withValues(alpha: 0.1) : Colors.grey.shade100,
                 shape: BoxShape.circle,
               ),
-              child: Icon(icon, color: isStressTest ? const Color(0xFF0D9488) : Colors.grey.shade600),
+              child: Icon(icon, color: isStressTest ? const Color(0xFF0E7C42) : Colors.grey.shade600),
             ),
             const SizedBox(width: 16),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(title, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: isStressTest ? const Color(0xFF0D9488) : const Color(0xFF1F2937))),
+                  Text(title, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: isStressTest ? const Color(0xFF0E7C42) : const Color(0xFF1F2937))),
                   const SizedBox(height: 4),
                   Text(subtitle, style: TextStyle(fontSize: 13, color: Colors.grey.shade600)),
                 ],
@@ -128,9 +128,9 @@ class DisputeScreen extends StatelessWidget {
           children: [
             const Row(
               children: [
-                Icon(Icons.autorenew, color: Color(0xFF0D9488)),
+                Icon(Icons.autorenew, color: Color(0xFF0E7C42)),
                 SizedBox(width: 8),
-                Text('Dispute Agent Activated', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF134E4A))),
+                Text('Dispute Agent Activated', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF01411C))),
               ],
             ),
             const SizedBox(height: 16),
@@ -142,7 +142,7 @@ class DisputeScreen extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: const Color(0xFFF8FAF9),
+                color: const Color(0xFFF4FBF6),
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(color: Colors.grey.shade300),
               ),
@@ -187,7 +187,7 @@ class DisputeScreen extends StatelessWidget {
                       Navigator.pop(context);
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Rebooked successfully!')));
                     },
-                    style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF0D9488)),
+                    style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF0E7C42)),
                     child: const Text('Confirm Rebook', style: TextStyle(color: Colors.white)),
                   ),
                 ),

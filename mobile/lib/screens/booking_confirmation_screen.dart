@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../theme.dart';
 import '../models/therapist.dart';
 import '../models/booking.dart';
 import '../services/api_service.dart';
@@ -28,7 +29,7 @@ class _BookingConfirmationScreenState
     extends State<BookingConfirmationScreen> {
   final ApiService _api = ApiService();
   bool _isLoading = true;
-  bool _hasError = false;
+  final bool _hasError = false;
   Booking? _booking;
   String _parentMessage = '';
   List<Map<String, dynamic>> _followupEvents = [];
@@ -60,38 +61,22 @@ class _BookingConfirmationScreenState
     }
   }
 
-  String _formatSlot(String iso) {
-    try {
-      final dt = DateTime.parse(iso);
-      const months = [
-        '', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-      ];
-      final hour = dt.hour;
-      final amPm = hour >= 12 ? 'PM' : 'AM';
-      final displayHour = hour > 12 ? hour - 12 : (hour == 0 ? 12 : hour);
-      return '${dt.day} ${months[dt.month]}, ${displayHour}:${dt.minute.toString().padLeft(2, '0')} $amPm';
-    } catch (_) {
-      return iso;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
       return Scaffold(
-        backgroundColor: const Color(0xFFF8FAF9),
+        backgroundColor: const Color(0xFFF4FBF6),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const CircularProgressIndicator(color: Color(0xFF0D9488)),
+              const CircularProgressIndicator(color: Color(0xFF0E7C42)),
               const SizedBox(height: 20),
               const Text(
                 'Booking Agent processing...',
                 style: TextStyle(
                     fontSize: 16,
-                    color: Color(0xFF0D9488),
+                    color: Color(0xFF0E7C42),
                     fontWeight: FontWeight.w500),
               ),
               const SizedBox(height: 8),
@@ -117,7 +102,7 @@ class _BookingConfirmationScreenState
     final t = widget.therapist;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8FAF9),
+      backgroundColor: const Color(0xFFF4FBF6),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24.0),
@@ -141,21 +126,21 @@ class _BookingConfirmationScreenState
                 style: TextStyle(
                     fontSize: 26,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF134E4A)),
+                    color: Color(0xFF01411C)),
               ),
               const SizedBox(height: 6),
               Container(
                 padding: const EdgeInsets.symmetric(
                     horizontal: 16, vertical: 6),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFE0F2FE),
+                  color: const Color(0xFFE4F5EC),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
                   booking.confirmationCode,
                   style: const TextStyle(
                       fontSize: 18,
-                      color: Color(0xFF0369A1),
+                      color: Color(0xFF0A5C30),
                       fontWeight: FontWeight.w700,
                       letterSpacing: 2),
                 ),
@@ -171,7 +156,7 @@ class _BookingConfirmationScreenState
                   borderRadius: BorderRadius.circular(14),
                   boxShadow: [
                     BoxShadow(
-                        color: Colors.black.withOpacity(0.04),
+                        color: Colors.black.withValues(alpha: 0.04),
                         blurRadius: 10,
                         offset: const Offset(0, 4)),
                   ],
@@ -183,12 +168,12 @@ class _BookingConfirmationScreenState
                       children: [
                         CircleAvatar(
                           radius: 20,
-                          backgroundColor: const Color(0xFFE0F2FE),
+                          backgroundColor: const Color(0xFFE4F5EC),
                           child: Icon(
                             t.gender == 'female'
                                 ? Icons.woman
                                 : Icons.man,
-                            color: const Color(0xFF0284C7),
+                            color: const Color(0xFF0E7C42),
                           ),
                         ),
                         const SizedBox(width: 10),
@@ -211,7 +196,7 @@ class _BookingConfirmationScreenState
                         ),
                         if (t.verified)
                           const Icon(Icons.verified,
-                              color: Colors.blue, size: 18),
+                              color: NoorColors.primary, size: 18),
                       ],
                     ),
                     const Divider(height: 20),
@@ -226,8 +211,8 @@ class _BookingConfirmationScreenState
                               width: 24,
                               height: 24,
                               alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                color: const Color(0xFF0D9488),
+                              decoration: const BoxDecoration(
+                                color: NoorColors.primary,
                                 shape: BoxShape.circle,
                               ),
                               child: Text(
@@ -262,7 +247,7 @@ class _BookingConfirmationScreenState
                           style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
-                              color: Color(0xFF0D9488)),
+                              color: Color(0xFF0E7C42)),
                         ),
                       ],
                     ),
@@ -279,7 +264,7 @@ class _BookingConfirmationScreenState
                   borderRadius: BorderRadius.circular(14),
                   boxShadow: [
                     BoxShadow(
-                        color: Colors.black.withOpacity(0.04),
+                        color: Colors.black.withValues(alpha: 0.04),
                         blurRadius: 10,
                         offset: const Offset(0, 4)),
                   ],
@@ -350,13 +335,13 @@ class _BookingConfirmationScreenState
                 },
                 style: OutlinedButton.styleFrom(
                   minimumSize: const Size(double.infinity, 52),
-                  side: const BorderSide(color: Color(0xFF0D9488)),
+                  side: const BorderSide(color: Color(0xFF0E7C42)),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(14)),
                 ),
                 child: const Text('View Follow-Up Schedule',
                     style:
-                        TextStyle(fontSize: 15, color: Color(0xFF0D9488))),
+                        TextStyle(fontSize: 15, color: Color(0xFF0E7C42))),
               ),
               const SizedBox(height: 12),
               OutlinedButton.icon(
@@ -387,7 +372,7 @@ class _BookingConfirmationScreenState
                   Navigator.of(context).popUntil((route) => route.isFirst);
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF0D9488),
+                  backgroundColor: const Color(0xFF0E7C42),
                   minimumSize: const Size(double.infinity, 52),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(14)),

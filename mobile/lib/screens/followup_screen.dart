@@ -10,13 +10,13 @@ class FollowupScreen extends StatelessWidget {
     final items = events.isNotEmpty ? events : _defaultEvents;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8FAF9),
+      backgroundColor: const Color(0xFFF4FBF6),
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        iconTheme: const IconThemeData(color: Color(0xFF134E4A)),
+        iconTheme: const IconThemeData(color: Color(0xFF01411C)),
         title: const Text('Follow-Up Agent Timeline',
-            style: TextStyle(color: Color(0xFF134E4A))),
+            style: TextStyle(color: Color(0xFF01411C))),
       ),
       body: ListView(
         padding: const EdgeInsets.all(24),
@@ -169,8 +169,8 @@ class FollowupScreen extends StatelessWidget {
       case 'session_reminder':
         return {
           'icon': Icons.alarm,
-          'color': const Color(0xFF0284C7),
-          'bg': const Color(0xFFE0F2FE),
+          'color': const Color(0xFF0E7C42),
+          'bg': const Color(0xFFE4F5EC),
           'label': 'Session Reminder',
         };
       case 'post_session_feedback':

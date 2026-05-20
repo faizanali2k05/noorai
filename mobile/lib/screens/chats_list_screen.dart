@@ -201,7 +201,7 @@ class _EmptyChats extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: NoorColors.tealSoft.withOpacity(0.4),
+              color: NoorColors.tealSoft.withValues(alpha: 0.4),
               shape: BoxShape.circle,
             ),
             child: const Icon(Icons.forum_outlined,

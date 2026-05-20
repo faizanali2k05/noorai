@@ -241,7 +241,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   color: sel ? Colors.white : NoorColors.primaryDark,
                   fontWeight: FontWeight.w600,
                 ),
-                backgroundColor: NoorColors.tealSoft.withOpacity(0.5),
+                backgroundColor: NoorColors.tealSoft.withValues(alpha: 0.5),
                 side: BorderSide(
                     color: sel ? NoorColors.primary : NoorColors.tealOutline),
                 onSelected: (_) => setState(() => _childAge = a),
@@ -335,7 +335,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   color: sel ? Colors.white : NoorColors.primaryDark,
                   fontWeight: FontWeight.w600,
                 ),
-                backgroundColor: NoorColors.tealSoft.withOpacity(0.5),
+                backgroundColor: NoorColors.tealSoft.withValues(alpha: 0.5),
                 side: BorderSide(
                     color: sel ? NoorColors.primary : NoorColors.tealOutline),
                 onSelected: (_) => setState(() => _city = c),

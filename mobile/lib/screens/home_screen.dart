@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../theme.dart';
 import 'provider_list_screen.dart';
 import 'dispute_screen.dart';
 import 'baseline_compare_screen.dart';
@@ -71,21 +72,21 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF8FAF9), // Soft elegant off-white
+      backgroundColor: const Color(0xFFF4FBF6), // Soft elegant off-white
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        iconTheme: const IconThemeData(color: Color(0xFF134E4A)),
+        iconTheme: const IconThemeData(color: Color(0xFF01411C)),
         actions: [
           IconButton(
-            icon: const Icon(Icons.compare_arrows, color: Color(0xFF0D9488)),
+            icon: const Icon(Icons.compare_arrows, color: Color(0xFF0E7C42)),
             tooltip: 'AI vs Traditional',
             onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) => const BaselineCompareScreen()));
             },
           ),
           IconButton(
-            icon: const Icon(Icons.help_outline, color: Color(0xFF0D9488)),
+            icon: const Icon(Icons.help_outline, color: Color(0xFF0E7C42)),
             tooltip: 'Dispute / Help',
             onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) => const DisputeScreen()));
@@ -105,15 +106,34 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                 Center(
                   child: Column(
                     children: [
-                      SvgPicture.asset('assets/noorai_logo.svg', width: 72, height: 72),
+                      Container(
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          gradient: NoorColors.brandGradient,
+                          borderRadius: BorderRadius.circular(28),
+                          boxShadow: [
+                            BoxShadow(
+                              color: NoorColors.primary.withValues(alpha: 0.28),
+                              blurRadius: 24,
+                              offset: const Offset(0, 10),
+                            ),
+                          ],
+                        ),
+                        child: SvgPicture.asset('assets/noorai_logo.svg',
+                            width: 64, height: 64),
+                      ),
                       const SizedBox(height: 16),
-                      const Text(
-                        'NoorAI',
-                        style: TextStyle(
-                          fontSize: 32,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF134E4A),
-                          letterSpacing: -0.5,
+                      ShaderMask(
+                        shaderCallback: (r) =>
+                            NoorColors.brandGradient.createShader(r),
+                        child: const Text(
+                          'NoorAI',
+                          style: TextStyle(
+                            fontSize: 34,
+                            fontWeight: FontWeight.w800,
+                            color: Colors.white,
+                            letterSpacing: -0.5,
+                          ),
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -129,14 +149,14 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                     ],
                   ),
                 ),
-                const SizedBox(height: 60),
+                const SizedBox(height: 48),
                 Container(
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.04),
+                        color: Colors.black.withValues(alpha: 0.04),
                         blurRadius: 20,
                         offset: const Offset(0, 4),
                       ),
@@ -163,7 +183,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
-                    color: Color(0xFF0D9488),
+                    color: Color(0xFF0E7C42),
                   ),
                 ),
                 const SizedBox(height: 12),
@@ -179,33 +199,52 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                   ],
                 ),
                 const Spacer(),
-                SizedBox(
-                  width: double.infinity,
-                  height: 56,
-                  child: ElevatedButton(
-                    onPressed: _isLoading ? null : _search,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF0D9488),
-                      foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
+                DecoratedBox(
+                  decoration: BoxDecoration(
+                    gradient: NoorColors.brandGradient,
+                    borderRadius: BorderRadius.circular(16),
+                    boxShadow: [
+                      BoxShadow(
+                        color: NoorColors.primary.withValues(alpha: 0.3),
+                        blurRadius: 18,
+                        offset: const Offset(0, 8),
                       ),
-                      elevation: 0,
+                    ],
+                  ),
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: 56,
+                    child: ElevatedButton(
+                      onPressed: _isLoading ? null : _search,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.transparent,
+                        shadowColor: Colors.transparent,
+                        foregroundColor: Colors.white,
+                        disabledBackgroundColor: Colors.transparent,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        elevation: 0,
+                      ),
+                      child: _isLoading
+                          ? const SizedBox(
+                              width: 24,
+                              height: 24,
+                              child: CircularProgressIndicator(
+                                  color: Colors.white, strokeWidth: 2),
+                            )
+                          : const Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text('Find Therapist',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600)),
+                                SizedBox(width: 8),
+                                Icon(Icons.arrow_forward_rounded, size: 20),
+                              ],
+                            ),
                     ),
-                    child: _isLoading
-                        ? const SizedBox(
-                            width: 24,
-                            height: 24,
-                            child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
-                          )
-                        : const Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text('Find Therapist', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
-                              SizedBox(width: 8),
-                              Icon(Icons.arrow_forward_rounded, size: 20),
-                            ],
-                          ),
                   ),
                 ),
                 const SizedBox(height: 24),
@@ -235,15 +274,15 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
         decoration: BoxDecoration(
-          color: const Color(0xFFCCFBF1).withOpacity(0.5),
+          color: const Color(0xFFE4F5EC).withValues(alpha: 0.5),
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: const Color(0xFF99F6E4)),
+          border: Border.all(color: const Color(0xFFA7D7BD)),
         ),
         child: Text(
           text,
           style: const TextStyle(
             fontSize: 12,
-            color: Color(0xFF0F766E),
+            color: Color(0xFF0A5C30),
           ),
         ),
       ),

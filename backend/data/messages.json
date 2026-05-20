@@ -1,0 +1,14 @@
+[
+  {
+    "message_id": "msg_1a1818d33a4c",
+    "thread_id": "u001__t007",
+    "user_id": "u001",
+    "therapist_id": "t007",
+    "sender": "user",
+    "kind": "text",
+    "text": "Hello doctor",
+    "voice_url": null,
+    "duration_ms": null,
+    "created_at": "2026-05-20T17:48:08+05:00"
+  }
+]

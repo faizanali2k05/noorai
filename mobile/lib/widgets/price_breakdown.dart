@@ -30,7 +30,7 @@ class PriceBreakdownWidget extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: const Color(0xFFF8FAF9),
+        color: const Color(0xFFF4FBF6),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: Colors.grey.shade200),
       ),
@@ -55,7 +55,7 @@ class PriceBreakdownWidget extends StatelessWidget {
             'Total ($sessionsCount sessions)',
             'Rs $total',
             isBold: true,
-            color: const Color(0xFF0D9488),
+            color: const Color(0xFF0E7C42),
           ),
         ],
       ),

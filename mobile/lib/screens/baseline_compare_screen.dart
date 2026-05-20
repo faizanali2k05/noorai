@@ -6,12 +6,12 @@ class BaselineCompareScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF8FAF9),
+      backgroundColor: const Color(0xFFF4FBF6),
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        iconTheme: const IconThemeData(color: Color(0xFF134E4A)),
-        title: const Text('AI vs Traditional', style: TextStyle(color: Color(0xFF134E4A))),
+        iconTheme: const IconThemeData(color: Color(0xFF01411C)),
+        title: const Text('AI vs Traditional', style: TextStyle(color: Color(0xFF01411C))),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
@@ -50,7 +50,7 @@ class BaselineCompareScreen extends StatelessWidget {
             const Center(
               child: Text(
                 "Same query. Smarter answer.",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF0D9488)),
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF0E7C42)),
               ),
             )
           ],
@@ -66,7 +66,7 @@ class BaselineCompareScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 8),
           width: double.infinity,
           decoration: BoxDecoration(
-            color: isAi ? const Color(0xFF0D9488) : Colors.grey.shade300,
+            color: isAi ? const Color(0xFF0E7C42) : Colors.grey.shade300,
             borderRadius: BorderRadius.circular(8),
           ),
           child: Text(
@@ -114,7 +114,7 @@ class BaselineCompareScreen extends StatelessWidget {
       decoration: BoxDecoration(
         color: bgColor,
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: isMatch != null ? iconColor.withOpacity(0.3) : Colors.grey.shade200),
+        border: Border.all(color: isMatch != null ? iconColor.withValues(alpha: 0.3) : Colors.grey.shade200),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,

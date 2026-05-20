@@ -29,7 +29,7 @@ class TraceCard extends StatelessWidget {
         border: Border.all(color: Colors.grey.shade200),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.02),
+            color: Colors.black.withValues(alpha: 0.02),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -55,14 +55,14 @@ class TraceCard extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFE0F2FE),
+                  color: const Color(0xFFE4F5EC),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Text(
                   entry.durationLabel,
                   style: const TextStyle(
                     fontSize: 11,
-                    color: Color(0xFF0369A1),
+                    color: Color(0xFF0A5C30),
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -128,7 +128,6 @@ class HandoffArrow extends StatefulWidget {
 
 class _HandoffArrowState extends State<HandoffArrow> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
-  late Animation<double> _animation;
 
   @override
   void initState() {
@@ -137,9 +136,6 @@ class _HandoffArrowState extends State<HandoffArrow> with SingleTickerProviderSt
       vsync: this,
       duration: const Duration(milliseconds: 1500),
     )..repeat();
-    _animation = Tween<double>(begin: -0.2, end: 1.2).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
   }
 
   @override
@@ -162,7 +158,7 @@ class _HandoffArrowState extends State<HandoffArrow> with SingleTickerProviderSt
               ),
             ),
             child: const Icon(Icons.arrow_downward_rounded,
-                color: Color(0xFF0D9488), size: 20),
+                color: Color(0xFF0E7C42), size: 20),
           ),
           const SizedBox(height: 2),
           Text(
@@ -170,7 +166,7 @@ class _HandoffArrowState extends State<HandoffArrow> with SingleTickerProviderSt
             textAlign: TextAlign.center,
             style: const TextStyle(
               fontSize: 11,
-              color: Color(0xFF0D9488),
+              color: Color(0xFF0E7C42),
               fontStyle: FontStyle.italic,
             ),
           ),
@@ -183,7 +179,7 @@ class _HandoffArrowState extends State<HandoffArrow> with SingleTickerProviderSt
               ),
             ),
             child: const Icon(Icons.arrow_downward_rounded,
-                color: Color(0xFF0D9488), size: 20),
+                color: Color(0xFF0E7C42), size: 20),
           ),
         ],
       ),

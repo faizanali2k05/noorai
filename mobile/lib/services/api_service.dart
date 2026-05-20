@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import '../models/therapist.dart';
@@ -92,7 +93,7 @@ class ApiService {
       }
       throw Exception('API ${response.statusCode}: ${response.body}');
     } catch (e) {
-      print('[ApiService] findTherapists: $e — falling back to mock');
+      debugPrint('[ApiService] findTherapists: $e — falling back to mock');
       return _mockFindResult();
     }
   }
@@ -138,7 +139,7 @@ class ApiService {
       }
       throw Exception('Booking API ${response.statusCode}: ${response.body}');
     } catch (e) {
-      print('[ApiService] bookTherapist: $e — falling back to mock');
+      debugPrint('[ApiService] bookTherapist: $e — falling back to mock');
       return _mockBookingResult(therapistId);
     }
   }
@@ -156,7 +157,7 @@ class ApiService {
       }
       return null;
     } catch (e) {
-      print('[ApiService] getTrace: $e');
+      debugPrint('[ApiService] getTrace: $e');
       return null;
     }
   }
@@ -178,7 +179,7 @@ class ApiService {
       }
       return null;
     } catch (e) {
-      print('[ApiService] getBaselineComparison: $e');
+      debugPrint('[ApiService] getBaselineComparison: $e');
       return null;
     }
   }
@@ -202,7 +203,7 @@ class ApiService {
       }
       return null;
     } catch (e) {
-      print('[ApiService] submitDispute: $e');
+      debugPrint('[ApiService] submitDispute: $e');
       return null;
     }
   }

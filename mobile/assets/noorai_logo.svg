@@ -1,18 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
-  <!-- Outer teal circle background -->
-  <circle cx="100" cy="100" r="96" fill="#0D9488"/>
+  <defs>
+    <linearGradient id="noorBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#10B981"/>
+      <stop offset="1" stop-color="#01411C"/>
+    </linearGradient>
+    <radialGradient id="noorGlow" cx="0.35" cy="0.32" r="0.75">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
 
-  <!-- Crescent moon: white full circle, then a same-color circle cuts it into a crescent -->
+  <!-- Outer brand-gradient circle background (Pakistan green) -->
+  <circle cx="100" cy="100" r="96" fill="url(#noorBg)"/>
+  <circle cx="100" cy="100" r="96" fill="url(#noorGlow)"/>
+
+  <!-- Crescent moon: white full circle, then a same-color circle cuts it -->
   <circle cx="92" cy="102" r="54" fill="white"/>
-  <circle cx="110" cy="94" r="46" fill="#0D9488"/>
+  <circle cx="111" cy="93" r="47" fill="#0A5C30"/>
 
   <!-- 5-pointed star (upper-right of crescent) -->
-  <!-- Center: (155, 60), outer r=14, inner r=6 -->
   <polygon
     points="155,46 158.7,57.2 170.3,57.2 161.3,64.1 164.9,75.3 155,68.4 145.1,75.3 148.7,64.1 139.7,57.2 151.3,57.2"
-    fill="white"
-    opacity="0.95"/>
+    fill="white"/>
 
   <!-- Small decorative light dots (نور = light) -->
   <circle cx="66" cy="62" r="3.5" fill="white" opacity="0.35"/>

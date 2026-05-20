@@ -131,7 +131,7 @@ class _BookingCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: Colors.black.withValues(alpha: 0.04),
             blurRadius: 12,
             offset: const Offset(0, 2),
           ),
@@ -145,7 +145,7 @@ class _BookingCard extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: NoorColors.tealSoft.withOpacity(0.6),
+                  color: NoorColors.tealSoft.withValues(alpha: 0.6),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Icon(Icons.event_available,
@@ -179,7 +179,7 @@ class _BookingCard extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(
                     horizontal: 10, vertical: 5),
                 decoration: BoxDecoration(
-                  color: statusColor.withOpacity(0.12),
+                  color: statusColor.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
@@ -305,7 +305,7 @@ class _EmptyState extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: NoorColors.tealSoft.withOpacity(0.4),
+              color: NoorColors.tealSoft.withValues(alpha: 0.4),
               shape: BoxShape.circle,
             ),
             child: const Icon(Icons.event_busy,

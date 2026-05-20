@@ -127,9 +127,23 @@ class _AuthScreenState extends State<AuthScreen>
               Center(
                 child: Column(
                   children: [
-                    SvgPicture.asset('assets/noorai_logo.svg',
-                        width: 64, height: 64),
-                    const SizedBox(height: 14),
+                    Container(
+                      padding: const EdgeInsets.all(14),
+                      decoration: BoxDecoration(
+                        gradient: NoorColors.brandGradient,
+                        borderRadius: BorderRadius.circular(24),
+                        boxShadow: [
+                          BoxShadow(
+                            color: NoorColors.primary.withValues(alpha: 0.25),
+                            blurRadius: 20,
+                            offset: const Offset(0, 8),
+                          ),
+                        ],
+                      ),
+                      child: SvgPicture.asset('assets/noorai_logo.svg',
+                          width: 56, height: 56),
+                    ),
+                    const SizedBox(height: 16),
                     const Text(
                       'Welcome to NoorAI',
                       style: TextStyle(
@@ -152,7 +166,7 @@ class _AuthScreenState extends State<AuthScreen>
               const SizedBox(height: 32),
               Container(
                 decoration: BoxDecoration(
-                  color: NoorColors.tealSoft.withOpacity(0.55),
+                  color: NoorColors.tealSoft.withValues(alpha: 0.55),
                   borderRadius: BorderRadius.circular(14),
                 ),
                 child: TabBar(

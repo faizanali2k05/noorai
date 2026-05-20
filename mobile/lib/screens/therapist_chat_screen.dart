@@ -264,7 +264,7 @@ class _TherapistChatScreenState extends State<TherapistChatScreen> {
             Container(
               padding: const EdgeInsets.all(18),
               decoration: BoxDecoration(
-                color: NoorColors.tealSoft.withOpacity(0.5),
+                color: NoorColors.tealSoft.withValues(alpha: 0.5),
                 shape: BoxShape.circle,
               ),
               child: const Icon(Icons.chat_bubble_outline,
@@ -400,7 +400,7 @@ class _TherapistChatScreenState extends State<TherapistChatScreen> {
     required Color color,
   }) {
     return Material(
-      color: onPressed == null ? color.withOpacity(0.5) : color,
+      color: onPressed == null ? color.withValues(alpha: 0.5) : color,
       shape: const CircleBorder(),
       child: InkWell(
         customBorder: const CircleBorder(),
@@ -493,7 +493,7 @@ class _MessageBubble extends StatelessWidget {
               ? null
               : [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.04),
+                    color: Colors.black.withValues(alpha: 0.04),
                     blurRadius: 6,
                   ),
                 ],
@@ -515,7 +515,7 @@ class _MessageBubble extends StatelessWidget {
               style: TextStyle(
                 fontSize: 10,
                 color: isMine
-                    ? Colors.white.withOpacity(0.75)
+                    ? Colors.white.withValues(alpha: 0.75)
                     : Colors.grey.shade500,
               ),
             ),
@@ -589,7 +589,7 @@ class _VoicePlayerState extends State<_VoicePlayer> {
   Widget build(BuildContext context) {
     final accent = widget.mine ? Colors.white : NoorColors.primary;
     final faint = widget.mine
-        ? Colors.white.withOpacity(0.4)
+        ? Colors.white.withValues(alpha: 0.4)
         : Colors.grey.shade300;
     final progress = _total.inMilliseconds == 0
         ? 0.0
@@ -626,7 +626,7 @@ class _VoicePlayerState extends State<_VoicePlayer> {
                   style: TextStyle(
                     fontSize: 11,
                     color: widget.mine
-                        ? Colors.white.withOpacity(0.85)
+                        ? Colors.white.withValues(alpha: 0.85)
                         : Colors.grey.shade700,
                     fontFeatures: const [FontFeature.tabularFigures()],
                   ),
