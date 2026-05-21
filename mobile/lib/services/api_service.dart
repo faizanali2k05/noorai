@@ -435,6 +435,22 @@ class ApiService {
 
   // â”€â”€ Chat â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
+  Future<List<Map<String, dynamic>>> listChatThreads() async {
+    try {
+      final r = await _retryOn401(() => http
+          .get(Uri.parse('$baseUrl/chats'), headers: _authHeaders(json: false))
+          .timeout(const Duration(seconds: 15)));
+      if (r.statusCode == 200) {
+        final data = jsonDecode(r.body) as Map<String, dynamic>;
+        return (data['threads'] as List<dynamic>? ?? [])
+            .cast<Map<String, dynamic>>();
+      }
+      return [];
+    } catch (_) {
+      return [];
+    }
+  }
+
   Future<List<ChatMessage>> listMessages(String therapistId) async {
     try {
       final r = await _retryOn401(() => http
