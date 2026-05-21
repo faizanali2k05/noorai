@@ -19,9 +19,11 @@ from models.schemas import (
     DisputeRequest, DisputeResponse,
 )
 from orchestrator import antigravity_runner as orch
+from orchestrator import services_runner as services
 from agents import booking_agent
 from utils import users as users_store
 from utils import chat as chat_store
+from utils import llm
 
 app = FastAPI(title="NoorAI Backend", version="1.1.0")
 
@@ -38,7 +40,14 @@ app.add_middleware(
 @app.get("/")
 def root():
     return {"name": "NoorAI Backend", "status": "ok",
-            "offline_mode": os.environ.get("NOORAI_OFFLINE_MODE") == "1"}
+            "offline_mode": os.environ.get("NOORAI_OFFLINE_MODE") == "1",
+            "llm": llm.llm_status()}
+
+
+@app.get("/api/health")
+def health():
+    """Verifiable health check — confirms whether the realtime LLM is active."""
+    return {"status": "ok", "llm": llm.llm_status()}
 
 
 # ── Agent pipeline endpoints (unchanged) ──────────────────────────────────
@@ -78,6 +87,37 @@ def dispute(req: DisputeRequest):
 @app.post("/api/baseline-compare")
 def baseline_compare(req: FindRequest):
     return orch.run_baseline(req.user_message)
+
+
+# ── General home-services pipeline (plumber, electrician, AC, tutor, …) ─────
+
+class FindServicesRequest(BaseModel):
+    user_message: str
+
+
+class BookServiceRequest(BaseModel):
+    provider_id: str
+    slot: Optional[str] = None
+    intent: dict = {}
+    trace_id: Optional[str] = None
+
+
+@app.get("/api/service-categories")
+def service_categories():
+    return {"categories": [{"id": k, "label": v} for k, v in services.CATEGORIES.items()]}
+
+
+@app.post("/api/find-services")
+def find_services(req: FindServicesRequest):
+    return services.run_find_services(req.user_message)
+
+
+@app.post("/api/book-service")
+def book_service(req: BookServiceRequest):
+    try:
+        return services.run_book_service(req.provider_id, req.slot, req.intent, req.trace_id)
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
 
 
 @app.post("/api/admin/cancel-therapist/{booking_id}")

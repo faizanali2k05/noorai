@@ -5,7 +5,24 @@
       "Bash(dir \"c:\\\\Users\\\\Faizan\\\\Desktop\\\\noorai\" /b)",
       "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\Faizan\\\\Desktop\\\\noorai\" -Recurse -Force)",
       "Bash(Select-Object -ExpandProperty FullName)",
-      "Bash(Sort-Object)"
+      "Bash(Sort-Object)",
+      "Bash(curl -s -m 25 https://noorai-backend-485583022901.asia-south1.run.app/)",
+      "Bash(curl -s -m 40 -X POST https://noorai-backend-485583022901.asia-south1.run.app/api/find-therapists -H \"Content-Type: application/json\" -d \"{\\\\\"user_message\\\\\":\\\\\"My 5 year old son in Lahore Gulberg has speech delay, budget 3000\\\\\"}\")",
+      "Bash(curl -s -m 40 -X POST https://noorai-backend-485583022901.asia-south1.run.app/api/find-therapists -H \"Content-Type: application/json\" -d \"{\\\\\"user_message\\\\\":\\\\\"meri beti ko zubaan ki dikkat hai 4 saal Lahor\\\\\"}\")",
+      "Bash(python -c \"import sys,json; d=json.load\\(sys.stdin\\); e=d.get\\('entries',[d] if False else []\\); print\\([x.get\\('reasoning',''\\)[:120] for x in d.get\\('entries',[]\\)][:1]\\)\")",
+      "Bash(python -m py_compile main.py agents/intent_agent.py)",
+      "Bash(python -c \"import google.generativeai as g; print\\('genai package OK', getattr\\(g,'__version__','?'\\)\\)\")",
+      "Bash(python -m py_compile main.py agents/intent_agent.py utils/llm.py)",
+      "Bash(python -m py_compile main.py orchestrator/services_runner.py orchestrator/antigravity_runner.py utils/llm.py agents/intent_agent.py)",
+      "Bash(python -c \"import json; json.load\\(open\\('data/providers.json'\\)\\); print\\('providers.json valid'\\)\")",
+      "Bash(python -m uvicorn main:app --host 127.0.0.1 --port 8099 --log-level warning)",
+      "Bash(curl -s -m 30 -X POST http://127.0.0.1:8099/api/book-service -H \"Content-Type: application/json\" -d '{\"provider_id\":\"p001\",\"intent\":{\"category\":\"ac_technician\",\"city\":\"Islamabad\",\"area\":\"G-13\",\"urgency\":\"next_day\"}}')",
+      "Bash(python -c ' *)",
+      "Bash(curl -s -m 40 -X POST http://127.0.0.1:8099/api/find-therapists -H \"Content-Type: application/json\" -d '{\"user_message\":\"meri beti ko zubaan ki dikkat hai 4 saal Lahore\"}')",
+      "Bash(python -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('therapist intent:', json.dumps\\(d['intent'].get\\('service_type'\\)\\), d['intent'].get\\('city'\\), 'conf', d['intent'].get\\('confidence'\\)\\)\")",
+      "Bash(curl -s -m 10 http://127.0.0.1:8099/api/trace/tr-663bd62f22)",
+      "Bash(curl -s -m 10 http://127.0.0.1:8099/api/service-categories)",
+      "Bash(python -c \"import sys,json; print\\(len\\(json.load\\(sys.stdin\\)['categories']\\), 'categories'\\)\")"
     ]
   }
 }

@@ -16,6 +16,7 @@ class _AgentTraceScreenState extends State<AgentTraceScreen> {
   final ApiService _api = ApiService();
   bool _isLoading = true;
   TraceLog? _trace;
+  String? _error;
 
   // Handoff summaries shown between agent cards
   static const List<String> _handoffs = [
@@ -34,101 +35,24 @@ class _AgentTraceScreenState extends State<AgentTraceScreen> {
   }
 
   Future<void> _load() async {
-    if (widget.traceId.isNotEmpty && !widget.traceId.startsWith('mock')) {
-      final trace = await _api.getTrace(widget.traceId);
-      if (mounted) {
-        setState(() {
-          _trace = trace;
-          _isLoading = false;
-        });
-        return;
-      }
-    }
-    // Fallback to built-in mock trace
-    if (mounted) {
+    setState(() {
+      _isLoading = true;
+      _error = null;
+    });
+    if (widget.traceId.isEmpty) {
       setState(() {
-        _trace = _mockTrace();
+        _error = 'No trace is available for this result.';
         _isLoading = false;
       });
+      return;
     }
-  }
-
-  TraceLog _mockTrace() {
-    return TraceLog(
-      traceId: widget.traceId,
-      createdAt: DateTime.now().toIso8601String(),
-      userMessage:
-          'Mere bete ko speech delay hai 5 saal ka hai Gulberg Lahore mein hafte mein 2 baar 3000 budget',
-      entries: [
-        TraceEntry(
-          agent: 'Intent Agent',
-          startedAt: DateTime.now().toIso8601String(),
-          durationMs: 420,
-          inputSummary: '"Mere bete ko speech delay hai 5 saal ka..."',
-          reasoning:
-              'Detected Roman Urdu. Extracted service=speech_therapy, condition=speech_delay, age=5, city=Lahore, area=Gulberg, budget=3000, frequency=biweekly. Confidence: 0.94.',
-          outputSummary:
-              '{"service_type":"speech_therapy","city":"Lahore","child_age":5,"confidence":0.94}',
-        ),
-        TraceEntry(
-          agent: 'Discovery Agent',
-          startedAt: DateTime.now().toIso8601String(),
-          durationMs: 185,
-          inputSummary: '{"city":"Lahore","service":"speech_therapy","age":5}',
-          reasoning:
-              'Applied hard filters: city=Lahore, specialization=speech_therapy, age in range. Found 12 candidates within 15km after expanding from initial 5km radius.',
-          outputSummary: '{"candidate_count":12,"candidate_ids":["t001","t004","t007",...]}',
-        ),
-        TraceEntry(
-          agent: 'Ranking Agent',
-          startedAt: DateTime.now().toIso8601String(),
-          durationMs: 640,
-          inputSummary: '{"candidate_count":12,"weights":"8-factor"}',
-          reasoning:
-              'Scored 12 candidates across 8 factors. Top: Dr. Ayesha Khan (0.92) — M.Phil specialist, 2.3km, 4.8★, 94% on-time, budget fits. Applied verification multiplier ×1.15 and gender preference ×1.0.',
-          outputSummary:
-              '{"top_ids":["t001","t007","t012"],"top_scores":[0.92,0.85,0.71]}',
-        ),
-        TraceEntry(
-          agent: 'Pricing Agent',
-          startedAt: DateTime.now().toIso8601String(),
-          durationMs: 310,
-          inputSummary:
-              '{"therapist_ids":["t001","t007","t012"],"urgency":"scheduled"}',
-          reasoning:
-              'Calculated dynamic prices: base 2800 × urgency 1.0 × complexity 1.2 − 0 loyalty = Rs 3,360 for t001. Similarly priced top-3.',
-          outputSummary: '{"t001":3360,"t007":3500,"t012":2400}',
-        ),
-        TraceEntry(
-          agent: 'Booking Agent',
-          startedAt: DateTime.now().toIso8601String(),
-          durationMs: 220,
-          inputSummary: '{"therapist_id":"t001","slot":"2026-05-20T16:00:00","sessions_count":2}',
-          reasoning:
-              'Optimistic lock check passed — slot available. Created booking BK-20260519-001. Wrote 2 sessions to bookings.json. Confirmation code: NA-AYK-4291.',
-          outputSummary: '{"booking_id":"BK-20260519-001","confirmation_code":"NA-AYK-4291","status":"confirmed"}',
-        ),
-        TraceEntry(
-          agent: 'Notification Agent',
-          startedAt: DateTime.now().toIso8601String(),
-          durationMs: 290,
-          inputSummary: '{"booking_id":"BK-20260519-001"}',
-          reasoning:
-              'Generated Roman Urdu WhatsApp message for parent (detected language preference from query). Generated English message for therapist.',
-          outputSummary:
-              '{"to_parent":{"channel":"whatsapp","language":"roman_urdu"},"to_therapist":{"channel":"whatsapp","language":"english"}}',
-        ),
-        TraceEntry(
-          agent: 'Follow-Up Agent',
-          startedAt: DateTime.now().toIso8601String(),
-          durationMs: 175,
-          inputSummary: '{"booking_id":"BK-20260519-001","sessions":2}',
-          reasoning:
-              'Scheduled 5 follow-up events: 2 reminders (1h before each session), 1 post-session feedback (30min after session 1), 1 progress digest (after session 4), 1 renewal nudge (after session 8).',
-          outputSummary: '{"scheduled_events":5,"first_trigger":"1_hour_before_session_1"}',
-        ),
-      ],
-    );
+    final trace = await _api.getTrace(widget.traceId);
+    if (!mounted) return;
+    setState(() {
+      _trace = trace;
+      _error = trace == null ? "Couldn't load the agent trace." : null;
+      _isLoading = false;
+    });
   }
 
   @override
@@ -163,7 +87,42 @@ class _AgentTraceScreenState extends State<AgentTraceScreen> {
                 ],
               ),
             )
-          : _buildTrace(),
+          : _error != null
+              ? _buildError()
+              : _buildTrace(),
+    );
+  }
+
+  Widget _buildError() {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(32),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.cloud_off_rounded,
+                size: 48, color: Color(0xFF94A3B8)),
+            const SizedBox(height: 16),
+            Text(
+              _error ?? 'Something went wrong.',
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 14, color: Color(0xFF5B6B62)),
+            ),
+            const SizedBox(height: 20),
+            OutlinedButton.icon(
+              onPressed: _load,
+              icon: const Icon(Icons.refresh, color: Color(0xFF0E7C42)),
+              label: const Text('Try again',
+                  style: TextStyle(color: Color(0xFF0E7C42))),
+              style: OutlinedButton.styleFrom(
+                side: const BorderSide(color: Color(0xFF0E7C42)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12)),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 

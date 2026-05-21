@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../theme.dart';
 import 'home_screen.dart';
+import 'services_screen.dart';
 import 'bookings_history_screen.dart';
 import 'chats_list_screen.dart';
 import 'profile_screen.dart';
@@ -15,21 +16,24 @@ class MainShell extends StatefulWidget {
 class _MainShellState extends State<MainShell> {
   int _index = 0;
 
-  static const _pages = <Widget>[
-    HomeScreen(),
-    BookingsHistoryScreen(),
-    ChatsListScreen(),
-    ProfileScreen(),
-  ];
+  void _goTo(int i) => setState(() => _index = i);
 
   @override
   Widget build(BuildContext context) {
+    final pages = <Widget>[
+      const HomeScreen(),
+      ServicesScreen(onGoToFind: () => _goTo(0)),
+      const BookingsHistoryScreen(),
+      const ChatsListScreen(),
+      const ProfileScreen(),
+    ];
+
     return Scaffold(
-      body: IndexedStack(index: _index, children: _pages),
+      body: IndexedStack(index: _index, children: pages),
       bottomNavigationBar: NavigationBarTheme(
         data: NavigationBarThemeData(
           backgroundColor: Colors.white,
-          indicatorColor: NoorColors.tealSoft,
+          indicatorColor: NoorColors.greenSoft,
           labelTextStyle: WidgetStatePropertyAll(
             TextStyle(
               fontSize: 11,
@@ -41,7 +45,7 @@ class _MainShellState extends State<MainShell> {
         child: NavigationBar(
           height: 64,
           selectedIndex: _index,
-          onDestinationSelected: (i) => setState(() => _index = i),
+          onDestinationSelected: _goTo,
           destinations: const [
             NavigationDestination(
               icon: Icon(Icons.search_outlined),
@@ -49,9 +53,14 @@ class _MainShellState extends State<MainShell> {
               label: 'Find',
             ),
             NavigationDestination(
-              icon: Icon(Icons.event_outlined),
+              icon: Icon(Icons.grid_view_outlined),
               selectedIcon:
-                  Icon(Icons.event, color: NoorColors.primaryDark),
+                  Icon(Icons.grid_view_rounded, color: NoorColors.primaryDark),
+              label: 'Services',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.event_outlined),
+              selectedIcon: Icon(Icons.event, color: NoorColors.primaryDark),
               label: 'Bookings',
             ),
             NavigationDestination(

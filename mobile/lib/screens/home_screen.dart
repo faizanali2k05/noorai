@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../theme.dart';
-import '../widgets/gradient_button.dart';
+import '../widgets/primary_button.dart';
 import 'provider_list_screen.dart';
 import 'dispute_screen.dart';
 import 'baseline_compare_screen.dart';
@@ -110,16 +110,8 @@ class _HomeScreenState extends State<HomeScreen>
                               Container(
                                 padding: const EdgeInsets.all(16),
                                 decoration: BoxDecoration(
-                                  gradient: NoorColors.brandGradient,
+                                  color: NoorColors.brand,
                                   borderRadius: BorderRadius.circular(28),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: NoorColors.primary
-                                          .withValues(alpha: 0.28),
-                                      blurRadius: 24,
-                                      offset: const Offset(0, 10),
-                                    ),
-                                  ],
                                 ),
                                 child: SvgPicture.asset(
                                     'assets/master/noorai-mark-white.svg',
@@ -127,17 +119,13 @@ class _HomeScreenState extends State<HomeScreen>
                                     height: 64),
                               ),
                               const SizedBox(height: 16),
-                              ShaderMask(
-                                shaderCallback: (r) =>
-                                    NoorColors.brandGradient.createShader(r),
-                                child: const Text(
-                                  'NoorAI',
-                                  style: TextStyle(
-                                    fontSize: 34,
-                                    fontWeight: FontWeight.w800,
-                                    color: Colors.white,
-                                    letterSpacing: -0.5,
-                                  ),
+                              const Text(
+                                'NoorAI',
+                                style: TextStyle(
+                                  fontSize: 34,
+                                  fontWeight: FontWeight.w800,
+                                  color: NoorColors.primaryDeepest,
+                                  letterSpacing: -0.5,
                                 ),
                               ),
                               const SizedBox(height: 8),
@@ -209,7 +197,7 @@ class _HomeScreenState extends State<HomeScreen>
                           ],
                         ),
                         const Spacer(),
-                        GradientButton(
+                        PrimaryButton(
                           label: 'Find Therapist',
                           icon: Icons.arrow_forward_rounded,
                           height: 56,

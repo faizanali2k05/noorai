@@ -1,4 +1,4 @@
-import 'dart:convert';
+﻿import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
@@ -8,6 +8,8 @@ import '../models/booking.dart';
 import '../models/trace_entry.dart';
 import '../models/user_profile.dart';
 import '../models/chat_message.dart';
+import '../models/service_provider.dart';
+import '../models/service_booking.dart';
 import 'auth_service.dart';
 
 class FindResult {
@@ -37,10 +39,10 @@ class BookingResult {
 }
 
 class ApiService {
-  // Android emulator: 10.0.2.2 → host machine
+  // Android emulator: 10.0.2.2 â†’ host machine
   // Real device: your PC's local IP (e.g. 192.168.1.x)
   // Deployed: your Cloud Run / Render URL (e.g. https://noorai-backend-xxx.run.app/api)
-  // NOTE: must end with /api (no trailing slash) — all routes live under /api/*.
+  // NOTE: must end with /api (no trailing slash) â€” all routes live under /api/*.
   static const String baseUrl =
       'https://noorai-backend-485583022901.asia-south1.run.app/api';
 
@@ -68,7 +70,7 @@ class ApiService {
     };
   }
 
-  // ── Find therapists pipeline ──────────────────────────────────────────────
+  // â”€â”€ Find therapists pipeline â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   Future<FindResult> findTherapists(String userMessage) async {
     try {
@@ -78,7 +80,7 @@ class ApiService {
             headers: {'Content-Type': 'application/json'},
             body: jsonEncode({'user_message': userMessage}),
           )
-          .timeout(const Duration(seconds: 20));
+          .timeout(const Duration(seconds: 30));
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body) as Map<String, dynamic>;
@@ -93,14 +95,17 @@ class ApiService {
           intent: data['intent'] as Map<String, dynamic>? ?? {},
         );
       }
-      throw Exception('API ${response.statusCode}: ${response.body}');
+      throw _httpError(response);
+    } on Exception {
+      rethrow;
     } catch (e) {
-      debugPrint('[ApiService] findTherapists: $e — falling back to mock');
-      return _mockFindResult();
+      // Network / timeout / parse failures â€” surface a clean message, no mock.
+      debugPrint('[ApiService] findTherapists failed: $e');
+      throw Exception(_networkMessage(e));
     }
   }
 
-  // ── Book a therapist ──────────────────────────────────────────────────────
+  // â”€â”€ Book a therapist â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   Future<BookingResult> bookTherapist({
     required String therapistId,
@@ -139,14 +144,16 @@ class ApiService {
           followupEvents: events,
         );
       }
-      throw Exception('Booking API ${response.statusCode}: ${response.body}');
+      throw _httpError(response);
+    } on Exception {
+      rethrow;
     } catch (e) {
-      debugPrint('[ApiService] bookTherapist: $e — falling back to mock');
-      return _mockBookingResult(therapistId);
+      debugPrint('[ApiService] bookTherapist failed: $e');
+      throw Exception(_networkMessage(e));
     }
   }
 
-  // ── Agent trace ───────────────────────────────────────────────────────────
+  // â”€â”€ Agent trace â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   Future<TraceLog?> getTrace(String traceId) async {
     try {
@@ -164,7 +171,7 @@ class ApiService {
     }
   }
 
-  // ── Baseline compare ──────────────────────────────────────────────────────
+  // â”€â”€ Baseline compare â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   Future<Map<String, dynamic>?> getBaselineComparison(
       String userMessage) async {
@@ -186,7 +193,81 @@ class ApiService {
     }
   }
 
-  // ── Dispute ───────────────────────────────────────────────────────────────
+  // ── General home services (plumber, electrician, AC, tutor, …) ────────────
+
+  Future<ServiceFindResult> findServices(String userMessage) async {
+    try {
+      final response = await http
+          .post(
+            Uri.parse('$baseUrl/find-services'),
+            headers: {'Content-Type': 'application/json'},
+            body: jsonEncode({'user_message': userMessage}),
+          )
+          .timeout(const Duration(seconds: 30));
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body) as Map<String, dynamic>;
+        final ranked = (data['ranked'] as List<dynamic>? ?? []);
+        return ServiceFindResult(
+          providers: ranked
+              .map((j) => ServiceProvider.fromJson(j as Map<String, dynamic>))
+              .toList(),
+          traceId: data['trace_id'] as String? ?? '',
+          intent: data['intent'] as Map<String, dynamic>? ?? {},
+        );
+      }
+      throw _httpError(response);
+    } on Exception {
+      rethrow;
+    } catch (e) {
+      debugPrint('[ApiService] findServices failed: $e');
+      throw Exception(_networkMessage(e));
+    }
+  }
+
+  Future<ServiceBookingResult> bookService({
+    required String providerId,
+    String? slot,
+    required Map<String, dynamic> intent,
+    String? traceId,
+  }) async {
+    try {
+      final response = await http
+          .post(
+            Uri.parse('$baseUrl/book-service'),
+            headers: {'Content-Type': 'application/json'},
+            body: jsonEncode({
+              'provider_id': providerId,
+              'slot': slot,
+              'intent': intent,
+              'trace_id': traceId,
+            }),
+          )
+          .timeout(const Duration(seconds: 25));
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body) as Map<String, dynamic>;
+        final notifs = data['notifications'] as Map<String, dynamic>? ?? {};
+        final toUser = notifs['to_user'] as Map<String, dynamic>? ?? {};
+        final followup = data['followup'] as Map<String, dynamic>? ?? {};
+        final events = (followup['scheduled_events'] as List<dynamic>? ?? [])
+            .cast<Map<String, dynamic>>();
+        return ServiceBookingResult(
+          booking: ServiceBooking.fromJson(
+              data['booking'] as Map<String, dynamic>),
+          traceId: data['trace_id'] as String? ?? traceId ?? '',
+          userMessage: toUser['message'] as String? ?? '',
+          followupEvents: events,
+        );
+      }
+      throw _httpError(response);
+    } on Exception {
+      rethrow;
+    } catch (e) {
+      debugPrint('[ApiService] bookService failed: $e');
+      throw Exception(_networkMessage(e));
+    }
+  }
+
+  // â”€â”€ Dispute â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   Future<Map<String, dynamic>?> submitDispute({
     required String bookingId,
@@ -210,7 +291,7 @@ class ApiService {
     }
   }
 
-  // ── Auth ──────────────────────────────────────────────────────────────────
+  // â”€â”€ Auth â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   Future<({UserProfile user, String token})> register({
     required String email,
@@ -269,7 +350,7 @@ class ApiService {
     throw _httpError(r);
   }
 
-  // ── Bookings list ─────────────────────────────────────────────────────────
+  // â”€â”€ Bookings list â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   Future<List<Booking>> listMyBookings() async {
     try {
@@ -288,7 +369,7 @@ class ApiService {
     }
   }
 
-  // ── Chat ──────────────────────────────────────────────────────────────────
+  // â”€â”€ Chat â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   Future<List<ChatMessage>> listMessages(String therapistId) async {
     try {
@@ -370,217 +451,15 @@ class ApiService {
     }
   }
 
-  // ── Mock fallback data ────────────────────────────────────────────────────
-
-  FindResult _mockFindResult() {
-    return FindResult(
-      traceId: 'mock-trace-001',
-      intent: {
-        'service_type': 'speech_therapy',
-        'condition': 'speech_delay',
-        'child_age': 5,
-        'city': 'Lahore',
-        'area': 'Gulberg',
-        'budget_per_session': 3000,
-        'frequency': 'biweekly',
-        'urgency': 'scheduled',
-        'confidence': 0.94,
-      },
-      therapists: [
-        Therapist(
-          id: 't001',
-          name: 'Dr. Ayesha Khan',
-          gender: 'female',
-          specializations: ['speech_therapy', 'language_delay'],
-          qualifications: ['M.Phil Speech-Language Pathology, KIBGE'],
-          qualificationLevel: 'mphil',
-          verified: true,
-          city: 'Lahore',
-          area: 'Gulberg',
-          rating: 4.8,
-          reviewCount: 64,
-          lastReviewDaysAgo: 5,
-          onTimeRate: 0.94,
-          cancellationRate: 0.03,
-          basePrice: 2800,
-          ageRanges: ['preschool', 'school_age'],
-          experienceYears: 4,
-          availableSlots: [
-            '2026-05-20T16:00:00',
-            '2026-05-22T16:00:00',
-            '2026-05-26T16:00:00',
-            '2026-05-29T16:00:00',
-          ],
-          bio:
-              'Specialized in pediatric speech-language therapy for children with autism and speech delays. 4 years of hands-on clinical experience.',
-          languages: ['urdu', 'english', 'punjabi'],
-          overallScore: 0.92,
-          factorScores: {
-            'specialization': 1.0,
-            'age_range': 1.0,
-            'qualifications': 1.0,
-            'distance': 0.77,
-            'rating': 0.90,
-            'reliability': 0.94,
-            'price': 0.93,
-            'cancellation': 0.85,
-          },
-          reasoning:
-              'Top match: M.Phil pediatric speech specialist, 2.3km away, 4.8★ with 64 reviews, 94% on-time rate, fits budget perfectly.',
-          distanceKm: 2.3,
-          finalPrice: 3360,
-          nextAvailableSlot: '2026-05-20T16:00:00',
-        ),
-        Therapist(
-          id: 't007',
-          name: 'Dr. Sara Ahmed',
-          gender: 'female',
-          specializations: ['speech_therapy', 'behavioral_therapy'],
-          qualifications: [
-            'MSc Speech-Language Pathology',
-            'ABA Level 1 Certified'
-          ],
-          qualificationLevel: 'masters',
-          verified: true,
-          city: 'Lahore',
-          area: 'DHA',
-          rating: 4.6,
-          reviewCount: 42,
-          lastReviewDaysAgo: 12,
-          onTimeRate: 0.89,
-          cancellationRate: 0.06,
-          basePrice: 3000,
-          ageRanges: ['preschool', 'school_age'],
-          experienceYears: 3,
-          availableSlots: [
-            '2026-05-20T16:00:00',
-            '2026-05-22T10:00:00',
-            '2026-05-27T14:00:00',
-          ],
-          bio:
-              'Focuses on behavioral interventions and speech clarity for children with developmental delays and autism spectrum disorders.',
-          languages: ['urdu', 'english'],
-          overallScore: 0.85,
-          factorScores: {
-            'specialization': 0.8,
-            'age_range': 1.0,
-            'qualifications': 0.85,
-            'distance': 0.49,
-            'rating': 0.8,
-            'reliability': 0.89,
-            'price': 0.9,
-            'cancellation': 0.7,
-          },
-          reasoning:
-              'Good match: MSc certified, slightly further at 5.1km, reliable record with 89% on-time rate.',
-          distanceKm: 5.1,
-          finalPrice: 3500,
-          nextAvailableSlot: '2026-05-20T16:00:00',
-        ),
-        Therapist(
-          id: 't012',
-          name: 'Dr. Nadia Siddiqui',
-          gender: 'female',
-          specializations: ['speech_therapy', 'special_education'],
-          qualifications: ['BSc Speech Therapy, Punjab University'],
-          qualificationLevel: 'bachelors',
-          verified: false,
-          city: 'Lahore',
-          area: 'Johar Town',
-          rating: 4.2,
-          reviewCount: 21,
-          lastReviewDaysAgo: 20,
-          onTimeRate: 0.82,
-          cancellationRate: 0.10,
-          basePrice: 2000,
-          ageRanges: ['preschool', 'school_age'],
-          experienceYears: 2,
-          availableSlots: [
-            '2026-05-21T09:00:00',
-            '2026-05-23T09:00:00',
-            '2026-05-28T09:00:00',
-          ],
-          bio:
-              'Early career speech therapist focused on articulation and phonological disorders in preschool-age children.',
-          languages: ['urdu'],
-          overallScore: 0.71,
-          factorScores: {
-            'specialization': 0.7,
-            'age_range': 1.0,
-            'qualifications': 0.5,
-            'distance': 0.3,
-            'rating': 0.6,
-            'reliability': 0.82,
-            'price': 0.95,
-            'cancellation': 0.5,
-          },
-          reasoning:
-              'Budget option: BSc level (unverified), 7km away, 4.2★. Good price fit but lower qualifications.',
-          distanceKm: 7.0,
-          finalPrice: 2400,
-          nextAvailableSlot: '2026-05-21T09:00:00',
-        ),
-      ],
-    );
-  }
-
-  BookingResult _mockBookingResult(String therapistId) {
-    return BookingResult(
-      booking: Booking(
-        bookingId: 'BK-20260519-001',
-        therapistId: therapistId,
-        userId: 'u001',
-        sessions: [
-          BookingSession(
-              date: '2026-05-20',
-              time: '16:00',
-              durationMin: 45,
-              status: 'confirmed'),
-          BookingSession(
-              date: '2026-05-22',
-              time: '16:00',
-              durationMin: 45,
-              status: 'confirmed'),
-        ],
-        totalPrice: 6720,
-        confirmationCode: 'NA-AYK-4291',
-        status: 'confirmed',
-        createdAt: '2026-05-19T11:30:00+05:00',
-      ),
-      traceId: 'mock-trace-001',
-      parentNotification:
-          'Salam! Aap ka booking confirm ho gaya hai. Therapist kal 20 May, 4:00 PM ko aap ke ghar aayengi. Confirmation: NA-AYK-4291. Total: Rs 6,720 (2 sessions).',
-      followupEvents: [
-        {
-          'type': 'session_reminder',
-          'trigger': '1_hour_before',
-          'target_session': 1,
-          'message_preview': 'Therapist 1 ghante mein aa rahi hain...',
-        },
-        {
-          'type': 'post_session_feedback',
-          'trigger': '30_min_after',
-          'target_session': 1,
-          'prompt': 'Session kaisi rahi? 1-5 rate karen.',
-        },
-        {
-          'type': 'session_reminder',
-          'trigger': '1_hour_before',
-          'target_session': 2,
-          'message_preview': 'Reminder: Kal 22 May 4:00 PM session hai...',
-        },
-        {
-          'type': 'progress_digest',
-          'trigger': 'after_4_sessions',
-          'summary': 'Monthly progress check',
-        },
-        {
-          'type': 'renewal_nudge',
-          'trigger': 'after_session_8',
-          'message_preview':
-              'Therapy package complete ho rahi hai. Continue karein?',
-        },
-      ],
-    );
+  /// Turn a low-level network/parse failure into a clean, user-facing message.
+  String _networkMessage(Object e) {
+    final s = e.toString();
+    if (s.contains('TimeoutException')) {
+      return 'The request timed out. Please check your connection and try again.';
+    }
+    if (s.contains('SocketException') || s.contains('Failed host lookup')) {
+      return 'Could not reach the NoorAI server. Please check your internet connection.';
+    }
+    return 'Something went wrong. Please try again.';
   }
 }

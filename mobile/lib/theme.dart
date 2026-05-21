@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-/// NoorAI brand palette — a premium emerald→deep-green scale inspired by the
-/// Pakistan flag (green & white). White is the secondary canvas colour.
+/// NoorAI brand palette — premium, flat Pakistan-flag colours (green & white).
+/// No gradients: a single confident green carries every brand surface, with
+/// white as the canvas. This reads cleaner and more premium than a gradient.
 class NoorColors {
   static const Color primary = Color(0xFF0E7C42); // vibrant Pakistan green
   static const Color primaryDark = Color(0xFF0A5C30); // deep green
@@ -9,9 +10,9 @@ class NoorColors {
   static const Color greenSoft = Color(0xFFE4F5EC); // light green-white
   static const Color greenOutline = Color(0xFFA7D7BD);
 
-  // Premium brand gradient — luminous emerald → deep flag green.
-  static const Color gradientStart = Color(0xFF10B981); // emerald
-  static const Color gradientEnd = Color(0xFF01411C); // Pakistan deep green
+  /// The solid brand surface colour used for hero panels, the splash, and
+  /// large filled areas — the deep official flag green for a premium feel.
+  static const Color brand = primaryDeepest;
 
   static const Color background = Color(0xFFF4FBF6); // white w/ green tint
   static const Color surface = Colors.white;
@@ -27,20 +28,6 @@ class NoorColors {
   static const Color tealOutline = greenOutline;
   static const Color blueSoft = greenSoft;
   static const Color blueOutline = greenOutline;
-
-  /// Primary brand gradient (emerald → deep green) — splash, hero, CTAs.
-  static const LinearGradient brandGradient = LinearGradient(
-    colors: [gradientStart, gradientEnd],
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
-  );
-
-  /// A solid green gradient for buttons / headers.
-  static const LinearGradient greenGradient = LinearGradient(
-    colors: [Color(0xFF15A35A), primary],
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
-  );
 }
 
 class NoorSpacing {

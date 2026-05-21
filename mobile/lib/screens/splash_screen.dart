@@ -66,17 +66,7 @@ class _SplashScreenState extends State<SplashScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              NoorColors.gradientStart,
-              Color(0xFF15A35A),
-              NoorColors.primaryDeepest,
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-        ),
+        color: NoorColors.brand,
         child: Center(
           child: FadeTransition(
             opacity: _fade,

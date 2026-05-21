@@ -18,6 +18,7 @@ class ProviderListScreen extends StatefulWidget {
 class _ProviderListScreenState extends State<ProviderListScreen> {
   final ApiService _api = ApiService();
   bool _isLoading = true;
+  String? _error;
   List<Therapist> _therapists = [];
   String _traceId = '';
   Map<String, dynamic> _intent = {};
@@ -29,12 +30,23 @@ class _ProviderListScreenState extends State<ProviderListScreen> {
   }
 
   Future<void> _load() async {
-    final result = await _api.findTherapists(widget.userQuery);
-    if (mounted) {
+    setState(() {
+      _isLoading = true;
+      _error = null;
+    });
+    try {
+      final result = await _api.findTherapists(widget.userQuery);
+      if (!mounted) return;
       setState(() {
         _therapists = result.therapists;
         _traceId = result.traceId;
         _intent = result.intent;
+        _isLoading = false;
+      });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _error = e.toString().replaceFirst('Exception: ', '');
         _isLoading = false;
       });
     }
@@ -106,18 +118,20 @@ class _ProviderListScreenState extends State<ProviderListScreen> {
                       ],
                     ),
                   )
-                : _therapists.isEmpty
-                    ? const Center(
-                        child: Text('No therapists found for your query.'))
-                    : ListView.builder(
-                        padding: const EdgeInsets.all(16),
-                        itemCount: _therapists.length,
-                        itemBuilder: (ctx, i) =>
-                            _buildCard(_therapists[i], ctx, i),
-                      ),
+                : _error != null
+                    ? _buildError()
+                    : _therapists.isEmpty
+                        ? const Center(
+                            child: Text('No therapists found for your query.'))
+                        : ListView.builder(
+                            padding: const EdgeInsets.all(16),
+                            itemCount: _therapists.length,
+                            itemBuilder: (ctx, i) =>
+                                _buildCard(_therapists[i], ctx, i),
+                          ),
           ),
-          // See Agent Reasoning button
-          if (!_isLoading)
+          // See Agent Reasoning button — only when we have real results
+          if (!_isLoading && _error == null && _therapists.isNotEmpty)
             Container(
               padding: const EdgeInsets.all(16),
               color: Colors.white,
@@ -150,6 +164,47 @@ class _ProviderListScreenState extends State<ProviderListScreen> {
     );
   }
 
+  Widget _buildError() {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(32),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.cloud_off_rounded,
+                size: 48, color: NoorColors.textMuted),
+            const SizedBox(height: 16),
+            const Text(
+              "Couldn't reach NoorAI",
+              style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: NoorColors.primaryDeepest),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              _error ?? 'Something went wrong.',
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 13, color: NoorColors.textSecondary),
+            ),
+            const SizedBox(height: 20),
+            OutlinedButton.icon(
+              onPressed: _load,
+              icon: const Icon(Icons.refresh, color: NoorColors.primary),
+              label: const Text('Try again',
+                  style: TextStyle(color: NoorColors.primary)),
+              style: OutlinedButton.styleFrom(
+                side: const BorderSide(color: NoorColors.primary),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12)),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _buildIntentChip(String text) {
     return Chip(
       label: Text(text,
@@ -170,7 +225,7 @@ class _ProviderListScreenState extends State<ProviderListScreen> {
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
         border: isTop
-            ? Border.all(color: NoorColors.gradientStart, width: 1.6)
+            ? Border.all(color: NoorColors.primary, width: 1.6)
             : null,
         boxShadow: [
           BoxShadow(
@@ -189,7 +244,7 @@ class _ProviderListScreenState extends State<ProviderListScreen> {
             Container(
               padding: const EdgeInsets.symmetric(vertical: 7),
               decoration: const BoxDecoration(
-                gradient: NoorColors.brandGradient,
+                color: NoorColors.brand,
                 borderRadius:
                     BorderRadius.vertical(top: Radius.circular(15)),
               ),

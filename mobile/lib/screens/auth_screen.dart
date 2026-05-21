@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../services/api_service.dart';
 import '../services/auth_service.dart';
 import '../theme.dart';
-import '../widgets/gradient_button.dart';
+import '../widgets/primary_button.dart';
 import 'onboarding_screen.dart';
 import 'main_shell.dart';
 
@@ -131,15 +131,8 @@ class _AuthScreenState extends State<AuthScreen>
                     Container(
                       padding: const EdgeInsets.all(14),
                       decoration: BoxDecoration(
-                        gradient: NoorColors.brandGradient,
+                        color: NoorColors.brand,
                         borderRadius: BorderRadius.circular(24),
-                        boxShadow: [
-                          BoxShadow(
-                            color: NoorColors.primary.withValues(alpha: 0.25),
-                            blurRadius: 20,
-                            offset: const Offset(0, 8),
-                          ),
-                        ],
                       ),
                       child: SvgPicture.asset(
                           'assets/master/noorai-mark-white.svg',
@@ -257,7 +250,7 @@ class _AuthScreenState extends State<AuthScreen>
           ),
         ),
         const SizedBox(height: 20),
-        GradientButton(
+        PrimaryButton(
           label: 'Sign in',
           busy: _busy,
           onPressed: _busy ? null : _doLogin,
@@ -302,7 +295,7 @@ class _AuthScreenState extends State<AuthScreen>
           ),
         ),
         const SizedBox(height: 20),
-        GradientButton(
+        PrimaryButton(
           label: 'Create account',
           busy: _busy,
           onPressed: _busy ? null : _doSignup,

@@ -140,11 +140,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [NoorColors.primary, NoorColors.primaryDark],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
+        color: NoorColors.brand,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(

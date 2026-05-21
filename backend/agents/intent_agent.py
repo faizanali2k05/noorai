@@ -1,17 +1,18 @@
 """Intent Agent — parses Urdu/Roman Urdu/English natural language into structured intent.
 
-Uses Gemini if GEMINI_API_KEY is set and NOORAI_OFFLINE_MODE != "1".
-Falls back to a deterministic regex parser so the demo always works.
+Uses a realtime LLM (OpenAI by default, Gemini fallback) when configured and
+NOORAI_OFFLINE_MODE != "1". Falls back to a deterministic regex parser so the
+demo always works even without an API key.
 """
 from __future__ import annotations
 
-import json
 import os
 import re
 import time
 from typing import Tuple
 
 from models.schemas import Intent
+from utils import llm
 
 SYSTEM_PROMPT = """You are the Intent Agent for NoorAI, a Pakistani special needs therapy platform.
 
@@ -199,26 +200,15 @@ def _regex_parse(text: str) -> Intent:
 
 # ---------- Gemini call ----------
 
-def _gemini_parse(text: str) -> Intent | None:
-    try:
-        import google.generativeai as genai
-    except Exception:
-        return None
-    api_key = os.environ.get("GEMINI_API_KEY")
-    if not api_key:
+def _llm_parse(text: str) -> Intent | None:
+    """Parse intent via the configured realtime LLM, or None to fall back."""
+    payload = llm.chat_json(SYSTEM_PROMPT, f"INPUT: {text}\nOUTPUT:")
+    if not payload:
         return None
     try:
-        genai.configure(api_key=api_key)
-        model = genai.GenerativeModel(
-            "gemini-2.0-flash",
-            system_instruction=SYSTEM_PROMPT,
-            generation_config={"response_mime_type": "application/json"},
-        )
-        resp = model.generate_content(f"INPUT: {text}\nOUTPUT:")
-        payload = json.loads(resp.text)
         return Intent(**{k: v for k, v in payload.items() if k in Intent.model_fields})
     except Exception as exc:
-        print(f"[intent_agent] Gemini failed, using regex fallback: {exc}")
+        print(f"[intent_agent] LLM returned unusable JSON, using regex fallback: {exc}")
         return None
 
 
@@ -230,10 +220,11 @@ def run(user_message: str) -> Tuple[Intent, str]:
 
     intent: Intent | None = None
     source = "regex"
-    if os.environ.get("NOORAI_OFFLINE_MODE") != "1":
-        intent = _gemini_parse(user_message)
+    status = llm.llm_status()
+    if status.get("enabled"):
+        intent = _llm_parse(user_message)
         if intent is not None:
-            source = "gemini-2.0-flash"
+            source = f"{status.get('provider')}:{status.get('model')}"
 
     if intent is None:
         intent = _regex_parse(user_message)

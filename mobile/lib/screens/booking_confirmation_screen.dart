@@ -29,7 +29,7 @@ class _BookingConfirmationScreenState
     extends State<BookingConfirmationScreen> {
   final ApiService _api = ApiService();
   bool _isLoading = true;
-  final bool _hasError = false;
+  String? _error;
   Booking? _booking;
   String _parentMessage = '';
   List<Map<String, dynamic>> _followupEvents = [];
@@ -42,20 +42,30 @@ class _BookingConfirmationScreenState
   }
 
   Future<void> _book() async {
-    final result = await _api.bookTherapist(
-      therapistId: widget.therapist.id,
-      slot: widget.slot,
-      intent: widget.intent,
-      sessionsCount: 2,
-      traceId: widget.traceId,
-    );
-
-    if (mounted) {
+    setState(() {
+      _isLoading = true;
+      _error = null;
+    });
+    try {
+      final result = await _api.bookTherapist(
+        therapistId: widget.therapist.id,
+        slot: widget.slot,
+        intent: widget.intent,
+        sessionsCount: 2,
+        traceId: widget.traceId,
+      );
+      if (!mounted) return;
       setState(() {
         _booking = result.booking;
         _parentMessage = result.parentNotification;
         _followupEvents = result.followupEvents;
         _fullTraceId = result.traceId;
+        _isLoading = false;
+      });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _error = e.toString().replaceFirst('Exception: ', '');
         _isLoading = false;
       });
     }
@@ -91,10 +101,48 @@ class _BookingConfirmationScreenState
       );
     }
 
-    if (_hasError || _booking == null) {
+    if (_error != null || _booking == null) {
       return Scaffold(
+        backgroundColor: const Color(0xFFF4FBF6),
         appBar: AppBar(title: const Text('Booking')),
-        body: const Center(child: Text('Booking failed. Please try again.')),
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(32),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.error_outline_rounded,
+                    size: 48, color: Color(0xFFDC2626)),
+                const SizedBox(height: 16),
+                const Text(
+                  'Booking failed',
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xFF01411C)),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  _error ?? 'Please try again.',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 13, color: Color(0xFF5B6B62)),
+                ),
+                const SizedBox(height: 20),
+                OutlinedButton.icon(
+                  onPressed: _book,
+                  icon: const Icon(Icons.refresh, color: Color(0xFF0E7C42)),
+                  label: const Text('Try again',
+                      style: TextStyle(color: Color(0xFF0E7C42))),
+                  style: OutlinedButton.styleFrom(
+                    side: const BorderSide(color: Color(0xFF0E7C42)),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12)),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       );
     }
 
@@ -311,7 +359,7 @@ class _BookingConfirmationScreenState
                         child: Text(
                           _parentMessage.isNotEmpty
                               ? _parentMessage
-                              : 'Salam! Aap ka booking confirm ho gaya hai. ${t.name} kal 4:00 PM ko aap ke ghar aayengi. Confirmation: ${booking.confirmationCode}',
+                              : 'Booking confirmed with ${t.name}. Confirmation: ${booking.confirmationCode}.',
                           style: const TextStyle(
                               fontSize: 13, color: Colors.black87, height: 1.4),
                         ),

@@ -247,9 +247,9 @@ class _ProviderDetailScreenState extends State<ProviderDetailScreen> {
           _detailRow(Icons.cancel_outlined,
               '${(t.cancellationRate! * 100).toInt()}% cancellation rate'),
         const SizedBox(height: 20),
-        _sectionTitle('Patient Reviews'),
+        _sectionTitle('Ratings'),
         const SizedBox(height: 8),
-        ..._mockReviews(t),
+        _buildRatingSummary(t),
       ],
     );
   }
@@ -443,70 +443,77 @@ class _ProviderDetailScreenState extends State<ProviderDetailScreen> {
     );
   }
 
-  List<Widget> _mockReviews(Therapist t) {
-    final reviews = [
-      {
-        'name': 'Sadia M.',
-        'date': '12 May 2026',
-        'rating': 5,
-        'text':
-            'Excellent therapist! My son showed visible improvement after just 3 sessions. Very patient and professional.',
-      },
-      {
-        'name': 'Tariq A.',
-        'date': '28 Apr 2026',
-        'rating': 5,
-        'text':
-            'Highly recommended. She is very understanding and explains progress clearly to the parents.',
-      },
-      {
-        'name': 'Hina K.',
-        'date': '15 Apr 2026',
-        'rating': 4,
-        'text':
-            'Great with children. Punctual and uses engaging techniques. Slightly over our budget but worth it.',
-      },
-    ];
-    return reviews
-        .map((r) => Container(
-              margin: const EdgeInsets.only(bottom: 12),
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: Colors.grey.shade50,
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: Colors.grey.shade200),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(r['name'] as String,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w600, fontSize: 13)),
-                      Text(r['date'] as String,
-                          style: TextStyle(
-                              fontSize: 11, color: Colors.grey.shade500)),
-                    ],
-                  ),
-                  const SizedBox(height: 4),
-                  Row(
-                    children: List.generate(
-                      r['rating'] as int,
-                      (_) => const Icon(Icons.star,
-                          size: 13, color: Color(0xFFF59E0B)),
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-                  Text(r['text'] as String,
-                      style: TextStyle(
-                          fontSize: 13,
-                          color: Colors.grey.shade700,
-                          height: 1.4)),
-                ],
-              ),
-            ))
-        .toList();
+  /// Aggregate rating summary built from real backend fields (rating,
+  /// reviewCount, lastReviewDaysAgo) — no fabricated review text.
+  Widget _buildRatingSummary(Therapist t) {
+    final rating = t.rating;
+    final count = t.reviewCount;
+    if (rating <= 0 || count == 0) {
+      return Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.grey.shade50,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Colors.grey.shade200),
+        ),
+        child: const Text(
+          'No ratings yet for this therapist.',
+          style: TextStyle(fontSize: 13, color: Color(0xFF5B6B62)),
+        ),
+      );
+    }
+
+    final full = rating.floor();
+    final hasHalf = (rating - full) >= 0.5;
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: const Color(0xFFE4F5EC),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: const Color(0xFFA7D7BD)),
+      ),
+      child: Row(
+        children: [
+          Text(
+            rating.toStringAsFixed(1),
+            style: const TextStyle(
+                fontSize: 32,
+                fontWeight: FontWeight.w800,
+                color: Color(0xFF01411C)),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: List.generate(5, (i) {
+                    IconData icon;
+                    if (i < full) {
+                      icon = Icons.star;
+                    } else if (i == full && hasHalf) {
+                      icon = Icons.star_half;
+                    } else {
+                      icon = Icons.star_border;
+                    }
+                    return Icon(icon, size: 18, color: const Color(0xFFF59E0B));
+                  }),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  t.lastReviewDaysAgo != null
+                      ? '$count reviews · last review ${t.lastReviewDaysAgo} days ago'
+                      : '$count reviews',
+                  style: const TextStyle(
+                      fontSize: 12, color: Color(0xFF5B6B62)),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
