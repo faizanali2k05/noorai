@@ -30,7 +30,10 @@
       "Bash(python -c \"import json; t=json.load\\(open\\('data/therapists.json'\\)\\)[0]; print\\('id=',t['id']\\); print\\('slots=',t.get\\('available_slots',[]\\)[:2]\\); print\\('keys=',list\\(t.keys\\(\\)\\)\\)\")",
       "Bash(python _smoke_test.py)",
       "Bash(python -m compileall -q utils agents orchestrator models main.py)",
-      "Bash(NOORAI_STORE=json python -c \"import main; print\\('main imports OK; routes:', len\\(main.app.routes\\)\\)\")"
+      "Bash(NOORAI_STORE=json python -c \"import main; print\\('main imports OK; routes:', len\\(main.app.routes\\)\\)\")",
+      "Bash(gcloud auth *)",
+      "Bash(gcloud config *)",
+      "PowerShell($g = Get-Command gcloud -ErrorAction SilentlyContinue; if \\($g\\) { \"gcloud: $\\($g.Source\\)\"; gcloud config get-value project 2>$null } else { \"gcloud NOT installed\" }; $d = Get-Command docker -ErrorAction SilentlyContinue; if \\($d\\) { \"docker: $\\($d.Source\\)\" } else { \"docker NOT installed\" })"
     ]
   }
 }
