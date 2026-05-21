@@ -70,6 +70,66 @@ class ApiService {
     };
   }
 
+  /// Run an authenticated request; if it returns 401, transparently refresh the
+  /// access token once and retry. Keeps users logged in without re-prompting.
+  Future<http.Response> _retryOn401(
+      Future<http.Response> Function() send) async {
+    var resp = await send();
+    if (resp.statusCode == 401 && await _silentRefresh()) {
+      resp = await send();
+    }
+    return resp;
+  }
+
+  /// Exchange the stored refresh token for a fresh access token. Returns false
+  /// if there is no refresh token or it has expired (caller should sign out).
+  Future<bool> _silentRefresh() async {
+    final rt = AuthService.instance.refreshToken;
+    if (rt == null) return false;
+    try {
+      final r = await http
+          .post(
+            Uri.parse('$baseUrl/auth/refresh'),
+            headers: const {'Content-Type': 'application/json'},
+            body: jsonEncode({'refresh_token': rt}),
+          )
+          .timeout(const Duration(seconds: 15));
+      if (r.statusCode == 200) {
+        final data = jsonDecode(r.body) as Map<String, dynamic>;
+        await AuthService.instance
+            .updateTokens(data['token'] as String, data['refresh_token'] as String);
+        return true;
+      }
+      if (r.statusCode == 401 || r.statusCode == 403) {
+        // Refresh token is genuinely expired/revoked — end the session.
+        await AuthService.instance.logout();
+      }
+    } catch (e) {
+      // Network/timeout: keep the session so the user stays logged in offline.
+      debugPrint('[ApiService] silent refresh failed: $e');
+    }
+    return false;
+  }
+
+  /// Refresh the session on app start. Returns true if a valid session remains.
+  Future<bool> refreshSession() => _silentRefresh();
+
+  /// Revoke the current session server-side, then it is safe to clear locally.
+  Future<void> logoutServer() async {
+    final rt = AuthService.instance.refreshToken;
+    try {
+      await http
+          .post(
+            Uri.parse('$baseUrl/auth/logout'),
+            headers: _authHeaders(),
+            body: jsonEncode({'refresh_token': rt}),
+          )
+          .timeout(const Duration(seconds: 10));
+    } catch (e) {
+      debugPrint('[ApiService] logout request failed (ignored): $e');
+    }
+  }
+
   // â”€â”€ Find therapists pipeline â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   Future<FindResult> findTherapists(String userMessage) async {
@@ -115,10 +175,10 @@ class ApiService {
     String? traceId,
   }) async {
     try {
-      final response = await http
+      final response = await _retryOn401(() => http
           .post(
             Uri.parse('$baseUrl/book'),
-            headers: {'Content-Type': 'application/json'},
+            headers: _authHeaders(),
             body: jsonEncode({
               'therapist_id': therapistId,
               'slot': slot,
@@ -127,7 +187,7 @@ class ApiService {
               'trace_id': traceId,
             }),
           )
-          .timeout(const Duration(seconds: 25));
+          .timeout(const Duration(seconds: 25)));
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body) as Map<String, dynamic>;
@@ -231,10 +291,10 @@ class ApiService {
     String? traceId,
   }) async {
     try {
-      final response = await http
+      final response = await _retryOn401(() => http
           .post(
             Uri.parse('$baseUrl/book-service'),
-            headers: {'Content-Type': 'application/json'},
+            headers: _authHeaders(),
             body: jsonEncode({
               'provider_id': providerId,
               'slot': slot,
@@ -242,7 +302,7 @@ class ApiService {
               'trace_id': traceId,
             }),
           )
-          .timeout(const Duration(seconds: 25));
+          .timeout(const Duration(seconds: 25)));
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body) as Map<String, dynamic>;
         final notifs = data['notifications'] as Map<String, dynamic>? ?? {};
@@ -293,7 +353,7 @@ class ApiService {
 
   // â”€â”€ Auth â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
-  Future<({UserProfile user, String token})> register({
+  Future<({UserProfile user, String token, String refreshToken})> register({
     required String email,
     required String password,
     required String name,
@@ -310,20 +370,23 @@ class ApiService {
       return (
         user: UserProfile.fromJson(data['user'] as Map<String, dynamic>),
         token: data['token'] as String,
+        refreshToken: data['refresh_token'] as String,
       );
     }
     throw _httpError(r);
   }
 
-  Future<({UserProfile user, String token})> login({
+  Future<({UserProfile user, String token, String refreshToken})> login({
     required String email,
     required String password,
+    bool remember = true,
   }) async {
     final r = await http
         .post(
           Uri.parse('$baseUrl/auth/login'),
           headers: const {'Content-Type': 'application/json'},
-          body: jsonEncode({'email': email, 'password': password}),
+          body: jsonEncode(
+              {'email': email, 'password': password, 'remember': remember}),
         )
         .timeout(const Duration(seconds: 20));
     if (r.statusCode == 200) {
@@ -331,19 +394,20 @@ class ApiService {
       return (
         user: UserProfile.fromJson(data['user'] as Map<String, dynamic>),
         token: data['token'] as String,
+        refreshToken: data['refresh_token'] as String,
       );
     }
     throw _httpError(r);
   }
 
   Future<UserProfile> updateProfile(Map<String, dynamic> patch) async {
-    final r = await http
+    final r = await _retryOn401(() => http
         .patch(
           Uri.parse('$baseUrl/auth/me'),
           headers: _authHeaders(),
           body: jsonEncode(patch),
         )
-        .timeout(const Duration(seconds: 20));
+        .timeout(const Duration(seconds: 20)));
     if (r.statusCode == 200) {
       return UserProfile.fromJson(jsonDecode(r.body) as Map<String, dynamic>);
     }
@@ -354,9 +418,9 @@ class ApiService {
 
   Future<List<Booking>> listMyBookings() async {
     try {
-      final r = await http
+      final r = await _retryOn401(() => http
           .get(Uri.parse('$baseUrl/bookings'), headers: _authHeaders(json: false))
-          .timeout(const Duration(seconds: 15));
+          .timeout(const Duration(seconds: 15)));
       if (r.statusCode == 200) {
         final data = jsonDecode(r.body) as Map<String, dynamic>;
         return (data['bookings'] as List<dynamic>? ?? [])
@@ -373,12 +437,12 @@ class ApiService {
 
   Future<List<ChatMessage>> listMessages(String therapistId) async {
     try {
-      final r = await http
+      final r = await _retryOn401(() => http
           .get(
             Uri.parse('$baseUrl/chats/$therapistId'),
             headers: _authHeaders(json: false),
           )
-          .timeout(const Duration(seconds: 15));
+          .timeout(const Duration(seconds: 15)));
       if (r.statusCode == 200) {
         final data = jsonDecode(r.body) as Map<String, dynamic>;
         return (data['messages'] as List<dynamic>? ?? [])
@@ -393,13 +457,13 @@ class ApiService {
 
   Future<ChatMessage?> sendText(String therapistId, String text) async {
     try {
-      final r = await http
+      final r = await _retryOn401(() => http
           .post(
             Uri.parse('$baseUrl/chats/$therapistId'),
             headers: _authHeaders(),
             body: jsonEncode({'text': text}),
           )
-          .timeout(const Duration(seconds: 15));
+          .timeout(const Duration(seconds: 15)));
       if (r.statusCode == 200) {
         return ChatMessage.fromJson(jsonDecode(r.body) as Map<String, dynamic>);
       }

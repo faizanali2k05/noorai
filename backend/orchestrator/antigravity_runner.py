@@ -27,9 +27,9 @@ from agents import (
     followup_agent,
     dispute_agent,
 )
+from utils import db
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
-TRACES_FILE = DATA_DIR / "traces.json"
 THERAPISTS_FILE = DATA_DIR / "therapists.json"
 
 
@@ -57,36 +57,22 @@ def _make_entry(agent: str, started: float, input_payload: Any,
 
 
 def _persist_trace(trace_id: str, user_message: str | None, entries: list[dict]) -> None:
-    traces = []
-    if TRACES_FILE.exists():
-        try:
-            traces = json.loads(TRACES_FILE.read_text(encoding="utf-8") or "[]")
-        except Exception:
-            traces = []
-    # Merge into existing trace if present, else create
-    for t in traces:
-        if t["trace_id"] == trace_id:
-            t["entries"].extend(entries)
-            t["updated_at"] = datetime.now().astimezone().isoformat(timespec="seconds")
-            break
+    existing = db.traces.get(trace_id)
+    if existing:
+        existing["entries"].extend(entries)
+        existing["updated_at"] = datetime.now().astimezone().isoformat(timespec="seconds")
+        db.traces.put(existing)
     else:
-        traces.append({
+        db.traces.put({
             "trace_id": trace_id,
             "created_at": datetime.now().astimezone().isoformat(timespec="seconds"),
             "user_message": user_message,
             "entries": entries,
         })
-    TRACES_FILE.write_text(json.dumps(traces, indent=2), encoding="utf-8")
 
 
 def get_trace(trace_id: str) -> dict | None:
-    if not TRACES_FILE.exists():
-        return None
-    traces = json.loads(TRACES_FILE.read_text(encoding="utf-8") or "[]")
-    for t in traces:
-        if t["trace_id"] == trace_id:
-            return t
-    return None
+    return db.traces.get(trace_id)
 
 
 # ---------------------------------------------------------------------------
@@ -170,7 +156,8 @@ def run_find_pipeline(user_message: str) -> dict:
 
 
 def run_booking_pipeline(therapist_id: str, slot_iso: str, intent_dict: dict,
-                         sessions_count: int = 1, trace_id: str | None = None) -> dict:
+                         sessions_count: int = 1, trace_id: str | None = None,
+                         user_id: str = "u001") -> dict:
     """Pricing -> Booking -> Notification -> Follow-Up."""
     trace_id = trace_id or f"tr-{uuid.uuid4().hex[:10]}"
     entries: list[dict] = []
@@ -193,6 +180,7 @@ def run_booking_pipeline(therapist_id: str, slot_iso: str, intent_dict: dict,
     booking, reasoning = booking_agent.run(
         therapist, slot_iso, intent_dict,
         price=breakdown["final_price"], sessions_count=sessions_count,
+        user_id=user_id,
     )
     entries.append(_make_entry(
         "Booking Agent", t0,

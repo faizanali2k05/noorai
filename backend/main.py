@@ -2,14 +2,15 @@
 from __future__ import annotations
 
 import os
+import secrets
 from pathlib import Path
 from typing import Optional
 
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, UploadFile, File, Form, Header
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse
-from pydantic import BaseModel, EmailStr
+from fastapi.responses import Response
+from pydantic import BaseModel, EmailStr, Field, field_validator
 
 load_dotenv(Path(__file__).resolve().parent / ".env")
 
@@ -24,6 +25,7 @@ from agents import booking_agent
 from utils import users as users_store
 from utils import chat as chat_store
 from utils import llm
+from utils import db
 
 app = FastAPI(title="NoorAI Backend", version="1.1.0")
 
@@ -41,13 +43,14 @@ app.add_middleware(
 def root():
     return {"name": "NoorAI Backend", "status": "ok",
             "offline_mode": os.environ.get("NOORAI_OFFLINE_MODE") == "1",
+            "storage": db.backend_name(),
             "llm": llm.llm_status()}
 
 
 @app.get("/api/health")
 def health():
-    """Verifiable health check — confirms whether the realtime LLM is active."""
-    return {"status": "ok", "llm": llm.llm_status()}
+    """Verifiable health check — confirms the active LLM provider and storage backend."""
+    return {"status": "ok", "storage": db.backend_name(), "llm": llm.llm_status()}
 
 
 # ── Agent pipeline endpoints (unchanged) ──────────────────────────────────
@@ -58,13 +61,15 @@ def find_therapists(req: FindRequest):
 
 
 @app.post("/api/book")
-def book(req: BookingRequest):
+def book(req: BookingRequest, authorization: Optional[str] = Header(default=None)):
+    user = _require_user(authorization)
     return orch.run_booking_pipeline(
         therapist_id=req.therapist_id,
         slot_iso=req.slot,
         intent_dict=req.intent.model_dump(),
         sessions_count=req.sessions_count,
         trace_id=req.trace_id,
+        user_id=user["user_id"],
     )
 
 
@@ -113,15 +118,49 @@ def find_services(req: FindServicesRequest):
 
 
 @app.post("/api/book-service")
-def book_service(req: BookServiceRequest):
+def book_service(req: BookServiceRequest, authorization: Optional[str] = Header(default=None)):
+    user = _require_user(authorization)
     try:
-        return services.run_book_service(req.provider_id, req.slot, req.intent, req.trace_id)
+        return services.run_book_service(
+            req.provider_id, req.slot, req.intent, req.trace_id, user_id=user["user_id"]
+        )
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))
 
 
+def _require_admin(x_admin_token: Optional[str]) -> None:
+    expected = os.environ.get("ADMIN_TOKEN")
+    if not expected:
+        raise HTTPException(status_code=503, detail="Admin actions are disabled (ADMIN_TOKEN not set)")
+    if not x_admin_token or not secrets.compare_digest(x_admin_token, expected):
+        raise HTTPException(status_code=403, detail="Admin authorization required")
+
+
+class LLMProviderIn(BaseModel):
+    provider: Optional[str] = None  # "openai" | "gemini" | null (reset to env/auto)
+
+
+@app.get("/api/admin/llm-provider")
+def admin_get_llm(x_admin_token: Optional[str] = Header(default=None)):
+    _require_admin(x_admin_token)
+    return {"status": "ok", "llm": llm.llm_status()}
+
+
+@app.post("/api/admin/llm-provider")
+def admin_set_llm(req: LLMProviderIn, x_admin_token: Optional[str] = Header(default=None)):
+    """Admin switch for the active AI provider. OpenAI is the default; this lets
+    an admin force a provider at runtime without a redeploy."""
+    _require_admin(x_admin_token)
+    try:
+        llm.set_provider(req.provider)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    return {"status": "ok", "llm": llm.llm_status()}
+
+
 @app.post("/api/admin/cancel-therapist/{booking_id}")
-def admin_cancel(booking_id: str):
+def admin_cancel(booking_id: str, x_admin_token: Optional[str] = Header(default=None)):
+    _require_admin(x_admin_token)
     b = booking_agent.update_status(booking_id, "therapist_cancelled")
     if b is None:
         raise HTTPException(status_code=404, detail="Booking not found")
@@ -140,13 +179,30 @@ def booking_status(booking_id: str):
 
 class RegisterIn(BaseModel):
     email: EmailStr
-    password: str
-    name: str
+    password: str = Field(min_length=8, max_length=128)
+    name: str = Field(min_length=1, max_length=80)
+
+    @field_validator("name")
+    @classmethod
+    def _name_not_blank(cls, v: str) -> str:
+        v = v.strip()
+        if not v:
+            raise ValueError("Name cannot be empty")
+        return v
 
 
 class LoginIn(BaseModel):
     email: EmailStr
-    password: str
+    password: str = Field(min_length=1, max_length=128)
+    remember: bool = False
+
+
+class RefreshIn(BaseModel):
+    refresh_token: str
+
+
+class LogoutIn(BaseModel):
+    refresh_token: Optional[str] = None
 
 
 class ProfilePatch(BaseModel):
@@ -159,11 +215,14 @@ class ProfilePatch(BaseModel):
     area: Optional[str] = None
 
 
-def _require_user(authorization: Optional[str]) -> dict:
-    token = None
+def _bearer(authorization: Optional[str]) -> Optional[str]:
     if authorization and authorization.lower().startswith("bearer "):
-        token = authorization[7:].strip()
-    user = users_store.user_from_token(token)
+        return authorization[7:].strip()
+    return None
+
+
+def _require_user(authorization: Optional[str]) -> dict:
+    user = users_store.user_from_token(_bearer(authorization))
     if not user:
         raise HTTPException(status_code=401, detail="Not authenticated")
     return user
@@ -179,10 +238,24 @@ def auth_register(req: RegisterIn):
 
 @app.post("/api/auth/login")
 def auth_login(req: LoginIn):
-    result, err = users_store.login(req.email, req.password)
+    result, err = users_store.login(req.email, req.password, remember=req.remember)
     if err:
         raise HTTPException(status_code=401, detail=err)
     return result
+
+
+@app.post("/api/auth/refresh")
+def auth_refresh(req: RefreshIn):
+    result, err = users_store.refresh_session(req.refresh_token)
+    if err:
+        raise HTTPException(status_code=401, detail=err)
+    return result
+
+
+@app.post("/api/auth/logout")
+def auth_logout(req: LogoutIn, authorization: Optional[str] = Header(default=None)):
+    users_store.revoke_session(_bearer(authorization), req.refresh_token)
+    return {"status": "ok"}
 
 
 @app.get("/api/auth/me")
@@ -204,8 +277,8 @@ def auth_update(patch: ProfilePatch, authorization: Optional[str] = Header(defau
 @app.get("/api/bookings")
 def list_bookings(authorization: Optional[str] = Header(default=None)):
     user = _require_user(authorization)
-    all_bookings = booking_agent._load_bookings()  # noqa: SLF001
-    mine = [b for b in all_bookings if b.get("user_id") in (user["user_id"], "u001")]
+    mine = [b for b in booking_agent._load_bookings()  # noqa: SLF001
+            if b.get("user_id") == user["user_id"]]
     mine.sort(key=lambda b: b.get("created_at", ""), reverse=True)
     return {"bookings": mine}
 
@@ -232,9 +305,12 @@ def get_chat(therapist_id: str, authorization: Optional[str] = Header(default=No
 def send_chat_text(therapist_id: str, req: SendTextIn,
                    authorization: Optional[str] = Header(default=None)):
     user = _require_user(authorization)
-    if not req.text.strip():
+    text = req.text.strip()
+    if not text:
         raise HTTPException(status_code=400, detail="Empty message")
-    return chat_store.send_text(user["user_id"], therapist_id, req.text.strip(), sender="user")
+    if len(text) > 4000:
+        raise HTTPException(status_code=413, detail="Message too long (max 4000 characters)")
+    return chat_store.send_text(user["user_id"], therapist_id, text, sender="user")
 
 
 @app.post("/api/chats/{therapist_id}/voice")
@@ -259,7 +335,7 @@ async def send_chat_voice(
 
 @app.get("/api/voice-notes/{filename}")
 def get_voice_note(filename: str):
-    path = chat_store.voice_file_path(filename)
-    if path is None:
+    data = chat_store.load_voice(filename)
+    if data is None:
         raise HTTPException(status_code=404, detail="Voice note not found")
-    return FileResponse(path, media_type="audio/mp4")
+    return Response(content=data, media_type="audio/mp4")

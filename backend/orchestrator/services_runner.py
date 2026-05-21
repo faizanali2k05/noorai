@@ -12,6 +12,7 @@ from __future__ import annotations
 import json
 import random
 import re
+import secrets
 import string
 import time
 import uuid
@@ -20,12 +21,12 @@ from pathlib import Path
 from typing import Tuple
 
 from utils import llm
+from utils import db
 from utils.geo import resolve_user_location, haversine_km
 from orchestrator.antigravity_runner import _make_entry, _persist_trace
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 PROVIDERS_FILE = DATA_DIR / "providers.json"
-SERVICE_BOOKINGS_FILE = DATA_DIR / "service_bookings.json"
 
 # Catalog of supported categories -> human label.
 CATEGORIES: dict[str, str] = {
@@ -196,16 +197,6 @@ def load_providers() -> list[dict]:
     return json.loads(PROVIDERS_FILE.read_text(encoding="utf-8"))
 
 
-def _load_service_bookings() -> list[dict]:
-    if not SERVICE_BOOKINGS_FILE.exists():
-        return []
-    return json.loads(SERVICE_BOOKINGS_FILE.read_text(encoding="utf-8") or "[]")
-
-
-def _save_service_bookings(bookings: list[dict]) -> None:
-    SERVICE_BOOKINGS_FILE.write_text(json.dumps(bookings, indent=2), encoding="utf-8")
-
-
 # ---------- Ranking ----------
 
 def _rank_providers(candidates: list[dict], intent: dict) -> list[dict]:
@@ -326,7 +317,7 @@ def _next_slot_dt(slot_iso: str | None, urgency: str) -> datetime:
 
 
 def run_book_service(provider_id: str, slot: str | None, intent: dict,
-                     trace_id: str | None = None) -> dict:
+                     trace_id: str | None = None, user_id: str = "u001") -> dict:
     """Booking -> Notification -> Follow-Up for a general service provider."""
     trace_id = trace_id or f"tr-{uuid.uuid4().hex[:10]}"
     entries: list[dict] = []
@@ -338,15 +329,13 @@ def run_book_service(provider_id: str, slot: str | None, intent: dict,
     # Booking
     t0 = time.time()
     dt = _next_slot_dt(slot, intent.get("urgency", "scheduled"))
-    bookings = _load_service_bookings()
     today = datetime.now().strftime("%Y%m%d")
-    seq = sum(1 for b in bookings if b["booking_id"].startswith(f"SV-{today}")) + 1
     booking = {
-        "booking_id": f"SV-{today}-{seq:03d}",
+        "booking_id": f"SV-{today}-{secrets.token_hex(3)}",
         "provider_id": provider_id,
         "provider_name": provider["name"],
         "category": provider["category"],
-        "user_id": "u001",
+        "user_id": user_id,
         "slot": dt.isoformat(timespec="seconds"),
         "date": dt.date().isoformat(),
         "time": dt.strftime("%H:%M"),
@@ -356,8 +345,7 @@ def run_book_service(provider_id: str, slot: str | None, intent: dict,
         "created_at": datetime.now().astimezone().isoformat(timespec="seconds"),
         "intent_snapshot": intent,
     }
-    bookings.append(booking)
-    _save_service_bookings(bookings)
+    db.service_bookings.put(booking)
     entries.append(_make_entry(
         "Booking Agent", t0,
         {"provider_id": provider_id, "slot": booking["slot"]},

@@ -61,6 +61,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
     );
     if (ok != true) return;
+    await ApiService().logoutServer(); // revoke tokens server-side
     await AuthService.instance.logout();
     if (!mounted) return;
     Navigator.of(context).pushAndRemoveUntil(

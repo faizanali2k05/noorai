@@ -30,6 +30,9 @@ class _AuthScreenState extends State<AuthScreen>
   String? _error;
   bool _obscureLogin = true;
   bool _obscureSignup = true;
+  bool _rememberMe = true;
+
+  static final _emailRe = RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$');
 
   @override
   void initState() {
@@ -56,13 +59,18 @@ class _AuthScreenState extends State<AuthScreen>
       setState(() => _error = 'Email and password are required.');
       return;
     }
+    if (!_emailRe.hasMatch(email)) {
+      setState(() => _error = 'Please enter a valid email address.');
+      return;
+    }
     setState(() {
       _busy = true;
       _error = null;
     });
     try {
-      final r = await _api.login(email: email, password: pw);
-      await AuthService.instance.setSession(r.token, r.user);
+      final r = await _api.login(email: email, password: pw, remember: _rememberMe);
+      await AuthService.instance
+          .setSession(r.token, r.refreshToken, r.user, remember: _rememberMe);
       if (!mounted) return;
       _routeAfterAuth();
     } catch (e) {
@@ -80,8 +88,12 @@ class _AuthScreenState extends State<AuthScreen>
       setState(() => _error = 'Please fill all fields.');
       return;
     }
-    if (pw.length < 6) {
-      setState(() => _error = 'Password must be at least 6 characters.');
+    if (!_emailRe.hasMatch(email)) {
+      setState(() => _error = 'Please enter a valid email address.');
+      return;
+    }
+    if (pw.length < 8) {
+      setState(() => _error = 'Password must be at least 8 characters.');
       return;
     }
     setState(() {
@@ -90,7 +102,8 @@ class _AuthScreenState extends State<AuthScreen>
     });
     try {
       final r = await _api.register(email: email, password: pw, name: name);
-      await AuthService.instance.setSession(r.token, r.user);
+      await AuthService.instance
+          .setSession(r.token, r.refreshToken, r.user, remember: true);
       if (!mounted) return;
       _routeAfterAuth();
     } catch (e) {
@@ -249,7 +262,28 @@ class _AuthScreenState extends State<AuthScreen>
             ),
           ),
         ),
-        const SizedBox(height: 20),
+        const SizedBox(height: 4),
+        InkWell(
+          borderRadius: BorderRadius.circular(8),
+          onTap: () => setState(() => _rememberMe = !_rememberMe),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4),
+            child: Row(
+              children: [
+                Checkbox(
+                  value: _rememberMe,
+                  onChanged: (v) => setState(() => _rememberMe = v ?? true),
+                  activeColor: NoorColors.primary,
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  visualDensity: VisualDensity.compact,
+                ),
+                const Text('Remember me',
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 16),
         PrimaryButton(
           label: 'Sign in',
           busy: _busy,
@@ -284,7 +318,7 @@ class _AuthScreenState extends State<AuthScreen>
           controller: _signupPw,
           obscureText: _obscureSignup,
           decoration: InputDecoration(
-            hintText: 'Password (min 6 characters)',
+            hintText: 'Password (min 8 characters)',
             prefixIcon: const Icon(Icons.lock_outline),
             suffixIcon: IconButton(
               icon: Icon(_obscureSignup

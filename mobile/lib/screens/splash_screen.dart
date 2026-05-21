@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../services/api_service.dart';
 import '../services/auth_service.dart';
 import '../theme.dart';
 import 'auth_screen.dart';
@@ -35,6 +36,11 @@ class _SplashScreenState extends State<SplashScreen>
 
   Future<void> _bootstrap() async {
     await AuthService.instance.load();
+    // Returning user: rotate the access token using the stored refresh token so
+    // they stay signed in. A dead refresh token clears the session here.
+    if (AuthService.instance.isLoggedIn) {
+      await ApiService().refreshSession();
+    }
     await Future.delayed(const Duration(milliseconds: 1200));
     if (!mounted) return;
     final auth = AuthService.instance;

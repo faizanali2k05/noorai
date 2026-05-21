@@ -22,7 +22,15 @@
       "Bash(python -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('therapist intent:', json.dumps\\(d['intent'].get\\('service_type'\\)\\), d['intent'].get\\('city'\\), 'conf', d['intent'].get\\('confidence'\\)\\)\")",
       "Bash(curl -s -m 10 http://127.0.0.1:8099/api/trace/tr-663bd62f22)",
       "Bash(curl -s -m 10 http://127.0.0.1:8099/api/service-categories)",
-      "Bash(python -c \"import sys,json; print\\(len\\(json.load\\(sys.stdin\\)['categories']\\), 'categories'\\)\")"
+      "Bash(python -c \"import sys,json; print\\(len\\(json.load\\(sys.stdin\\)['categories']\\), 'categories'\\)\")",
+      "Bash(py --version)",
+      "Bash(pip show *)",
+      "Bash(flutter --version)",
+      "Bash(python -c \"import fastapi, pydantic, dotenv, httpx, multipart, email_validator; print\\('core deps OK'\\)\")",
+      "Bash(python -c \"import json; t=json.load\\(open\\('data/therapists.json'\\)\\)[0]; print\\('id=',t['id']\\); print\\('slots=',t.get\\('available_slots',[]\\)[:2]\\); print\\('keys=',list\\(t.keys\\(\\)\\)\\)\")",
+      "Bash(python _smoke_test.py)",
+      "Bash(python -m compileall -q utils agents orchestrator models main.py)",
+      "Bash(NOORAI_STORE=json python -c \"import main; print\\('main imports OK; routes:', len\\(main.app.routes\\)\\)\")"
     ]
   }
 }
