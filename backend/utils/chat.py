@@ -1,23 +1,20 @@
 """Chat store — text + voice-note messages between a parent (user) and a therapist.
 
 Messages persist via the shared store (``utils.db``). Voice-note audio is binary
-and lives in **Google Cloud Storage** when ``NOORAI_VOICE_BUCKET`` is set
-(required in production — Cloud Run's local disk is ephemeral); otherwise it
-falls back to a local ``data/voice_notes`` directory for development.
+and lives in the **Supabase Storage** bucket ``voice-notes`` (created by
+``database.sql``), so it survives Heroku's ephemeral filesystem and dyno
+restarts.
 """
 from __future__ import annotations
 
-import os
 import re
 import secrets
 from datetime import datetime
-from pathlib import Path
 from typing import Optional
 
 from utils import db
 
-VOICE_DIR = Path(__file__).resolve().parent.parent / "data" / "voice_notes"
-VOICE_BUCKET = os.environ.get("NOORAI_VOICE_BUCKET", "").strip()
+VOICE_BUCKET = "voice-notes"
 _SAFE_NAME = re.compile(r"^[A-Za-z0-9_.-]+$")
 
 
@@ -89,15 +86,9 @@ def send_voice(user_id: str, therapist_id: str, voice_filename: str,
 
 def save_voice_file(content: bytes, ext: str = "m4a") -> str:
     name = f"{secrets.token_hex(10)}.{ext.lstrip('.')}"
-    if VOICE_BUCKET:
-        from google.cloud import storage  # type: ignore
-        client = storage.Client()
-        client.bucket(VOICE_BUCKET).blob(f"voice_notes/{name}").upload_from_string(
-            content, content_type="audio/mp4"
-        )
-    else:
-        VOICE_DIR.mkdir(parents=True, exist_ok=True)
-        (VOICE_DIR / name).write_bytes(content)
+    db.get_client().storage.from_(VOICE_BUCKET).upload(
+        name, content, {"content-type": "audio/mp4"}
+    )
     return name
 
 
@@ -108,9 +99,7 @@ def load_voice(filename: str) -> Optional[bytes]:
     """
     if not _SAFE_NAME.match(filename):
         return None
-    if VOICE_BUCKET:
-        from google.cloud import storage  # type: ignore
-        blob = storage.Client().bucket(VOICE_BUCKET).blob(f"voice_notes/{filename}")
-        return blob.download_as_bytes() if blob.exists() else None
-    p = VOICE_DIR / filename
-    return p.read_bytes() if p.exists() else None
+    try:
+        return db.get_client().storage.from_(VOICE_BUCKET).download(filename)
+    except Exception:
+        return None

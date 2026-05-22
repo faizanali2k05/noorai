@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../services/api_service.dart';
 import '../services/auth_service.dart';
@@ -171,7 +172,14 @@ class _AuthScreenState extends State<AuthScreen>
                     ),
                   ],
                 ),
-              ),
+              )
+                  .animate()
+                  .fadeIn(duration: 500.ms)
+                  .slideY(
+                      begin: 0.15,
+                      end: 0,
+                      duration: 600.ms,
+                      curve: Curves.easeOutCubic),
               const SizedBox(height: 32),
               Container(
                 decoration: BoxDecoration(
@@ -194,7 +202,7 @@ class _AuthScreenState extends State<AuthScreen>
                     Tab(text: 'Create account'),
                   ],
                 ),
-              ),
+              ).animate().fadeIn(delay: 200.ms, duration: 500.ms),
               const SizedBox(height: 20),
               SizedBox(
                 height: 360,

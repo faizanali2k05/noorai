@@ -140,5 +140,51 @@ ThemeData buildNoorTheme() {
     progressIndicatorTheme:
         const ProgressIndicatorThemeData(color: NoorColors.primary),
     dividerTheme: const DividerThemeData(color: Color(0xFFE3EFE8)),
+    // App-wide page transition: a soft fade + gentle rise, instead of the
+    // default platform slide. Every `Navigator.push` inherits this.
+    pageTransitionsTheme: const PageTransitionsTheme(
+      builders: {
+        TargetPlatform.android: NoorPageTransitionsBuilder(),
+        TargetPlatform.iOS: NoorPageTransitionsBuilder(),
+        TargetPlatform.windows: NoorPageTransitionsBuilder(),
+        TargetPlatform.macOS: NoorPageTransitionsBuilder(),
+        TargetPlatform.linux: NoorPageTransitionsBuilder(),
+      },
+    ),
   );
+}
+
+/// A refined route transition — fade combined with a subtle upward glide and a
+/// hair of scale, eased on a smooth cubic. Reads more premium than the stock
+/// platform slide and applies everywhere via [ThemeData.pageTransitionsTheme].
+class NoorPageTransitionsBuilder extends PageTransitionsBuilder {
+  const NoorPageTransitionsBuilder();
+
+  @override
+  Widget buildTransitions<T>(
+    PageRoute<T> route,
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    Widget child,
+  ) {
+    final curved = CurvedAnimation(
+      parent: animation,
+      curve: Curves.easeOutCubic,
+      reverseCurve: Curves.easeInCubic,
+    );
+    return FadeTransition(
+      opacity: curved,
+      child: SlideTransition(
+        position: Tween<Offset>(
+          begin: const Offset(0, 0.035),
+          end: Offset.zero,
+        ).animate(curved),
+        child: ScaleTransition(
+          scale: Tween<double>(begin: 0.985, end: 1.0).animate(curved),
+          child: child,
+        ),
+      ),
+    );
+  }
 }

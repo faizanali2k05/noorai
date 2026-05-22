@@ -1,9 +1,6 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import '../services/api_service.dart';
-import '../services/auth_service.dart';
 import '../theme.dart';
 import 'therapist_chat_screen.dart';
 
@@ -23,22 +20,11 @@ class _ChatsListScreenState extends State<ChatsListScreen> {
     _future = _load();
   }
 
+  final _api = ApiService();
+
   Future<List<_ThreadSummary>> _load() async {
-    final token = AuthService.instance.token;
-    if (token == null) return [];
-    try {
-      final r = await http.get(
-        Uri.parse('${ApiService.baseUrl}/chats'),
-        headers: {'Authorization': 'Bearer $token'},
-      );
-      if (r.statusCode != 200) return [];
-      final data = jsonDecode(r.body) as Map<String, dynamic>;
-      return (data['threads'] as List<dynamic>? ?? [])
-          .map((m) => _ThreadSummary.fromJson(m as Map<String, dynamic>))
-          .toList();
-    } catch (_) {
-      return [];
-    }
+    final threads = await _api.listChatThreads();
+    return threads.map(_ThreadSummary.fromJson).toList();
   }
 
   Future<void> _refresh() async {
