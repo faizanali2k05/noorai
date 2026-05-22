@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../theme.dart';
 import '../widgets/primary_button.dart';
@@ -13,29 +14,20 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen>
-    with SingleTickerProviderStateMixin {
+class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _promptController = TextEditingController();
-  late AnimationController _animationController;
-  late Animation<double> _fadeAnimation;
 
-  @override
-  void initState() {
-    super.initState();
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 800),
-    );
-    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _animationController, curve: Curves.easeIn),
-    );
-    _animationController.forward();
-  }
+  static const List<String> _samples = [
+    "5 saal ke bete ko speech therapist chahiye Gulberg Lahore",
+    "Autism wali beti 7 saal F-8 Islamabad ABA therapist",
+    "Physical disability ke liye accessible transport DHA Karachi",
+    "Behray bhai ke liye sign language interpreter Islamabad",
+    "Disabled ammi ke liye home nurse urgently needed Gulberg",
+  ];
 
   @override
   void dispose() {
     _promptController.dispose();
-    _animationController.dispose();
     super.dispose();
   }
 
@@ -91,9 +83,7 @@ class _HomeScreenState extends State<HomeScreen>
         ],
       ),
       body: SafeArea(
-        child: FadeTransition(
-          opacity: _fadeAnimation,
-          child: LayoutBuilder(
+        child: LayoutBuilder(
             builder: (context, constraints) => SingleChildScrollView(
               child: ConstrainedBox(
                 constraints: BoxConstraints(minHeight: constraints.maxHeight),
@@ -140,7 +130,14 @@ class _HomeScreenState extends State<HomeScreen>
                               ),
                             ],
                           ),
-                        ),
+                        )
+                            .animate()
+                            .fadeIn(duration: 500.ms)
+                            .slideY(
+                                begin: 0.18,
+                                end: 0,
+                                duration: 600.ms,
+                                curve: Curves.easeOutCubic),
                         const SizedBox(height: 48),
                         Container(
                           decoration: BoxDecoration(
@@ -169,7 +166,15 @@ class _HomeScreenState extends State<HomeScreen>
                               contentPadding: const EdgeInsets.all(20),
                             ),
                           ),
-                        ),
+                        )
+                            .animate()
+                            .fadeIn(delay: 150.ms, duration: 500.ms)
+                            .slideY(
+                                begin: 0.12,
+                                end: 0,
+                                delay: 150.ms,
+                                duration: 550.ms,
+                                curve: Curves.easeOutCubic),
                         const SizedBox(height: 24),
                         const Text(
                           "Try these examples:",
@@ -184,16 +189,18 @@ class _HomeScreenState extends State<HomeScreen>
                           spacing: 8,
                           runSpacing: 8,
                           children: [
-                            _buildSampleChip(
-                                "5 saal ke bete ko speech therapist chahiye Gulberg Lahore"),
-                            _buildSampleChip(
-                                "Autism wali beti 7 saal F-8 Islamabad ABA therapist"),
-                            _buildSampleChip(
-                                "Physical disability ke liye accessible transport DHA Karachi"),
-                            _buildSampleChip(
-                                "Behray bhai ke liye sign language interpreter Islamabad"),
-                            _buildSampleChip(
-                                "Disabled ammi ke liye home nurse urgently needed Gulberg"),
+                            for (int i = 0; i < _samples.length; i++)
+                              _buildSampleChip(_samples[i])
+                                  .animate()
+                                  .fadeIn(
+                                      delay: (300 + i * 90).ms,
+                                      duration: 400.ms)
+                                  .slideX(
+                                      begin: 0.15,
+                                      end: 0,
+                                      delay: (300 + i * 90).ms,
+                                      duration: 450.ms,
+                                      curve: Curves.easeOut),
                           ],
                         ),
                         const Spacer(),
@@ -202,7 +209,15 @@ class _HomeScreenState extends State<HomeScreen>
                           icon: Icons.arrow_forward_rounded,
                           height: 56,
                           onPressed: _search,
-                        ),
+                        )
+                            .animate()
+                            .fadeIn(delay: 850.ms, duration: 500.ms)
+                            .slideY(
+                                begin: 0.3,
+                                end: 0,
+                                delay: 850.ms,
+                                duration: 550.ms,
+                                curve: Curves.easeOutCubic),
                         const SizedBox(height: 24),
                         Center(
                           child: Text(
@@ -214,7 +229,7 @@ class _HomeScreenState extends State<HomeScreen>
                               height: 1.5,
                             ),
                           ),
-                        ),
+                        ).animate().fadeIn(delay: 1000.ms, duration: 500.ms),
                         const SizedBox(height: 32),
                       ],
                     ),
@@ -223,7 +238,6 @@ class _HomeScreenState extends State<HomeScreen>
               ),
             ),
           ),
-        ),
       ),
     );
   }

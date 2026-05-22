@@ -39,12 +39,12 @@ class BookingResult {
 }
 
 class ApiService {
-  // Android emulator: 10.0.2.2 â†’ host machine
+  // Android emulator: 10.0.2.2 -> host machine
   // Real device: your PC's local IP (e.g. 192.168.1.x)
-  // Deployed: your Cloud Run / Render URL (e.g. https://noorai-backend-xxx.run.app/api)
-  // NOTE: must end with /api (no trailing slash) â€” all routes live under /api/*.
+  // Deployed: your Render URL (e.g. https://noorai-backend.onrender.com/api)
+  // NOTE: must end with /api (no trailing slash) - all routes live under /api/*.
   static const String baseUrl =
-      'https://noorai-backend-485583022901.asia-south1.run.app/api';
+      'https://noorai-backend.onrender.com/api';
 
   static String get _origin {
     // Strip the trailing /api so we can build absolute URLs to /api/voice-notes/...

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import '../theme.dart';
 import '../models/service_category.dart';
 import 'service_search_screen.dart';
@@ -22,7 +23,14 @@ class ServicesScreen extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
         children: [
-          _CoreCard(onTap: onGoToFind),
+          _CoreCard(onTap: onGoToFind)
+              .animate()
+              .fadeIn(duration: 450.ms)
+              .slideY(
+                  begin: 0.12,
+                  end: 0,
+                  duration: 500.ms,
+                  curve: Curves.easeOutCubic),
           const SizedBox(height: 28),
           Row(
             children: [
@@ -51,9 +59,18 @@ class ServicesScreen extends StatelessWidget {
             mainAxisSpacing: 12,
             crossAxisSpacing: 12,
             childAspectRatio: 1.55,
-            children: kServiceCategories
-                .map((c) => _CategoryCard(category: c))
-                .toList(),
+            children: [
+              for (int i = 0; i < kServiceCategories.length; i++)
+                _CategoryCard(category: kServiceCategories[i])
+                    .animate()
+                    .fadeIn(delay: (i * 60).ms, duration: 350.ms)
+                    .scale(
+                        begin: const Offset(0.9, 0.9),
+                        end: const Offset(1, 1),
+                        delay: (i * 60).ms,
+                        duration: 350.ms,
+                        curve: Curves.easeOut),
+            ],
           ),
         ],
       ),

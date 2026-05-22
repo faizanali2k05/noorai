@@ -1,0 +1,30 @@
+# Render Blueprint for the NoorAI backend.
+# In Render: New → Blueprint → connect this repo. Render reads this file,
+# creates the web service, and prompts you for the secret env vars below
+# (the ones marked `sync: false`).
+services:
+  - type: web
+    name: noorai-backend
+    runtime: python
+    plan: free
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11.9"
+      # Secrets — you paste these in the Render dashboard (never committed).
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_KEY
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: ADMIN_TOKEN
+        sync: false
+      # Non-secret defaults.
+      - key: OPENAI_MODEL
+        value: gpt-4o-mini
+      - key: LLM_PROVIDER
+        value: openai

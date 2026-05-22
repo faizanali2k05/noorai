@@ -1,9 +1,8 @@
 """User store + session management.
 
-Backed by the shared persistence layer (Firestore in production, JSON files for
-local dev — see ``utils.db``). Passwords are salted+hashed; session tokens are
-opaque random strings stored **hashed at rest** so a datastore leak can't be
-replayed.
+Backed by the shared persistence layer (Supabase — see ``utils.db``). Passwords
+are salted+hashed; session tokens are opaque random strings stored **hashed at
+rest** so a datastore leak can't be replayed.
 
 Sessions use a two-token model:
   - **access token**  — short-lived (24h), sent on every request.

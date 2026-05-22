@@ -9,16 +9,9 @@
 *.pem
 *.key
 secrets.json
-# ── Runtime user data (never commit; production uses Firestore) ──
-# The therapist/provider catalogs (therapists.json, providers.json) stay tracked.
-backend/data/tokens.json
-backend/data/users.json
-backend/data/bookings.json
-backend/data/messages.json
-backend/data/service_bookings.json
-backend/data/voice_notes/
-# runtime agent debug logs (regenerated at startup)
-backend/data/traces.json
+# ── Data ──
+# All user data lives in Supabase. Only the therapist/provider catalogs
+# (therapists.json, providers.json) are tracked seed data under backend/data/.
 
 # ── Python ──
 __pycache__/
